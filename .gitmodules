@@ -1,0 +1,3 @@
+[submodule "slimzsh"]
+	path = .slimzsh
+	url = https://github.com/mblode/slimzsh.git
