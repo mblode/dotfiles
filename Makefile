@@ -8,7 +8,7 @@ install:
 	cp home/.gitignore ~/
 
 update:
-	cp ~/.vimrc .
-	cp ~/.zshrc .
-	cp ~/.gitconfig .
-	cp ~/.gitignore .
+	cp ~/.vimrc ./home
+	cp ~/.zshrc ./home
+	cp ~/.gitconfig ./home
+	cp ~/.gitignore ./home
