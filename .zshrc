@@ -1,1 +1,1 @@
-source "$HOME/dotfiles/.slimzsh/slim.zsh"
+source "$HOME/.dotfiles/.slimzsh/slim.zsh"
