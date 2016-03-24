@@ -10,6 +10,3 @@ apm install merge-conflicts
 apm install minimap
 apm install react
 apm install php-twig
-
-apm install one-dark-ui
-apm install one-dark-syntax

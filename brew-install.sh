@@ -1,9 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Install command-line tools using Homebrew.
-# $ZSH/brew/install.sh
-
-# Ask for the administrator password upfront.
 sudo -v
 
 # Keep-alive: update existing `sudo` time stamp until the script has finished.

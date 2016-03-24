@@ -1,9 +1,10 @@
 all: install
 
 install:
-	cp .vimrc ../
-	cp .zshrc ../
-	cp .githelpers ../
+	cp .vimrc ~/
+	cp .zshrc ~/
+	cp .hushlogin ~/
+	cp .githelpers ~/
 
 update:
 	cp ~/.vimrc .
