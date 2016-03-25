@@ -2,19 +2,13 @@
 ### Install
 ```
 chsh -s $(which zsh)
-git clone https://github.com/mblode/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
+git clone https://github.com/mblode/dotfiles.git
+cd ~/dotfiles
 make
-```
-
-### Update
-```
-cd ~/.dotfiles
-make update
 ```
 
 ### Install Homebrew
 `./brew-install.sh`
 
 ### Install Atom Packages
-`./atome-install.sh`
+`./atom-install.sh`
