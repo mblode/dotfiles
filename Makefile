@@ -1,8 +1,8 @@
 all: install
 
 install:
-	cp home/.vimrc ~/
 	cp home/.zshrc ~/
+	cp home/.vimrc ~/
 	cp home/.hushlogin ~/
 	cp home/.gitconfig ~/
 	cp home/.gitignore ~/

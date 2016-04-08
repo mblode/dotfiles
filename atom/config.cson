@@ -36,7 +36,6 @@
   "linter-scss-lint":
     executablePath: "/Users/mblode/.rbenv/shims/scss-lint"
   pigments: {}
-  "tree-view":
-    hideIgnoredNames: true
+  "tree-view": {}
   welcome:
     showOnStartup: false
