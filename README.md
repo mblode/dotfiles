@@ -10,5 +10,5 @@ make
 ### Install Homebrew
 `./brew-install.sh`
 
-### Install Atom Packages
-`./atom-install.sh`
+### Install Sublime Packages
+`./sublime-install.sh`
