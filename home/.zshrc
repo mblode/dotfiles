@@ -20,7 +20,5 @@ antigen apply
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export GOPATH=$HOME/Code/go
-autoload -U promptinit; promptinit
-prompt pure
 
 alias g='git'
