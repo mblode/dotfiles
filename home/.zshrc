@@ -19,6 +19,7 @@ antigen apply
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export GOPATH=$HOME/Code/go
+export PATH=~/.cargo/bin:$PATH
 
 # autoload -Uz promptinit
 # promptinit
