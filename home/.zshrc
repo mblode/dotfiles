@@ -21,6 +21,7 @@ eval "$(rbenv init -)"
 export GOPATH=$HOME/Code/go
 export PATH=~/.cargo/bin:$PATH
 export PATH="$(brew --prefix homebrew/php/php70)/bin:$PATH"
+export PATH=$PATH:~/.composer/vendor/bin
 PATH="/usr/local/sbin:$PATH"
 export EDITOR='subl -w'
 
