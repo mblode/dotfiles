@@ -22,7 +22,7 @@ export PATH=~/.cargo/bin:$PATH
 export PATH=$PATH:~/.composer/vendor/bin
 PATH="/usr/local/sbin:$PATH"
 export EDITOR='subl -w'
-
+export PATH="/Applications/Racket v6.8/bin"
 # autoload -Uz promptinit
 # promptinit
 # prompt pure
