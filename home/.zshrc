@@ -20,9 +20,8 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH=~/.cargo/bin:$PATH
 export PATH=$PATH:~/.composer/vendor/bin
-PATH="/usr/local/sbin:$PATH"
-export EDITOR='subl -w'
-export PATH="/Applications/Racket v6.8/bin"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/Applications/Racket v6.8/bin:$PATH"
 # autoload -Uz promptinit
 # promptinit
 # prompt pure
@@ -30,3 +29,12 @@ export PATH="/Applications/Racket v6.8/bin"
 alias g='git'
 
 export PATH="/usr/local/bin:$PATH"
+
+function homestead() {
+  ( cd ~/Homestead && vagrant $* )
+}
+
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "

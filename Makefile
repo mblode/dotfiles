@@ -7,6 +7,7 @@ install:
 	cp home/.gitconfig ~/
 	cp home/.gitignore ~/
 	cp home/.macos ~/
+	cp home/init.vim ~/.config/nvim/
 
 update:
 	cp ~/.vimrc ./home
