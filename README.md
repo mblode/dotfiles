@@ -10,9 +10,3 @@ git submodule update
 brew install rbenv
 rbenv init
 ```
-
-### Install Homebrew
-`./brew-install.sh`
-
-### Install Sublime Packages
-`./sublime-install.sh`
