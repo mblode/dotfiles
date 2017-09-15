@@ -18,19 +18,25 @@ antigen apply
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
 export PATH=~/.cargo/bin:$PATH
 export PATH=$PATH:~/.composer/vendor/bin
 export PATH="/usr/local/sbin:$PATH"
-export PATH="/Applications/Racket v6.8/bin:$PATH"
-# autoload -Uz promptinit
-# promptinit
-# prompt pure
 
-alias g='git'
+source $HOME/.cargo/env
 
 export PATH="/usr/local/bin:$PATH"
+export MONGO_PATH=/usr/local/mongodb
+export PATH=$PATH:$MONGO_PATH/bin
 
-function homestead() {
-  ( cd ~/Homestead && vagrant $* )
-}
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+alias g='git'
+alias add='git add -A'
+alias pull='git pull origin master'
+alias commit='git commit -m'
+alias push='git push'
+alias ..='cd ..'
+alias ...='cd ../..'
