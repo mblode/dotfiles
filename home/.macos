@@ -368,7 +368,8 @@ defaults write com.apple.dock static-only -bool true
 defaults write com.apple.dock launchanim -bool false
 
 # Have zero delay to hiding and showing dock
-defaults write com.apple.dock autohide-delay -float 0 && killall Dock
+defaults write com.apple.dock autohide-delay -float 0
+defaults delete com.apple.dock autohide-time-modifier
 
 # Speed up Mission Control animations
 defaults write com.apple.dock expose-animation-duration -float 0.1
