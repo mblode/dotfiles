@@ -175,8 +175,8 @@ defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+# defaults write NSGlobalDomain KeyRepeat -int 2
+# defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
@@ -368,8 +368,8 @@ defaults write com.apple.dock static-only -bool true
 defaults write com.apple.dock launchanim -bool false
 
 # Have zero delay to hiding and showing dock
-defaults write com.apple.dock autohide-delay -float 0
-defaults delete com.apple.dock autohide-time-modifier
+# defaults write com.apple.dock autohide-delay -float 0
+# defaults delete com.apple.dock autohide-time-modifier
 
 # Speed up Mission Control animations
 defaults write com.apple.dock expose-animation-duration -float 0.1
