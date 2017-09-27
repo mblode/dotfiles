@@ -5,7 +5,8 @@ antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle git
-antigen bundle command-not-found
+antigen bundle yarn
+antigen bundle web-search
 
 antigen bundle mafredri/zsh-async
 antigen bundle sindresorhus/pure
