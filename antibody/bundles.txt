@@ -1,0 +1,10 @@
+djui/alias-tips
+mafredri/zsh-async
+rupa/z
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+
+# These should be last
+sindresorhus/pure
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search

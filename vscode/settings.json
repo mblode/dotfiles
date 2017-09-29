@@ -1,0 +1,59 @@
+{
+    "workbench.colorTheme": "Atom One Dark",
+    "editor.fontSize": 14,
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "Operator Mono",
+    "editor.renderWhitespace": "none",
+    "material-icon-theme.showUpdateMessage": false,
+    "editor.wordWrap": "on",
+    "terminal.integrated.cursorStyle": "line",
+    "editor.minimap.enabled": false,
+    "terminal.integrated.fontSize": 13,
+    "editor.tabSize": 4,
+    "files.associations": {
+      "*.kit": "html",
+      "*.html": "twig"
+    },
+    "git.enableSmartCommit": true,
+    "workbench.startupEditor": "newUntitledFile",
+    "emmet.syntaxProfiles": { 
+      "javascript": "javascriptreact"
+    },
+    "editor.snippetSuggestions": "top",
+    "extensions.autoUpdate": true,
+    "stylelint.enable": true,
+    "css.validate": false,
+    "scss.validate": false,
+    "material-icon-theme.folders.icons": "specific",
+    "material-icon-theme.showWelcomeMessage": false,
+    "workbench.iconTheme": "material-icon-theme",
+    "emmet.triggerExpansionOnTab": true,
+    "emmet.includeLanguages": {
+      "javascript": "javascriptreact", 
+      "twig": "html",
+      "liquid": "html"
+    },
+    "beautify.language": {
+      "js": {
+        "type": [
+          "javascript",
+          "json"
+        ],
+        "filename": [
+          ".jshintrc",
+          ".jsbeautify"
+        ]
+      },
+      "css": [
+        "css",
+        "scss"
+      ],
+      "html": [
+        "htm",
+        "html",
+        "twig",
+        "liquid"
+      ]
+    }
+  }
+  

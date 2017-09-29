@@ -1,0 +1,12 @@
+#!/bin/sh
+alias reload!='exec "$SHELL" -l'
+
+alias g='git'
+alias add='git add -A'
+alias pull='git pull origin master'
+alias commit='git commit -m'
+alias push='git push'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias rm='trash'
+alias la='ls -A'
