@@ -1,4 +1,5 @@
 #!/bin/sh
+
 if test "$(which code)"; then
 	if [ "$(uname -s)" = "Darwin" ]; then
 		VSCODE_HOME="$HOME/Library/Application Support/Code"

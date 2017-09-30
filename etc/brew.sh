@@ -49,7 +49,6 @@ brew cask install --appdir="~/Applications" mamp
 brew cask install --appdir="~/Applications" 1password
 brew cask install --appdir="~/Applications" alfred
 brew cask install --appdir="~/Applications" codekit
-brew cask install --appdir="~/Applications" firefox
 brew cask install --appdir="~/Applications" framer
 brew cask install --appdir="~/Applications" nvalt
 brew cask install --appdir="~/Applications" rescuetime
@@ -62,7 +61,6 @@ brew cask install --appdir="~/Applications" sequel-pro
 brew cask install --appdir="~/Applications" the-unarchiver
 brew cask install --appdir="~/Applications" iterm2
 brew cask install --appdir="~/Applications" sketch
-brew cask install --appdir="~/Applications" adobe-photoshop-cc
 brew cask install --appdir="~/Applications" google-backup-and-sync
 brew cask install --appdir="~/Applications" imageoptim
 brew cask install --appdir="~/Applications" karabiner-elements
@@ -72,4 +70,3 @@ sleep 1
 
 # ...and then.
 echo "Success! Brew additional applications are installed."
-exit

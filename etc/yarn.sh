@@ -12,4 +12,3 @@ yarn global add "gulp-cli"
 yarn global add "react-native-cli"
 yarn global add "trash-cli"
 yarn global add "yo"
-exit
