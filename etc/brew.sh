@@ -45,26 +45,26 @@ echo "Success! Basic brew packages are installed."
 brew tap caskroom/cask
 
 # Install cask packages
-brew cask install --appdir="~/Applications" mamp
-brew cask install --appdir="~/Applications" 1password
-brew cask install --appdir="~/Applications" alfred
-brew cask install --appdir="~/Applications" codekit
-brew cask install --appdir="~/Applications" framer
-brew cask install --appdir="~/Applications" nvalt
-brew cask install --appdir="~/Applications" rescuetime
-brew cask install --appdir="~/Applications" vlc
-brew cask install --appdir="~/Applications" torbrowser
-brew cask install --appdir="~/Applications" google-chrome
-brew cask install --appdir="~/Applications" slack
-brew cask install --appdir="~/Applications" spotify
-brew cask install --appdir="~/Applications" sequel-pro
-brew cask install --appdir="~/Applications" the-unarchiver
-brew cask install --appdir="~/Applications" iterm2
-brew cask install --appdir="~/Applications" sketch
-brew cask install --appdir="~/Applications" google-backup-and-sync
-brew cask install --appdir="~/Applications" imageoptim
-brew cask install --appdir="~/Applications" karabiner-elements
-
+brew cask install mamp
+brew cask install 1password
+brew cask install alfred
+brew cask install codekit
+brew cask install framer
+brew cask install nvalt
+brew cask install rescuetime
+brew cask install vlc
+brew cask install torbrowser
+brew cask install google-chrome
+brew cask install slack
+brew cask install spotify
+brew cask install sequel-pro
+brew cask install the-unarchiver
+brew cask install iterm2
+brew cask install sketch
+brew cask install google-backup-and-sync
+brew cask install imageoptim
+brew cask install karabiner-elements
+brew cask install firefox
 # Wait a bit before moving on...
 sleep 1
 
