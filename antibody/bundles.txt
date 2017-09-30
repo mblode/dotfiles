@@ -3,6 +3,8 @@ mafredri/zsh-async
 rupa/z
 zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
+sindresorhus/pretty-time-zsh
+Tarrasch/zsh-bd
 
 # These should be last
 sindresorhus/pure
