@@ -45,7 +45,6 @@ echo "Success! Basic brew packages are installed."
 brew tap caskroom/cask
 
 # Install cask packages
-brew cask install mamp
 brew cask install 1password
 brew cask install alfred
 brew cask install codekit
