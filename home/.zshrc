@@ -25,7 +25,7 @@ setopt    incappendhistory  #Immediately append to the history file, not just wh
 
 # Export
 export PATH=~/.cargo/bin:$PATH
-export PATH=$PATH:~/.composer/vendor/bin
+export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="/usr/local/sbin:$PATH"
 
 source $HOME/.cargo/env

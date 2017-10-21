@@ -8,16 +8,15 @@
     "editor.wordWrap": "on",
     "terminal.integrated.cursorStyle": "line",
     "editor.minimap.enabled": false,
-    "terminal.integrated.fontSize": 13,
     "editor.tabSize": 4,
     "files.associations": {
-      "*.kit": "html",
-      "*.html": "twig"
+        "*.kit": "html",
+        "*.html": "twig"
     },
     "git.enableSmartCommit": true,
     "workbench.startupEditor": "newUntitledFile",
-    "emmet.syntaxProfiles": { 
-      "javascript": "javascriptreact"
+    "emmet.syntaxProfiles": {
+        "javascript": "javascriptreact"
     },
     "editor.snippetSuggestions": "top",
     "extensions.autoUpdate": true,
@@ -29,31 +28,13 @@
     "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
     "emmet.includeLanguages": {
-      "javascript": "javascriptreact", 
-      "twig": "html",
-      "liquid": "html"
+        "javascript": "javascriptreact",
+        "twig": "html",
+        "liquid": "html"
     },
-    "beautify.language": {
-      "js": {
-        "type": [
-          "javascript",
-          "json"
-        ],
-        "filename": [
-          ".jshintrc",
-          ".jsbeautify"
-        ]
-      },
-      "css": [
-        "css",
-        "scss"
-      ],
-      "html": [
-        "htm",
-        "html",
-        "twig",
-        "liquid"
-      ]
-    }
-  }
-  
+    "window.zoomLevel": 0,
+    "workbench.sideBar.location": "left",
+    "terminal.integrated.fontSize": 14,
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 4
+}
