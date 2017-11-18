@@ -2,29 +2,17 @@
     "workbench.colorTheme": "Atom One Dark",
     "editor.fontSize": 14,
     "editor.fontLigatures": true,
-    "editor.fontFamily": "Operator Mono",
-    "editor.renderWhitespace": "none",
-    "material-icon-theme.showUpdateMessage": false,
-    "editor.wordWrap": "on",
+    "editor.fontFamily":
+        "'Operator Mono', Menlo, Monaco, 'Courier New', monospace",
     "terminal.integrated.cursorStyle": "line",
-    "editor.minimap.enabled": false,
-    "editor.tabSize": 4,
     "files.associations": {
-        "*.kit": "html",
         "*.html": "twig"
     },
-    "git.enableSmartCommit": true,
     "workbench.startupEditor": "newUntitledFile",
     "emmet.syntaxProfiles": {
         "javascript": "javascriptreact"
     },
     "editor.snippetSuggestions": "top",
-    "extensions.autoUpdate": true,
-    "stylelint.enable": true,
-    "css.validate": false,
-    "scss.validate": false,
-    "material-icon-theme.folders.icons": "specific",
-    "material-icon-theme.showWelcomeMessage": false,
     "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
     "emmet.includeLanguages": {
@@ -32,9 +20,19 @@
         "twig": "html",
         "liquid": "html"
     },
-    "window.zoomLevel": 0,
-    "workbench.sideBar.location": "left",
     "terminal.integrated.fontSize": 14,
     "prettier.singleQuote": true,
-    "prettier.tabWidth": 4
+    "prettier.tabWidth": 4,
+    "prettier.stylelintIntegration": true,
+    "files.insertFinalNewline": true,
+    "editor.trimAutoWhitespace": true,
+    "files.trimTrailingWhitespace": true,
+    "prettier.eslintIntegration": true,
+    "eslint.packageManager": "yarn",
+    "eslint.nodePath": "/usr/local/bin/node",
+    "git.enableSmartCommit": true,
+    "editor.formatOnSave": false,
+    "explorer.openEditors.visible": 0,
+    "editor.detectIndentation": true,
+    "editor.minimap.renderCharacters": false
 }

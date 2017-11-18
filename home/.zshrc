@@ -37,3 +37,6 @@ export PATH=$PATH:$MONGO_PATH/bin
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH="$HOME/.yarn/bin:$PATH"
+
+eval "$(rbenv init -)"

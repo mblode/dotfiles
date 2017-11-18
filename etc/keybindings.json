@@ -1,8 +1,8 @@
-// Place your key bindings in this file to overwrite the defaults
 [
+    // Place your key bindings in this file to overwrite the defaults
     {
-      "key": "cmd+e",
-      "command": "-actions.find"
+        "key": "cmd+e",
+        "command": "-actions.find"
     },
     { "key": "ctrl+1", "command": "workbench.action.focusFirstEditorGroup" },
     { "key": "ctrl+2", "command": "workbench.action.focusSecondEditorGroup" },
@@ -16,11 +16,11 @@
     { "key": "cmd+7", "command": "workbench.action.openEditorAtIndex7" },
     { "key": "cmd+8", "command": "workbench.action.openEditorAtIndex8" },
     {
-      "key": "cmd+9",
-      "command": "workbench.action.openEditorAtIndex9"
+        "key": "cmd+9",
+        "command": "workbench.action.openEditorAtIndex9"
     },
     {
-      "key": "cmd+e",
-      "command": "emmet.expandAbbreviation"
+        "key": "cmd+e",
+        "command": "emmet.expandAbbreviation"
     }
-  ]
+]
