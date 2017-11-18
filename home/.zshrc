@@ -40,3 +40,4 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH="$HOME/.yarn/bin:$PATH"
 
 eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/bin:$PATH"
