@@ -5,9 +5,9 @@
     "editor.fontFamily":
         "'Operator Mono', Menlo, Monaco, 'Courier New', monospace",
     "terminal.integrated.cursorStyle": "line",
-    "files.associations": {
-        "*.html": "twig"
-    },
+    // "files.associations": {
+    //     "*.html": "twig"
+    // },
     "workbench.startupEditor": "newUntitledFile",
     "emmet.syntaxProfiles": {
         "javascript": "javascriptreact"
@@ -15,11 +15,11 @@
     "editor.snippetSuggestions": "top",
     "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
-    "emmet.includeLanguages": {
-        "javascript": "javascriptreact",
-        "twig": "html",
-        "liquid": "html"
-    },
+    // "emmet.includeLanguages": {
+    //     "javascript": "javascriptreact",
+    //     "twig": "html",
+    //     "liquid": "html"
+    // },
     "terminal.integrated.fontSize": 14,
     "prettier.singleQuote": true,
     "prettier.tabWidth": 4,
@@ -34,5 +34,7 @@
     "editor.formatOnSave": false,
     "explorer.openEditors.visible": 0,
     "editor.detectIndentation": true,
-    "editor.minimap.renderCharacters": false
+    "editor.minimap.renderCharacters": false,
+    "editor.minimap.enabled": false,
+    "editor.wordWrap": "on",
 }

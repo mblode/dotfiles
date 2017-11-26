@@ -40,4 +40,4 @@
 [pull]
 	rebase = true
 [credential]
-	helper = wincred
+	helper = cache --timeout=2628000
