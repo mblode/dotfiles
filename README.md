@@ -19,7 +19,7 @@ First, make sure you have all those things installed:
 Then, run these steps:
 
 ```console
-$ git clone https://github.com/caarlos0/dotfiles.git ~/.dotfiles
+$ git clone https://github.com/mblode/dotfiles.git ~/.dotfiles
 $ cd ~/.dotfiles
 $ ./script/bootstrap
 $ zsh # or just close and open your terminal again.
