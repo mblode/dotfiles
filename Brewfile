@@ -9,7 +9,6 @@ brew 'yarn'
 brew 'ruby-build'
 brew 'rbenv'
 brew 'openssl'
-brew 'node'
 brew 'imagemagick'
 
 cask '1password'
