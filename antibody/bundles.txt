@@ -1,12 +1,13 @@
+# This block is in alphabetic order
 djui/alias-tips
 mafredri/zsh-async
 rupa/z
-zsh-users/zsh-completions
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-history-substring-search
 sindresorhus/pretty-time-zsh
 Tarrasch/zsh-bd
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-completions
 
 # These should be last
 sindresorhus/pure
 zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search

@@ -1,0 +1,11 @@
+formulahendry.auto-close-tag
+dbaeumer.vscode-eslint
+PKief.material-icon-theme
+mblode.one-dark-italic
+christian-kohler.path-intellisense
+esbenp.prettier-vscode
+robinbentley.sass-indented
+mrmlnc.vscode-scss
+shinnn.stylelint
+cssho.vscode-svgviewer
+mblode.twig-language

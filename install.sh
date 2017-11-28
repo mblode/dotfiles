@@ -23,7 +23,7 @@ npm install --global yarn
 sudo bash $DOTFILES/etc/yarn.sh
 
 # Antibody
-bash $DOTFILES/etc/antibody.sh
+bash $DOTFILES/antibody/antibody.sh
 
 # VSCode
 bash $DOTFILES/etc/vscode.sh
@@ -38,3 +38,9 @@ open $DOTFILES/etc/Atom\ One\ Dark.terminal
 # Set macOS preferences
 # We will run this last because this will reload the shell
 bash $DOTFILES/etc/macos.sh
+
+# # rbenv
+if test "$(which rbenv)"; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
