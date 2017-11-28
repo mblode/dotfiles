@@ -1,10 +1,9 @@
 #!/bin/sh
 
 yarn global add "prettier"
-yarn global add "slate"
 yarn global add "babel-eslint"
 yarn global add "create-react-app"
-yarn global add "eslint" 
+yarn global add "eslint"
 yarn global add "eslint-plugin-import"
 yarn global add "eslint-plugin-jsx-a11y"
 yarn global add "eslint-plugin-react"
