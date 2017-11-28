@@ -3,6 +3,10 @@
 # Run all dotfiles installers.
 set -e
 
+# Run Homebrew through the Brewfile
+echo "› brew bundle"
+brew bundle
+
 cd "$(dirname "$0")"/..
 
 # find the installers and run them iteratively

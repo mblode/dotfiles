@@ -1,9 +1,8 @@
-cask_'args appdir: '/Applications'
+cask_args appdir: '/Applications'
 
-tap homebrew/homebrew-php
+tap 'homebrew/homebrew-php'
 tap 'homebrew/bundle'
 
-brew 'getantibody/tap/antibody'
 brew 'git'
 brew 'tree'
 brew 'yarn'
