@@ -38,7 +38,15 @@ For macOS, I recommend:
 You use it by running:
 
 ```console
-$DOTFILES/macos/set-defaults.sh
+$DOTFILES/macos/macos.sh
+```
+
+### Homebrew install
+
+You use it by running:
+
+```console
+$DOTFILES/homebrew/homebrew.sh
 ```
 
 And logging out and in again.

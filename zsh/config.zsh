@@ -2,10 +2,6 @@
 export LSCOLORS='exfxcxdxbxegedabagacad'
 export CLICOLOR=true
 
-fpath=($DOTFILES/functions $fpath)
-
-autoload -U "$DOTFILES"/functions/*(:t)
-
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -14,15 +10,10 @@ SAVEHIST=10000
 setopt NO_BG_NICE
 setopt NO_HUP
 setopt NO_LIST_BEEP
-# allow functions to have local options
-setopt LOCAL_OPTIONS
-# allow functions to have local traps
-setopt LOCAL_TRAPS
 # share history between sessions ???
 setopt SHARE_HISTORY
 # add timestamps to history
 setopt EXTENDED_HISTORY
-setopt PROMPT_SUBST
 setopt CORRECT
 setopt COMPLETE_IN_WORD
 # adds history

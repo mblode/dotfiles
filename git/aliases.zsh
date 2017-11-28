@@ -20,11 +20,3 @@ alias gcam='git commit -a -m'
 alias gs='git status -sb'
 alias gcb='git copy-branch-name'
 alias gm='git merge'
-
-# add git completion to aliases
-__git_complete g __git_main
-__git_complete gb _git_branch
-__git_complete gco _git_checkout
-__git_complete gm _git_merge
-__git_complete gp _git_push
-__git_complete gl _git_pull

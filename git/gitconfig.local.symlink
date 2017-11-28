@@ -1,43 +1,14 @@
-[user]
-	name = Matthew Blode
-	email = m.blode@gmail.com
-
-[github]
-  user = mblode
-
-[push]
-  default = simple
-
 [color]
-  ui = true
-
-[core]
-  excludesfile = ~/.gitignore
-
-[format]
-  pretty = %Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset
-  graph = true
-
-[advice]
-  statusHints = false
-
+	diff = auto
+	status = auto
+	branch = auto
+	ui = auto
+[apply]
+	whitespace = fix
+[help]
+	autocorrect = 1
+[push]
+	default = simple
+    followTags = true
 [log]
-  abbrevCommit = true
-
-[url "git@github.com:"]
-  insteadOf = "gh:"
-  pushInsteadOf = "gh:"
-  pushInsteadOf = "git://github.com/"
-
-[url "git@gist.github.com:"]
-  insteadOf = "gist:"
-  pushInsteadOf = "gist:"
-  pushInsteadOf = "git://gist.github.com/"
-
-[mergetool]
-	keepBackup = false
-
-[pull]
-	rebase = true
-[credential]
-	helper = cache --timeout=2628000
+	showSignature = false
