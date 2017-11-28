@@ -19,8 +19,8 @@ First, make sure you have all those things installed:
 Then, run these steps:
 
 ```console
-$ git clone https://github.com/mblode/dotfiles.git ~/.dotfiles
-$ cd ~/.dotfiles
+$ git clone https://github.com/mblode/dotfiles.git ~/dotfiles
+$ cd ~/dotfiles
 $ ./script/bootstrap
 $ zsh # or just close and open your terminal again.
 ```
@@ -41,6 +41,8 @@ You use it by running:
 $DOTFILES/macos/macos.sh
 ```
 
+And logging out and in again.
+
 ### Homebrew install
 
 You use it by running:
@@ -49,4 +51,6 @@ You use it by running:
 $DOTFILES/homebrew/homebrew.sh
 ```
 
-And logging out and in again.
+### iTerm install
+
+In iterm Preferences > General > Load preferences from a custom folder or URL and set it to ~/dotfiles/iterm
