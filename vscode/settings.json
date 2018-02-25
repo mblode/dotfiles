@@ -20,13 +20,11 @@
     //     "liquid": "html"
     // },
     "terminal.integrated.fontSize": 14,
-    "prettier.singleQuote": true,
     "prettier.tabWidth": 4,
     "prettier.stylelintIntegration": true,
     "files.insertFinalNewline": true,
     "editor.trimAutoWhitespace": true,
     "files.trimTrailingWhitespace": true,
-    "prettier.eslintIntegration": true,
     "eslint.packageManager": "yarn",
     "eslint.nodePath": "/usr/local/bin/node",
     "git.enableSmartCommit": true,
@@ -46,5 +44,6 @@
         }
     },
     "material-icon-theme.showUpdateMessage": false,
-    "explorer.confirmDragAndDrop": false
+    "explorer.confirmDragAndDrop": false,
+    "git.autofetch": true
 }

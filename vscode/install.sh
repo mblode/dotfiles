@@ -12,8 +12,7 @@ if test "$(which code)"; then
 
 	# from `code --list-extensions`
 	modules="
-mblode.twig-language
-cssho.vscode-svgviewer
+mblode.twig-language-2
 shinnn.stylelint
 mrmlnc.vscode-scss
 robinbentley.sass-indented
@@ -21,7 +20,6 @@ esbenp.prettier-vscode
 christian-kohler.path-intellisense
 mblode.one-dark-italic
 PKief.material-icon-theme
-dbaeumer.vscode-eslint
 formulahendry.auto-close-tag
 formulahendry.auto-rename-tag
 "
