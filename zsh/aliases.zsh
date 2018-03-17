@@ -29,3 +29,4 @@ alias s="cd ~/Sites"
 alias rm='trash'
 alias la='ls -A'
 alias h='history'
+alias v="nvim"

@@ -25,8 +25,6 @@
     "files.insertFinalNewline": true,
     "editor.trimAutoWhitespace": true,
     "files.trimTrailingWhitespace": true,
-    "eslint.packageManager": "yarn",
-    "eslint.nodePath": "/usr/local/bin/node",
     "git.enableSmartCommit": true,
     "editor.formatOnSave": false,
     "explorer.openEditors.visible": 0,
@@ -45,5 +43,38 @@
     },
     "material-icon-theme.showUpdateMessage": false,
     "explorer.confirmDragAndDrop": false,
-    "git.autofetch": true
+    "git.autofetch": true,
+    "extensions.ignoreRecommendations": true,
+    "vim.easymotion": true,
+    "vim.sneak": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j","j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.otherModesKeyBindingsNonRecursive": [
+        {
+            "before": ["<leader>","d"],
+            "after": ["d", "d"]
+        },
+        {
+            "before":["<C-n>"],
+            "after":[],
+            "commands": [
+                {
+                    "command": ":nohl"
+                }
+            ]
+        }
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys":{
+        "<C-a>": false,
+        "<C-f>": false
+    }
 }
