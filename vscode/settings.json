@@ -4,9 +4,6 @@
     "editor.fontFamily":
         "'Operator Mono', Menlo, Monaco, 'Courier New', monospace",
     "terminal.integrated.cursorStyle": "line",
-    // "files.associations": {
-    //     "*.html": "twig"
-    // },
     "workbench.startupEditor": "newUntitledFile",
     "emmet.syntaxProfiles": {
         "javascript": "javascriptreact"
@@ -14,11 +11,6 @@
     "editor.snippetSuggestions": "top",
     "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
-    // "emmet.includeLanguages": {
-    //     "javascript": "javascriptreact",
-    //     "twig": "html",
-    //     "liquid": "html"
-    // },
     "terminal.integrated.fontSize": 14,
     "prettier.tabWidth": 4,
     "prettier.stylelintIntegration": true,
