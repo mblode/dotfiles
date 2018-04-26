@@ -64,6 +64,7 @@ export PATH="/usr/local/sbin:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+export PATH=~/anaconda3/bin:$PATH
 
 # fzf via Homebrew
 if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
@@ -90,3 +91,5 @@ if _has fzf && _has ag; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+. /Users/matthewblode/anaconda3/etc/profile.d/conda.sh
