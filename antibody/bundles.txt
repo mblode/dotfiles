@@ -6,7 +6,6 @@ sindresorhus/pretty-time-zsh
 Tarrasch/zsh-bd
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
-g-plane/zsh-yarn-autocompletions
 
 # These should be last
 sindresorhus/pure
