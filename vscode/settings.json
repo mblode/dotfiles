@@ -30,6 +30,12 @@
     "explorer.confirmDragAndDrop": false,
     "git.autofetch": true,
     "extensions.ignoreRecommendations": true,
+    "files.associations": {
+        "*.html": "twig"
+    },
+    "emmet.includeLanguages": {
+        "twig": "html"
+    },
     // "vim.easymotion": true,
     // "vim.sneak": true,
     // "vim.incsearch": true,

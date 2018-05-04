@@ -91,3 +91,6 @@ if _has fzf && _has ag; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+setopt prompt_subst
+. /Users/matthewblode/anaconda3/etc/profile.d/conda.sh
