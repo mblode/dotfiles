@@ -8,26 +8,21 @@
     "emmet.syntaxProfiles": {
         "javascript": "javascriptreact"
     },
-    "editor.snippetSuggestions": "top",
     "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
     "terminal.integrated.fontSize": 14,
-    "prettier.tabWidth": 2,
+    "prettier.tabWidth": 4,
     "prettier.stylelintIntegration": true,
     "files.insertFinalNewline": true,
     "editor.trimAutoWhitespace": true,
     "files.trimTrailingWhitespace": true,
     "git.enableSmartCommit": true,
-    "editor.formatOnSave": false,
     "explorer.openEditors.visible": 0,
-    "editor.detectIndentation": true,
     "editor.minimap.renderCharacters": false,
-    "editor.minimap.enabled": false,
+    "editor.minimap.enabled": true,
     "editor.wordWrap": "on",
     "workbench.colorTheme": "One Dark Italic",
-    "window.zoomLevel": 0,
     "material-icon-theme.showUpdateMessage": false,
-    "explorer.confirmDragAndDrop": false,
     "git.autofetch": true,
     "extensions.ignoreRecommendations": true,
     "files.associations": {
@@ -36,36 +31,21 @@
     "emmet.includeLanguages": {
         "twig": "html"
     },
-    // "vim.easymotion": true,
-    // "vim.sneak": true,
-    // "vim.incsearch": true,
-    // "vim.useSystemClipboard": true,
-    // "vim.useCtrlKeys": true,
-    // "vim.hlsearch": true,
-    // "vim.insertModeKeyBindings": [
-    //     {
-    //         "before": ["j","j"],
-    //         "after": ["<Esc>"]
-    //     }
-    // ],
-    // "vim.otherModesKeyBindingsNonRecursive": [
-    //     {
-    //         "before": ["<leader>","d"],
-    //         "after": ["d", "d"]
-    //     },
-    //     {
-    //         "before":["<C-n>"],
-    //         "after":[],
-    //         "commands": [
-    //             {
-    //                 "command": ":nohl"
-    //             }
-    //         ]
-    //     }
-    // ],
-    // "vim.leader": "<space>",
-    // "vim.handleKeys":{
-    //     "<C-a>": false,
-    //     "<C-f>": false
-    // }
+    "prettier.printWidth": 120,
+    "editor.wordWrapColumn": 120,
+    "bracketPairColorizer.forceIterationColorCycle": true,
+    "files.exclude": {
+        "node_modules/": true
+    },
+    "javascript.updateImportsOnFileMove.enabled": "prompt",
+    "window.zoomLevel": 0,
+    "C_Cpp.clang_format_fallbackStyle": "WebKit",
+    "code-runner.runInTerminal": true,
+    "code-runner.executorMap": {
+        "c": "cd $dir && gcc -Wall $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    },
+    "gitlens.keymap": "chorded",
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
 }

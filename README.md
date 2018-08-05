@@ -48,7 +48,7 @@ And logging out and in again.
 You use it by running:
 
 ```console
-$DOTFILES/homebrew/homebrew.sh
+$DOTFILES/homebrew/install.sh
 ```
 
 ### iTerm install
