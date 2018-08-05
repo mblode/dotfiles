@@ -38,7 +38,7 @@ For macOS, I recommend:
 You use it by running:
 
 ```console
-$DOTFILES/macos/macos.sh
+$DOTFILES/macos/install.sh
 ```
 
 And logging out and in again.
