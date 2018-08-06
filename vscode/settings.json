@@ -2,7 +2,7 @@
     "editor.fontSize": 14,
     "editor.fontLigatures": true,
     "editor.fontFamily":
-        "'Operator Mono', Menlo, Monaco, 'Courier New', monospace",
+        "'Operator Mono Lig', Menlo, Monaco, 'Courier New', monospace",
     "terminal.integrated.cursorStyle": "line",
     "workbench.startupEditor": "newUntitledFile",
     "emmet.syntaxProfiles": {
