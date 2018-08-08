@@ -852,11 +852,11 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 126 606 469 0 0 1680 1027 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>114 264 918 401 0 0 1680 1027 </string>
+	<string>1825 564 918 452 1680 216 1920 1177 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>127 443 592 584 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>113 417 665 475 0 0 1680 1027 </string>
+	<string>448 452 665 452 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>217 370 665 452 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -1612,7 +1612,7 @@
 			<key>Unlimited Scrollback</key>
 			<false/>
 			<key>Use Bold Font</key>
-			<true/>
+			<false/>
 			<key>Use Bright Bold</key>
 			<false/>
 			<key>Use Cursor Guide</key>
@@ -1695,7 +1695,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-08-05T05:23:29Z</date>
+	<date>2018-08-07T05:49:33Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowNewOutputIndicator</key>
