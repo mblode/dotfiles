@@ -22,5 +22,15 @@
     {
         "key": "cmd+e",
         "command": "emmet.expandAbbreviation"
+    },
+    {
+        "key": "cmd+l",
+        "command": "console.log.wrap.down.prefix",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+alt+w ctrl+alt+down",
+        "command": "-console.log.wrap.down.prefix",
+        "when": "editorTextFocus"
     }
 ]

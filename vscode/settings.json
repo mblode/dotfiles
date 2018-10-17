@@ -2,7 +2,7 @@
     "editor.fontSize": 14,
     "editor.fontLigatures": true,
     "editor.fontFamily":
-        "'Operator Mono Lig', Menlo, Monaco, 'Courier New', monospace",
+        "Operator Mono Lig, Menlo, Monaco, 'Courier New', monospace",
     "terminal.integrated.cursorStyle": "line",
     "workbench.startupEditor": "newUntitledFile",
     "emmet.syntaxProfiles": {
@@ -13,26 +13,26 @@
     "terminal.integrated.fontSize": 14,
     "prettier.tabWidth": 4,
     "prettier.stylelintIntegration": true,
-    "files.insertFinalNewline": true,
     "editor.trimAutoWhitespace": true,
     "files.trimTrailingWhitespace": true,
     "git.enableSmartCommit": true,
     "explorer.openEditors.visible": 0,
     "editor.minimap.renderCharacters": false,
-    "editor.minimap.enabled": true,
+    "editor.minimap.enabled": false,
     "editor.wordWrap": "on",
     "workbench.colorTheme": "One Dark Italic",
     "material-icon-theme.showUpdateMessage": false,
     "git.autofetch": true,
     "extensions.ignoreRecommendations": true,
     "files.associations": {
-        "*.html": "twig"
+        "*.html": "twig",
+        "*.js": "javascriptreact"
     },
     "emmet.includeLanguages": {
-        "twig": "html"
+        "twig": "html",
+        "vue": "html",
+        "javascript": "javascriptreact"
     },
-    "prettier.printWidth": 120,
-    "editor.wordWrapColumn": 120,
     "bracketPairColorizer.forceIterationColorCycle": true,
     "files.exclude": {
         "node_modules/": true
@@ -44,8 +44,18 @@
     "code-runner.executorMap": {
         "c": "cd $dir && gcc -Wall $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
     },
-    "gitlens.keymap": "chorded",
-    "gitlens.advanced.messages": {
-        "suppressShowKeyBindingsNotice": true
-    },
+    "files.autoSave": "onFocusChange",
+    "editor.autoClosingBrackets": "always",
+    "editor.minimap.maxColumn": 80,
+    "html.format.wrapLineLength": 80,
+    "files.insertFinalNewline": true,
+    "workbench.editor.tabSizing": "shrink",
+    "html.format.endWithNewline": true,
+    "html.format.indentInnerHtml": true,
+    "editor.minimap.showSlider": "always",
+    "cSpell.language": "en,en-GB",
+    "cSpell.userWords": [
+        "blode"
+    ],
+    "prettier.singleQuote": true
 }
