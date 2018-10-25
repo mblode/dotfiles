@@ -92,13 +92,20 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Anaconda
 setopt prompt_subst
 . /Users/matthewblode/anaconda3/etc/profile.d/conda.sh
 export PATH=/Users/matthewblode/anaconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/matthewblode/.rvm/bin:/Users/matthewblode/.fzf/bin:/Users/matthewblode/.composer/vendor/bin:~/.composer/vendor/bin
 
+# Android Studio
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH="/usr/local/opt/php@7.1/bin:$PATH"
 export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
+
+# Create a new directory and enter it
+function mk() {
+  mkdir -p "$@" && cd "$@"
+}

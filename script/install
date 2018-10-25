@@ -5,6 +5,8 @@ set -e
 
 # Run Homebrew through the Brewfile
 echo "› brew bundle"
+
+cd homebrew
 brew bundle
 
 cd "$(dirname "$0")"/..

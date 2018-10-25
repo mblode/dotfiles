@@ -1,0 +1,34 @@
+cask_args appdir: '/Applications'
+
+tap 'homebrew/bundle'
+
+tap 'caskroom/cask'
+tap 'caskroom/versions'
+
+cask '1password'
+cask 'alfred'
+cask 'codekit'
+cask 'dash'
+cask 'dropbox'
+cask 'firefox'
+cask 'google-chrome'
+cask 'imageoptim'
+cask 'iterm-2'
+
+cask 'karabiner-elements'
+cask 'rescuetime'
+cask 'slack'
+cask 'spotify'
+cask 'the-unarchiver'
+cask 'transmission'
+cask 'visual-studio-code'
+cask 'vlc'
+cask 'zotero'
+
+brew 'tree'
+brew 'yarn'
+
+# you probably already have git installed; ensure that it is the latest version
+brew 'git'
+brew 'git-lfs'
+brew 'imagemagick'
