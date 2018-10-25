@@ -54,3 +54,11 @@ $DOTFILES/homebrew/install.sh
 ### iTerm install
 
 In iterm Preferences > General > Load preferences from a custom folder or URL and set it to ~/dotfiles/iterm
+
+### Karabiner Hyper-Key
+
+ [Hyper Key](http://brettterpstra.com/2017/06/15/a-hyper-key-with-karabiner-elements-full-instructions/)
+
+### Zotero and Ullyses
+
+ [Makrdown to word](http://raphaelkabo.com/blog/posts/markdown-to-word/)

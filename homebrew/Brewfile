@@ -13,7 +13,7 @@ cask 'dropbox'
 cask 'firefox'
 cask 'google-chrome'
 cask 'imageoptim'
-cask 'iterm-2'
+cask 'iterm2'
 
 cask 'karabiner-elements'
 cask 'rescuetime'
