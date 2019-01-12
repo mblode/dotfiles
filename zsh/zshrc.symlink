@@ -64,7 +64,6 @@ export PATH="/usr/local/sbin:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-export PATH=~/anaconda3/bin:$PATH
 
 # fzf via Homebrew
 if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
@@ -92,11 +91,6 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Anaconda
-setopt prompt_subst
-. /Users/matthewblode/anaconda3/etc/profile.d/conda.sh
-export PATH=/Users/matthewblode/anaconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/matthewblode/.rvm/bin:/Users/matthewblode/.fzf/bin:/Users/matthewblode/.composer/vendor/bin:~/.composer/vendor/bin
-
 # Android Studio
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/tools
@@ -109,3 +103,9 @@ export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
 function mk() {
   mkdir -p "$@" && cd "$@"
 }
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$PATH:./node_modules/.bin"

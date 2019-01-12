@@ -30,14 +30,12 @@
     },
     "emmet.includeLanguages": {
         "twig": "html",
+        "mjml": "html",
         "vue": "html",
         "javascript": "javascriptreact"
     },
     "bracketPairColorizer.forceIterationColorCycle": true,
-    "files.exclude": {
-        "node_modules/": true
-    },
-    "javascript.updateImportsOnFileMove.enabled": "prompt",
+    "javascript.updateImportsOnFileMove.enabled": "always",
     "window.zoomLevel": 0,
     "C_Cpp.clang_format_fallbackStyle": "WebKit",
     "code-runner.runInTerminal": true,
@@ -57,5 +55,13 @@
     "cSpell.userWords": [
         "blode"
     ],
-    "prettier.singleQuote": true
+    "prettier.singleQuote": true,
+    "css.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownProperties": "ignore",
+    "scss.lint.emptyRules": "ignore",
+    "explorer.confirmDragAndDrop": false,
+    "prettier.useTabs": true,
+    "twig-language-2.wrap": 80,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "prettier.printWidth": 200
 }
