@@ -14,6 +14,16 @@ First, make sure you have all those things installed:
 - `zsh`: to actually run the dotfiles
 - `sudo`: some configs may need that
 
+### Install ZSH
+
+``` sh
+
+$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+$ brew install zsh
+$ sudo -s 'echo /usr/local/bin/zsh >> /etc/shells' && chsh -s /usr/local/bin/zsh
+
+```
+
 ### Install
 
 Then, run these steps:
