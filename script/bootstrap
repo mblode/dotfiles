@@ -95,19 +95,8 @@ find_zsh() {
 	fi
 }
 
-setup_gitconfig
+# setup_gitconfig
 install_dotfiles
-
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-$DOTFILES/antibody/install.sh 2>&1
-$DOTFILES/autoupdate/install.sh 2>&1
-$DOTFILES/git/install.sh 2>&1
-$DOTFILES/homebrew/install.sh 2>&1
-$DOTFILES/macos/install.sh 2>&1
-$DOTFILES/ssh/install.sh 2>&1
-$DOTFILES/vscode/install.sh 2>&1
-$DOTFILES/yarn/install.sh 2>&1
 
 info "installing dependencies"
 if ./bin/dot_update; then
@@ -115,6 +104,8 @@ if ./bin/dot_update; then
 else
 	fail "error installing dependencies"
 fi
+
+# curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 zsh="$(find_zsh)"
 
