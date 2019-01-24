@@ -29,8 +29,8 @@ if which antibody >/dev/null 2>&1; then
 fi
 
 # Upgrade homebrew
-echo "› brew update"
-brew update
+# echo "› brew update"
+# brew update
 
 echo "› registering last update"
 git config --global dotfiles.lastupdate "$(date +%Y%m%d%H%M)"
