@@ -98,6 +98,16 @@ find_zsh() {
 setup_gitconfig
 install_dotfiles
 
+$DOTFILES/antibody/install.sh
+$DOTFILES/autoupdate/install.sh
+$DOTFILES/git/install.sh
+$DOTFILES/homebrew/install.sh
+$DOTFILES/macos/install.sh
+$DOTFILES/ssh/install.sh
+$DOTFILES/vscode/install.sh
+$DOTFILES/yarn/install.sh
+
+
 info "installing dependencies"
 if ./bin/dot_update; then
 	success "dependencies installed"

@@ -63,5 +63,12 @@
     "prettier.useTabs": true,
     "twig-language-2.wrap": 80,
     "typescript.updateImportsOnFileMove.enabled": "always",
-    "prettier.printWidth": 200
+    "prettier.printWidth": 200,
+    "[markdown]": {
+        "editor.fontSize": 16,
+        "editor.formatOnSave": true,
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.acceptSuggestionOnEnter": "off",
+        "editor.wordWrapColumn": 66
+    }
 }

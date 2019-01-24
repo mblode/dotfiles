@@ -8,15 +8,15 @@
 
 First, make sure you have all those things installed:
 
-- `git`: to clone the repo
-- `curl`: to download some stuff
-- `tar`: to extract downloaded stuff
-- `zsh`: to actually run the dotfiles
-- `sudo`: some configs may need that
+-   `git`: to clone the repo
+-   `curl`: to download some stuff
+-   `tar`: to extract downloaded stuff
+-   `zsh`: to actually run the dotfiles
+-   `sudo`: some configs may need that
 
 ### Install ZSH
 
-``` sh
+```sh
 
 $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 $ brew install zsh
@@ -41,7 +41,7 @@ $ zsh # or just close and open your terminal again.
 
 For macOS, I recommend:
 
-- iTerm: a better terminal emulator;
+-   iTerm: a better terminal emulator;
 
 ### macOS defaults
 
@@ -53,14 +53,6 @@ $DOTFILES/macos/install.sh
 
 And logging out and in again.
 
-### Homebrew install
-
-You use it by running:
-
-```console
-$DOTFILES/homebrew/install.sh
-```
-
 ### iTerm install
 
 In iterm Preferences > General > Load preferences from a custom folder or URL and set it to ~/dotfiles/iterm
@@ -71,8 +63,8 @@ In iterm Preferences > General > Load preferences from a custom folder or URL an
 
 ### Karabiner Hyper-Key
 
- [Hyper Key](http://brettterpstra.com/2017/06/15/a-hyper-key-with-karabiner-elements-full-instructions/)
+[Hyper Key](http://brettterpstra.com/2017/06/15/a-hyper-key-with-karabiner-elements-full-instructions/)
 
 ### Zotero and Ullyses
 
- [Makrdown to word](http://raphaelkabo.com/blog/posts/markdown-to-word/)
+[Makrdown to word](http://raphaelkabo.com/blog/posts/markdown-to-word/)

@@ -27,6 +27,9 @@ cask 'zotero'
 
 brew 'tree'
 brew 'yarn'
+brew 'python3'
+brew 'php'
+brew 'mysql'
 
 # you probably already have git installed; ensure that it is the latest version
 brew 'git'
