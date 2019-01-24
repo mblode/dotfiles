@@ -27,7 +27,6 @@ alias d='cd ~/Downloads'
 alias s='cd ~/Sites'
 
 alias h='history'
-alias v='nvim'
 
 alias c='clear'
 alias rr="rm -rf"
