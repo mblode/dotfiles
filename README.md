@@ -1,18 +1,6 @@
 # mblode's dotfiles
 
-> Config files for ZSH, Java, Ruby, Go, Editors, Terminals and more.
-
-## Installation
-
-### Dependencies
-
-First, make sure you have all those things installed:
-
--   `git`: to clone the repo
--   `curl`: to download some stuff
--   `tar`: to extract downloaded stuff
--   `zsh`: to actually run the dotfiles
--   `sudo`: some configs may need that
+> Config files for ZSH, Vim, Ruby, Git, VS Code, Terminals and more.
 
 ### Install ZSH
 
