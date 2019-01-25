@@ -1,4 +1,6 @@
-#!/bin/sh
+# Git
+
+echo "Installing Git..."
 
 # Don't ask ssh password all the time
 if [ "$(uname -s)" = "Darwin" ]; then

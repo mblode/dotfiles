@@ -66,9 +66,10 @@
     "prettier.printWidth": 200,
     "[markdown]": {
         "editor.fontSize": 16,
-        "editor.formatOnSave": true,
         "editor.wordWrap": "wordWrapColumn",
         "editor.acceptSuggestionOnEnter": "off",
-        "editor.wordWrapColumn": 66
-    }
+        "editor.wordWrapColumn": 66,
+        "editor.tabSize": 2
+    },
+    "explorer.confirmDelete": false
 }

@@ -1,4 +1,6 @@
-#!/bin/sh
+# Node
+
+echo "Installing Node..."
 
 yarn global add "prettier"
 yarn global add "create-react-app"

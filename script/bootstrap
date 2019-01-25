@@ -99,13 +99,18 @@ find_zsh() {
 install_dotfiles
 
 info "installing dependencies"
-if ./bin/dot_update; then
-	success "dependencies installed"
-else
-	fail "error installing dependencies"
-fi
 
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+$DOTFILES/homebrew/install.sh
+$DOTFILES/git/install.sh
+$DOTFILES/ssh/install.sh
+$DOTFILES/node/install.sh
+$DOTFILES/php/install.sh
+$DOTFILES/python/install.sh
+$DOTFILES/ruby/install.sh
+$DOTFILES/vscode/install.sh
+$DOTFILES/zsh/install.sh
+$DOTFILES/vim/install.sh
+$DOTFILES/antibody/install.sh
 
 zsh="$(find_zsh)"
 

@@ -1,6 +1,6 @@
 <?php
 
-class Craft2ValetDriver extends ValetDriver
+class CraftValetDriver extends ValetDriver
 {
     /**
      * Determine if the driver serves the request.

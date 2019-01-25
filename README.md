@@ -1,42 +1,39 @@
 # mblode's dotfiles
 
-> Config files for ZSH, Vim, Ruby, Git, VS Code, Terminals and more.
+## What's inside
 
-### Install ZSH
+- Git
+- Homebrew
+- iTerm 2
+- Hyper Key for Karabiner Elements
+- Mac OS defaults
+- SSH
+- Terminal
+- Valet
+- Vim
+- VS Code
+- Yarn
+- zsh
 
-```sh
-
-$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-$ brew install zsh
-$ sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh
-
-```
-
-### Install
+### Install dotfiles
 
 Then, run these steps:
 
-```console
+``` sh
+
 $ git clone https://github.com/mblode/dotfiles.git ~/dotfiles
 $ cd ~/dotfiles
 $ ./script/bootstrap
 $ zsh # or just close and open your terminal again.
+
 ```
-
-> All changed files will be backed up with a `.backup` suffix.
-
-### Recommended Software
-
-For macOS, I recommend:
-
--   iTerm: a better terminal emulator;
 
 ### macOS defaults
 
 You use it by running:
 
 ```console
-$DOTFILES/macos/install.sh
+$DOTFILES/macos/set-defaults.sh
 ```
 
 And logging out and in again.
@@ -45,9 +42,9 @@ And logging out and in again.
 
 In iterm Preferences > General > Load preferences from a custom folder or URL and set it to ~/dotfiles/iterm
 
-### Install Valet
+### Vim Plug
 
-[Valet](https://laravel.com/docs/5.7/valet)
+Open vim, type :PlugInstall to get the latest of all the vim plugins
 
 ### Karabiner Hyper-Key
 
@@ -56,11 +53,3 @@ In iterm Preferences > General > Load preferences from a custom folder or URL an
 ### Zotero and Ullyses
 
 [Makrdown to word](http://raphaelkabo.com/blog/posts/markdown-to-word/)
-
-### Install Vim plugins
-
-[Vim Plug](https://github.com/junegunn/vim-plug)
-
-### Install Ruby with rbenv
-
-[rbenv](https://github.com/rbenv/rbenv)
