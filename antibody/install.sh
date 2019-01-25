@@ -2,5 +2,5 @@
 
 echo "Installing Antibody..."
 
-antibody bundle <"$DOTFILES/antibody/bundles.txt" >$HOME/.zsh_plugins.sh
+antibody bundle <"~/dotfiles/antibody/bundles.txt" >~/.zsh_plugins.sh
 antibody update

@@ -100,17 +100,17 @@ install_dotfiles
 
 info "installing dependencies"
 
-$DOTFILES/homebrew/install.sh
-$DOTFILES/git/install.sh
-$DOTFILES/ssh/install.sh
-$DOTFILES/node/install.sh
-$DOTFILES/php/install.sh
-$DOTFILES/python/install.sh
-$DOTFILES/ruby/install.sh
-$DOTFILES/vscode/install.sh
-$DOTFILES/zsh/install.sh
-$DOTFILES/vim/install.sh
-$DOTFILES/antibody/install.sh
+~/dotfiles/homebrew/install.sh
+~/dotfiles/git/install.sh
+~/dotfiles/ssh/install.sh
+~/dotfiles/node/install.sh
+~/dotfiles/php/install.sh
+~/dotfiles/python/install.sh
+~/dotfiles/ruby/install.sh
+~/dotfiles/vscode/install.sh
+~/dotfiles/zsh/install.sh
+~/dotfiles/vim/install.sh
+~/dotfiles/antibody/install.sh
 
 zsh="$(find_zsh)"
 
