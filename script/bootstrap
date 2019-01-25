@@ -102,7 +102,6 @@ info "installing dependencies"
 
 ~/dotfiles/homebrew/install.sh
 ~/dotfiles/git/install.sh
-~/dotfiles/ssh/install.sh
 ~/dotfiles/node/install.sh
 ~/dotfiles/php/install.sh
 ~/dotfiles/python/install.sh
