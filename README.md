@@ -68,3 +68,11 @@ In iterm Preferences > General > Load preferences from a custom folder or URL an
 ### Zotero and Ullyses
 
 [Makrdown to word](http://raphaelkabo.com/blog/posts/markdown-to-word/)
+
+### Install Vim plugins
+
+[Vim Plug](https://github.com/junegunn/vim-plug)
+
+### Install Ruby with rbenv
+
+[rbenv](https://github.com/rbenv/rbenv)
