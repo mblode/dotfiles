@@ -18,4 +18,4 @@ fi
 cd Sites
 valet park
 
-cp ~/dotfiles/php/Craft2ValetDriver.php ~/.config/valet/drivers/
+ln -sf "$DOTFILES/php/Craft2ValetDriver.php" "$HOME/.config/valet/drivers/"

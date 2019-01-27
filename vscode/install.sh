@@ -9,7 +9,7 @@ if test "$(which code)"; then
 		VSCODE_HOME="$HOME/.config/Code"
 	fi
 
-	ln -sf "~/dotfiles/vscode/settings.json" "$VSCODE_HOME/User/settings.json"
-	ln -sf "~/dotfiles/vscode/keybindings.json" "$VSCODE_HOME/User/keybindings.json"
-	ln -sf "~/dotfiles/vscode/snippets" "$VSCODE_HOME/User/snippets"
+	ln -sf "$DOTFILES/vscode/settings.json" "$VSCODE_HOME/User/settings.json"
+	ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_HOME/User/keybindings.json"
+	ln -sf "$DOTFILES/vscode/snippets" "$VSCODE_HOME/User/snippets"
 fi
