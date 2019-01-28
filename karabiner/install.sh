@@ -10,4 +10,4 @@ fi
 
 cd karabiner
 
-ln -sf "$DOTFILES/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+ln -sf "$HOME/dotfiles/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"

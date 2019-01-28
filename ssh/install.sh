@@ -2,4 +2,4 @@
 
 echo "Installing SSH..."
 
-ln -sf "$DOTFILES/ssh/config" "$HOME/.ssh/config"
+ln -sf "$HOME/dotfiles/ssh/config" "$HOME/.ssh/config"
