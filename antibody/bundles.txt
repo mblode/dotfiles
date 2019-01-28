@@ -8,6 +8,9 @@ sindresorhus/pretty-time-zsh
 Tarrasch/zsh-bd
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
+zsh-users/zsh-apple-touchbar
+Tarrasch/zsh-bd
+wting/autojump
 
 # These should be last
 sindresorhus/pure
