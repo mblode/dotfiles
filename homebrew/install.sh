@@ -18,4 +18,8 @@ then
 
 fi
 
+cd $HOME/dotfiles/homebrew
+
+brew bundle
+
 exit 0

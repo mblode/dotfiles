@@ -71,5 +71,7 @@
         "editor.wordWrapColumn": 66,
         "editor.tabSize": 2
     },
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
+    "kite.showWelcomeNotificationOnStartup": false,
+    "python.pythonPath": "/usr/local/bin/python3"
 }

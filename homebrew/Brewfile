@@ -40,4 +40,5 @@ brew 'imagemagick'
 brew 'composer'
 brew 'jupyter'
 brew 'python3'
-
+brew 'pandoc'
+brew 'pandoc-citeproc'
