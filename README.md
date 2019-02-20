@@ -53,3 +53,7 @@ Open vim, type :PlugInstall to get the latest of all the vim plugins
 ### Zotero and Ullyses
 
 [Makrdown to word](http://raphaelkabo.com/blog/posts/markdown-to-word/)
+
+### Create a new SSH
+
+[Generate a new SSH](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
