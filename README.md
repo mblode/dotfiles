@@ -57,3 +57,7 @@ Open vim, type :PlugInstall to get the latest of all the vim plugins
 ### Create a new SSH
 
 [Generate a new SSH](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+
+### Set ZSH
+
+`chsh -s /bin/zsh`
