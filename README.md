@@ -61,3 +61,12 @@ Open vim, type :PlugInstall to get the latest of all the vim plugins
 ### Set ZSH
 
 `chsh -s /bin/zsh`
+
+### MySQL
+
+```
+mysql -uroot
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
+ALTER USER 'yourusername'@'localhost' IDENTIFIED WITH mysql_native_password BY 'youpassword';
+
+```
