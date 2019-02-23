@@ -19,7 +19,7 @@
 
 Then, run these steps:
 
-``` sh
+```sh
 
 $ git clone https://github.com/mblode/dotfiles.git ~/dotfiles
 $ cd ~/dotfiles
