@@ -202,7 +202,6 @@
     "telemetry.enableTelemetry": false,
     "sync.gist": "5cbecd892b42cd00f200068a015426a0",
     "sync.autoUpload": true,
-    "workbench.colorTheme": "One Dark Italic",
     "dart.flutterSdkPath": "/Users/mblode/flutter",
     "[rust]": {
         // "editor.defaultFormatter": "mblode.pretty-formatter"
@@ -210,10 +209,27 @@
     },
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 5000,
-    "[html]": {
-        "editor.defaultFormatter": "mblode.twig-language-2"
-    },
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "workbench.colorTheme": "One Dark Italic",
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "keyboard.touchbar.enabled": false,
+    "eslint.packageManager": "yarn",
+    "npm.packageManager": "yarn",
+    "workbench.activityBar.visible": true,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "octref.vetur"
     },
 }

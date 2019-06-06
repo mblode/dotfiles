@@ -2,4 +2,4 @@
 
 echo "Installing ZSH..."
 
-chsh -s $(which zsh)
+chsh -s /bin/zsh
