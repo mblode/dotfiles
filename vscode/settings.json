@@ -7,7 +7,6 @@
     "emmet.syntaxProfiles": {
         "javascript": "javascriptreact"
     },
-    "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
     "terminal.integrated.fontSize": 14,
     "editor.trimAutoWhitespace": true,
@@ -39,7 +38,7 @@
         "editor.fontSize": 16,
         "editor.wordWrap": "wordWrapColumn",
         "editor.acceptSuggestionOnEnter": "off",
-        "editor.wordWrapColumn": 66
+        "editor.wordWrapColumn": 66,
     },
     "explorer.confirmDelete": false,
     "python.pythonPath": "/usr/local/bin/python3",
@@ -182,20 +181,21 @@
     },
     "[twig]": {
         "editor.formatOnSave": false,
+        "editor.defaultFormatter": "mblode.twig-language-2"
     },
     "eslint.autoFixOnSave": true,
     "prettier.disableLanguages": [
         "javascript", "javascriptreact"
     ],
     "prettier.tabWidth": 4,
+    "prettier.printWidth": 120,
+    "prettier.singleQuote": true,
     "css.validate": false,
     "scss.validate": false,
     "vetur.format.options.tabSize": 4,
     "vetur.validation.style": false,
     "vetur.format.scriptInitialIndent": true,
     "vetur.format.styleInitialIndent": true,
-    "prettier.printWidth": 120,
-    "prettier.singleQuote": true,
     "editor.wordWrapColumn": 120,
     "javascript.updateImportsOnFileMove.enabled": "always",
     "telemetry.enableCrashReporter": false,
@@ -224,7 +224,6 @@
     },
     "keyboard.touchbar.enabled": false,
     "eslint.packageManager": "yarn",
-    "npm.packageManager": "yarn",
     "workbench.activityBar.visible": true,
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -232,4 +231,8 @@
     "[vue]": {
         "editor.defaultFormatter": "octref.vetur"
     },
+    "spellright.addToSystemDictionary": true,
+    "spellright.groupDictionaries": false,
+    "glitch.token": "7556653d-5191-4976-825b-34bafdb8483b",
+    "workbench.iconTheme": "material-icon-theme",
 }
