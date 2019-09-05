@@ -84,7 +84,6 @@ export PATH="$PATH:./node_modules/.bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 eval "$(rbenv init -)"
-eval "$(starship init zsh)"
 
 # Better history
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
