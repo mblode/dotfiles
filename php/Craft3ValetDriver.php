@@ -1,6 +1,5 @@
 <?php
-
-class Craft2ValetDriver extends ValetDriver
+class Craft3ValetDriver extends ValetDriver
 {
     /**
      * Determine if the driver serves the request.
@@ -14,7 +13,6 @@ class Craft2ValetDriver extends ValetDriver
     {
         return file_exists($sitePath.'/craft');
     }
-
     /**
      * Determine the name of the directory where the front controller lives.
      *
@@ -23,17 +21,15 @@ class Craft2ValetDriver extends ValetDriver
      */
     public function frontControllerDirectory($sitePath)
     {
-        $dirs = ['web', 'public', 'public_html'];
-
+        $dirs = ['web', 'public_html', 'public'];
         foreach ($dirs as $dir) {
             if (is_dir($sitePath.'/'.$dir)) {
                 return $dir;
             }
         }
         // Give up, and just return the default
-        return is_file($sitePath.'/craft') ? 'web' : 'public';
+        return is_file($sitePath.'/craft') ? 'public' : 'public_html';
     }
-
     /**
      * Determine if the incoming request is for a static file.
      *
@@ -45,14 +41,11 @@ class Craft2ValetDriver extends ValetDriver
     public function isStaticFile($sitePath, $siteName, $uri)
     {
         $frontControllerDirectory = $this->frontControllerDirectory($sitePath);
-
         if ($this->isActualFile($staticFilePath = $sitePath.'/'.$frontControllerDirectory.$uri)) {
             return $staticFilePath;
         }
-
         return false;
     }
-
     /**
      * Get the fully resolved path to the application's front controller.
      *
@@ -64,11 +57,9 @@ class Craft2ValetDriver extends ValetDriver
     public function frontControllerPath($sitePath, $siteName, $uri)
     {
         $frontControllerDirectory = $this->frontControllerDirectory($sitePath);
-
         // Default index path
         $indexPath = $sitePath.'/'.$frontControllerDirectory.'/index.php';
         $scriptName = '/index.php';
-
         // Check if the first URL segment matches any of the defined locales
         $locales = [
             'ar',
@@ -189,18 +180,19 @@ class Craft2ValetDriver extends ValetDriver
             'zh_tw',
         ];
         $parts = explode('/', $uri);
-
         if (count($parts) > 1 && in_array($parts[1], $locales)) {
-            $indexPath = $sitePath.'/'.$frontControllerDirectory.'/'.$parts[1].'/index.php';
-            $scriptName = '/'.$parts[1].'/index.php';
+            $indexLocalizedPath = $sitePath.'/'.$frontControllerDirectory.'/'.$parts[1].'/index.php';
+            // Check if index.php exists in the localized folder, this is optional in Craft 3
+            if (file_exists($indexLocalizedPath)) {
+                $indexPath = $indexLocalizedPath;
+                $scriptName = '/'.$parts[1].'/index.php';
+            }
         }
-
         $_SERVER['SCRIPT_FILENAME'] = $indexPath;
         $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'];
         $_SERVER['SCRIPT_NAME'] = $scriptName;
         $_SERVER['PHP_SELF'] = $scriptName;
         $_SERVER['DOCUMENT_ROOT'] = $sitePath.'/'.$frontControllerDirectory;
-
         return $indexPath;
     }
 }

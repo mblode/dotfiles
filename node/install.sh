@@ -2,9 +2,9 @@
 
 echo "Installing Node..."
 
-yarn global add "prettier"
-yarn global add "create-react-app"
-yarn global add "trash-cli"
-yarn global add "alfred-fkill"
-yarn global add "alfred-trello"
-yarn global add "yo"
+npm i -g "prettier"
+npm i -g "create-react-app"
+npm i -g "trash-cli"
+npm i -g "alfred-fkill"
+npm i -g "alfred-trello"
+npm i -g "yo"
