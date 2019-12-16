@@ -45,11 +45,6 @@
     "python.pythonPath": "/usr/local/bin/python3",
     "stylelint.config": {
         "rules": {
-            "at-rule-no-unknown": [
-                true, {
-                    "ignoreAtRules": ["tailwind"]
-                }
-            ],
             "block-no-empty": true,
             "color-no-invalid-hex": true,
             "comment-no-empty": true,
@@ -235,5 +230,8 @@
     "spellright.groupDictionaries": false,
     "glitch.token": "7556653d-5191-4976-825b-34bafdb8483b",
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.colorTheme": "One Dark Italic"
+    "terminal.integrated.rendererType": "dom",
+    "go.formatTool": "gofmt",
+    "go.useLanguageServer": true,
+    "workbench.colorTheme": "One Dark Pro"
 }

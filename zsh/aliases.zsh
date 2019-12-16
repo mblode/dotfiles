@@ -50,3 +50,5 @@ alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && kil
 alias path='echo -e ${PATH//:/\\n}'
 
 alias l='exa'
+
+alias air='~/.air'
