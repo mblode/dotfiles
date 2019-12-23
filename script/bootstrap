@@ -102,7 +102,7 @@ info "installing dependencies"
 
 $HOME/dotfiles/homebrew/install.sh
 $HOME/dotfiles/git/install.sh
-$HOME/dotfiles/php/install.sh
+# $HOME/dotfiles/php/install.sh
 $HOME/dotfiles/vscode/install.sh
 $HOME/dotfiles/zsh/install.sh
 $HOME/dotfiles/vim/install.sh

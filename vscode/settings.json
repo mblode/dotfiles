@@ -7,6 +7,7 @@
     "emmet.syntaxProfiles": {
         "javascript": "javascriptreact"
     },
+    "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
     "terminal.integrated.fontSize": 14,
     "editor.trimAutoWhitespace": true,
@@ -24,7 +25,6 @@
     },
     "emmet.includeLanguages": {
         "twig": "html",
-        "erb": "html",
         "mjml": "html",
         "vue": "html",
         "javascript": "javascriptreact"
@@ -39,12 +39,17 @@
         "editor.fontSize": 16,
         "editor.wordWrap": "wordWrapColumn",
         "editor.acceptSuggestionOnEnter": "off",
-        "editor.wordWrapColumn": 66,
+        "editor.wordWrapColumn": 66
     },
     "explorer.confirmDelete": false,
     "python.pythonPath": "/usr/local/bin/python3",
     "stylelint.config": {
         "rules": {
+            "at-rule-no-unknown": [
+                true, {
+                    "ignoreAtRules": ["tailwind"]
+                }
+            ],
             "block-no-empty": true,
             "color-no-invalid-hex": true,
             "comment-no-empty": true,
@@ -208,6 +213,7 @@
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
+    "workbench.colorTheme": "One Dark Italic",
     "[typescriptreact]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
     },
@@ -219,6 +225,7 @@
     },
     "keyboard.touchbar.enabled": false,
     "eslint.packageManager": "yarn",
+    "npm.packageManager": "yarn",
     "workbench.activityBar.visible": true,
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -229,9 +236,6 @@
     "spellright.addToSystemDictionary": true,
     "spellright.groupDictionaries": false,
     "glitch.token": "7556653d-5191-4976-825b-34bafdb8483b",
-    "workbench.iconTheme": "material-icon-theme",
-    "terminal.integrated.rendererType": "dom",
-    "go.formatTool": "gofmt",
+    "go.formatTool": "goimports",
     "go.useLanguageServer": true,
-    "workbench.colorTheme": "One Dark Pro"
 }

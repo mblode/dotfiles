@@ -90,3 +90,5 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
 export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:$HOME/.composer/vendor/bin
