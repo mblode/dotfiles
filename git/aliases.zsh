@@ -4,6 +4,7 @@ alias g='git'
 alias ga='git add -A'
 alias gp='git push'
 alias gpoh='git push origin HEAD'
+alias gpom='git push origin master'
 alias gl='git pull --prune'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 

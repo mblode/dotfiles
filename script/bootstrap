@@ -101,7 +101,6 @@ install_dotfiles
 info "installing dependencies"
 
 $HOME/dotfiles/homebrew/install.sh
-$HOME/dotfiles/ssh/install.sh
 $HOME/dotfiles/git/install.sh
 $HOME/dotfiles/node/install.sh
 $HOME/dotfiles/php/install.sh

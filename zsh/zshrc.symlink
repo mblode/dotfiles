@@ -13,12 +13,6 @@ _append_to_path() {
 # shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/dotfiles"
 
-# your project folder that we can `c [tab]` to
-export PROJECTS="$HOME/Sites"
-
-# your default editor
-export EDITOR='code'
-
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
 # you'll have access to them in your scripts.
@@ -63,28 +57,10 @@ export PATH="/usr/local/bin:$PATH"
 unset config_files updated_at
 export PATH="/usr/local/sbin:$PATH"
 
-# Android Studio
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH="/usr/local/opt/php@7.1/bin:$PATH"
-export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
-
 # Create a new directory and enter it
 function mk() {
   mkdir -p "$@" && cd "$@"
 }
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export PATH="$PATH:./node_modules/.bin"
-export PATH="$PATH:$HOME/.composer/vendor/bin"
-
-export PATH="$HOME/.rbenv/bin:$PATH"
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Better history
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
@@ -113,12 +89,4 @@ bindkey -M emacs '^N' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-eval $(thefuck --alias)
-
 export PATH=$PATH:$GOPATH/bin
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/mblode/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mblode/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/mblode/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mblode/google-cloud-sdk/completion.zsh.inc'; fi
