@@ -1,3 +1,0 @@
-# Python
-
-echo "Installing Python..."

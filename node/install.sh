@@ -1,3 +1,0 @@
-# Node
-
-echo "Installing Node..."
