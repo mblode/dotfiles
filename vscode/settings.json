@@ -46,16 +46,23 @@
     "stylelint.config": {
         "rules": {
             "at-rule-no-unknown": [
-                true, {
-                    "ignoreAtRules": ["tailwind"]
+                true,
+                {
+                    "ignoreAtRules": [
+                        "tailwind",
+                        "screen"
+                    ]
                 }
             ],
             "block-no-empty": true,
             "color-no-invalid-hex": true,
             "comment-no-empty": true,
             "declaration-block-no-duplicate-properties": [
-                true, {
-                    "ignore": ["consecutive-duplicates-with-different-values"]
+                true,
+                {
+                    "ignore": [
+                        "consecutive-duplicates-with-different-values"
+                    ]
                 }
             ],
             "declaration-block-no-shorthand-property-overrides": true,
@@ -78,11 +85,15 @@
             "string-no-newline": true,
             "unit-no-unknown": true,
             "at-rule-empty-line-before": [
-                "always", {
+                "always",
+                {
                     "except": [
-                        "blockless-after-same-name-blockless", "first-nested"
+                        "blockless-after-same-name-blockless",
+                        "first-nested"
                     ],
-                    "ignore": ["after-comment"]
+                    "ignore": [
+                        "after-comment"
+                    ]
                 }
             ],
             "at-rule-name-case": "lower",
@@ -98,18 +109,28 @@
             "color-hex-case": "lower",
             "color-hex-length": "short",
             "comment-empty-line-before": [
-                "always", {
-                    "except": ["first-nested"],
-                    "ignore": ["stylelint-commands"]
+                "always",
+                {
+                    "except": [
+                        "first-nested"
+                    ],
+                    "ignore": [
+                        "stylelint-commands"
+                    ]
                 }
             ],
             "comment-whitespace-inside": "always",
             "custom-property-empty-line-before": [
-                "always", {
+                "always",
+                {
                     "except": [
-                        "after-custom-property", "first-nested"
+                        "after-custom-property",
+                        "first-nested"
                     ],
-                    "ignore": ["after-comment", "inside-single-line-block"]
+                    "ignore": [
+                        "after-comment",
+                        "inside-single-line-block"
+                    ]
                 }
             ],
             "declaration-bang-space-after": "never",
@@ -147,9 +168,14 @@
             "number-no-trailing-zeros": true,
             "property-case": "lower",
             "rule-empty-line-before": [
-                "always-multi-line", {
-                    "except": ["first-nested"],
-                    "ignore": ["after-comment"]
+                "always-multi-line",
+                {
+                    "except": [
+                        "first-nested"
+                    ],
+                    "ignore": [
+                        "after-comment"
+                    ]
                 }
             ],
             "selector-attribute-brackets-space-inside": "never",
@@ -173,24 +199,6 @@
         }
     },
     "window.zoomLevel": 0,
-    // "editor.formatOnSave": true,
-    "[javascript]": {
-        "editor.formatOnSave": false
-    },
-    "[javascriptreact]": {
-        "editor.formatOnSave": false,
-    },
-    "[twig]": {
-        "editor.formatOnSave": false,
-        "editor.defaultFormatter": "mblode.twig-language-2"
-    },
-    "eslint.autoFixOnSave": true,
-    "prettier.disableLanguages": [
-        "javascript", "javascriptreact"
-    ],
-    "prettier.tabWidth": 4,
-    "prettier.printWidth": 120,
-    "prettier.singleQuote": true,
     "css.validate": false,
     "scss.validate": false,
     "vetur.format.options.tabSize": 4,
@@ -203,39 +211,69 @@
     "telemetry.enableTelemetry": false,
     "sync.gist": "5cbecd892b42cd00f200068a015426a0",
     "sync.autoUpload": true,
-    "dart.flutterSdkPath": "/Users/mblode/flutter",
-    "[rust]": {
-        // "editor.defaultFormatter": "mblode.pretty-formatter"
-        "editor.defaultFormatter": "rust-lang.rust"
-    },
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 5000,
-    "[json]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
     "workbench.colorTheme": "One Dark Italic",
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
-    "[typescript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
     "keyboard.touchbar.enabled": false,
     "eslint.packageManager": "yarn",
-    "npm.packageManager": "yarn",
     "workbench.activityBar.visible": true,
-    "[html]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[vue]": {
-        "editor.defaultFormatter": "octref.vetur"
-    },
     "spellright.addToSystemDictionary": true,
     "spellright.groupDictionaries": false,
-    "glitch.token": "7556653d-5191-4976-825b-34bafdb8483b",
     "go.formatTool": "goimports",
     "go.useLanguageServer": true,
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true,
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+    },
+    "[scss]": {
+        "editor.formatOnSave": true,
+    },
+    "prettier.jsxBracketSameLine": true,
+    "prettier.jsxSingleQuote": true,
+    "prettier.printWidth": 120,
+    "prettier.singleQuote": true,
+    "prettier.vueIndentScriptAndStyle": true,
+    "stylelint.validate": [
+        "css",
+        "html",
+        "less",
+        "markdown",
+        "postcss",
+        "sass",
+        "scss",
+        "source.css.styled",
+        "source.markdown.math",
+        "styled-css",
+        "sugarss",
+        "svelte",
+        "typescript",
+        "typescriptreact",
+        "vue",
+        "vue-html",
+        "vue-postcss",
+        "xml",
+        "xsl"
+    ],
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.editor.scrollToSwitchTabs": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.detectIndentation": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "tabnine.experimentalAutoImports": true,
+    "prettier.tabWidth": 4,
 }
