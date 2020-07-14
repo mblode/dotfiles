@@ -18,3 +18,7 @@ alias gcam='git commit -a -m'
 alias gs='git status -sb'
 alias gcb='git copy-branch-name'
 alias gm='git merge'
+
+alias gmp='git push origin master && git push origin master:production'
+alias gms='git push origin master && git push origin master:staging'
+alias gmsp='git push origin master && git push origin master:staging && git push origin master:production'
