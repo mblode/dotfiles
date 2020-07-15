@@ -103,3 +103,42 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+gpm() {
+    if [ -z "$*" ]
+        then
+        echo "No args"
+        return 1
+    fi
+
+    git add -A
+    git commit -m "$1"
+    git push origin master
+}
+
+gps() {
+    if [ -z "$*" ]
+        then
+        echo "No args"
+        return 1
+    fi
+
+    git add -A
+    git commit -m "$1"
+    git push origin master
+    git push origin master:staging
+}
+
+gpp() {
+    if [ -z "$*" ]
+        then
+        echo "No args"
+        return 1
+    fi
+
+    git add -A
+    git commit -m "$1"
+    git push origin master
+    git push origin master:staging
+    git push origin master:production
+}
