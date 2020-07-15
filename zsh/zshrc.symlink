@@ -142,3 +142,5 @@ gpp() {
     git push origin master:staging
     git push origin master:production
 }
+
+alias gprod="npp && gpp"
