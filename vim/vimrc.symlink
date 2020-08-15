@@ -169,7 +169,9 @@ set splitbelow
 set splitright
 
 " Always use vertical diffs
-set diffopt+=vertical
+if has('nvim')
+    set diffopt+=vertical
+endif
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
