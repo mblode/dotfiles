@@ -7,7 +7,6 @@
     "emmet.syntaxProfiles": {
         "javascript": "javascriptreact"
     },
-    "workbench.iconTheme": "material-icon-theme",
     "emmet.triggerExpansionOnTab": true,
     "terminal.integrated.fontSize": 14,
     "editor.trimAutoWhitespace": true,
@@ -48,10 +47,7 @@
             "at-rule-no-unknown": [
                 true,
                 {
-                    "ignoreAtRules": [
-                        "tailwind",
-                        "screen"
-                    ]
+                    "ignoreAtRules": ["tailwind", "screen"]
                 }
             ],
             "block-no-empty": true,
@@ -60,9 +56,7 @@
             "declaration-block-no-duplicate-properties": [
                 true,
                 {
-                    "ignore": [
-                        "consecutive-duplicates-with-different-values"
-                    ]
+                    "ignore": ["consecutive-duplicates-with-different-values"]
                 }
             ],
             "declaration-block-no-shorthand-property-overrides": true,
@@ -87,13 +81,8 @@
             "at-rule-empty-line-before": [
                 "always",
                 {
-                    "except": [
-                        "blockless-after-same-name-blockless",
-                        "first-nested"
-                    ],
-                    "ignore": [
-                        "after-comment"
-                    ]
+                    "except": ["blockless-after-same-name-blockless", "first-nested"],
+                    "ignore": ["after-comment"]
                 }
             ],
             "at-rule-name-case": "lower",
@@ -111,26 +100,16 @@
             "comment-empty-line-before": [
                 "always",
                 {
-                    "except": [
-                        "first-nested"
-                    ],
-                    "ignore": [
-                        "stylelint-commands"
-                    ]
+                    "except": ["first-nested"],
+                    "ignore": ["stylelint-commands"]
                 }
             ],
             "comment-whitespace-inside": "always",
             "custom-property-empty-line-before": [
                 "always",
                 {
-                    "except": [
-                        "after-custom-property",
-                        "first-nested"
-                    ],
-                    "ignore": [
-                        "after-comment",
-                        "inside-single-line-block"
-                    ]
+                    "except": ["after-custom-property", "first-nested"],
+                    "ignore": ["after-comment", "inside-single-line-block"]
                 }
             ],
             "declaration-bang-space-after": "never",
@@ -170,12 +149,8 @@
             "rule-empty-line-before": [
                 "always-multi-line",
                 {
-                    "except": [
-                        "first-nested"
-                    ],
-                    "ignore": [
-                        "after-comment"
-                    ]
+                    "except": ["first-nested"],
+                    "ignore": ["after-comment"]
                 }
             ],
             "selector-attribute-brackets-space-inside": "never",
@@ -209,7 +184,7 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "telemetry.enableCrashReporter": false,
     "telemetry.enableTelemetry": false,
-    "sync.gist": "5cbecd892b42cd00f200068a015426a0",
+    "sync.gist": "c0a7c09d85107bdfc4e9db713c6226e7",
     "sync.autoUpload": true,
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 5000,
@@ -217,23 +192,19 @@
     "keyboard.touchbar.enabled": false,
     "eslint.packageManager": "yarn",
     "workbench.activityBar.visible": true,
-    "spellright.addToSystemDictionary": true,
-    "spellright.groupDictionaries": false,
-    "go.formatTool": "goimports",
-    "go.useLanguageServer": true,
     "[javascriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
     "[typescript]": {
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
     "[vue]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
     "[scss]": {
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
     "prettier.jsxBracketSameLine": true,
     "prettier.jsxSingleQuote": true,
@@ -264,8 +235,6 @@
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -273,7 +242,48 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.detectIndentation": false,
     "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "tabnine.experimentalAutoImports": true,
+    "editor.lineNumbers": "relative",
     "prettier.tabWidth": 4,
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.surround": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        },
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        },
+    ],
+    "vim.leader": ",",
+    "vim.easymotionKeys": "hklyuiopnm,qwertzxcvbasdgjf",
+    "vim.easymotionMarkerFontWeight": "bold",
+    "sync.quietSync": true,
+    "vim.easymotionMarkerBackgroundColor": "#fff",
+    "vim.easymotionMarkerForegroundColorOneChar": "#000",
+    "vim.neovimPath": "/usr/local/bin/nvim",
+    "workbench.iconTheme": "material-icon-theme",
 }

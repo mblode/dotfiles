@@ -1,0 +1,16 @@
+{
+  "eslint.options": {"configFile": "/Users/mblode/.eslintrc"},
+  "eslint.packageManager": "npm",
+  "eslint.autoFixOnSave": true,
+  "eslint.run": "onSave",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "markdown",
+    "Markdown",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}
+

@@ -50,4 +50,6 @@ alias path='echo -e ${PATH//:/\\n}'
 
 alias l='exa'
 
+alias v='nvim'
+alias gvim='nvim --remote-silent'
 alias air='~/.air'

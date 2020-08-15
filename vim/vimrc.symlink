@@ -1,377 +1,316 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Encoding
+set encoding=utf-8
 
-if exists('g:loaded_sensible') || &compatible
-  finish
-else
-  let g:loaded_sensible = 'yes'
-endif
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-commentary'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tpope/vim-surround'
+Plug 'mattn/emmet-vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'joshdick/onedark.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'sheerun/vim-polyglot'
+call plug#end()
 
-if has('autocmd')
-  filetype plugin indent on
-endif
-if has('syntax') && !exists('g:syntax_on')
-  syntax enable
-endif
+" disable compatibility to old-time vi
+set nocompatible
 
-" Leader
-let mapleader = " "
-
-set backspace=2   " Backspace deletes like most programs in insert mode
-set nobackup
-set nowritebackup
-set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-set history=50
-set ruler         " show the cursor position all the time
-set showcmd       " display incomplete commands
-set incsearch     " do incremental searching
-set laststatus=2  " Always display the status line
-set autowrite     " Automatically :write before running commands
-
-" Make it obvious where 80 characters is
-set textwidth=80
-set colorcolumn=+1
-set encoding=UTF-8
-set hidden
-
-" Numbers
-set number relativenumber
-set numberwidth=5
-
-" load filetype-specific indent files
-filetype indent on
+" show matching brackets.
 set showmatch
 
-set autoindent
-set backspace=indent,eol,start
-set complete-=i
-set smarttab
+" case insensitive matching
+set ignorecase
 
-" Softtabs, 2 spaces
+" highlight search results
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set showmatch
+
+" number of columns occupied by a tab character
 set tabstop=4
-set shiftwidth=4
-set shiftround
+
+" see multiple spaces as tabstops so <BS> does the right thing
+set softtabstop=4
+
+" converts tabs to white space
 set expandtab
+
+" width for autoindents
+set shiftwidth=4
+
+" indent a new line the same amount as the line just typed
+set autoindent
+
+" add line numbers
+set number
+
+" get bash-like tab completions
+set wildmode=longest,list
 
 " Use one space, not two, after punctuation.
 set nojoinspaces
 
-set nrformats-=octal
+" set an 80 column border for good coding style
+set cc=80
 
-if !has('nvim') && &ttimeoutlen == -1
-  set ttimeout
-  set ttimeoutlen=100
-endif
+" Whitespace
+set wrap
+set textwidth=80
+set colorcolumn=+1
+set formatoptions=tcqrn1
+set expandtab
+set noshiftround
 
-set incsearch
-set hlsearch
-" Use <C-L> to clear the highlighting of :set hlsearch.
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
+" Show current line number
+set number
+set numberwidth=5
 
-set laststatus=2
+set history=50
+
+" show the cursor position all the time
 set ruler
-set wildmenu
 
-if !&scrolloff
-  set scrolloff=1
-endif
-if !&sidescrolloff
-  set sidescrolloff=5
-endif
-set display+=lastline
+" Automatically :write before running commands
+set autowrite
 
-if &encoding ==# 'latin1' && has('gui_running')
-  set encoding=utf-8
-endif
+" Show relative line numbers
+set relativenumber
 
-if &listchars ==# 'eol:$'
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
+" allows auto-indenting depending on file type
+filetype plugin indent on
 
-if v:version > 703 || v:version == 703 && has("patch541")
-  set formatoptions+=j " Delete comment character when joining commented lines
-endif
+" Blink cursor on error instead of beeping (grr)
+set visualbell
 
-if has('path_extra')
-  setglobal tags-=./tags tags-=./tags; tags^=./tags;
-endif
+" Disable modelines as a security precaution
+set modelines=0
+set nomodeline
 
-if &shell =~# 'fish$' && (v:version < 704 || v:version == 704 && !has('patch276'))
-  set shell=/bin/bash
+" Backspace deletes like most programs in insert mode
+set backspace=2
+
+" Autocomplete with dictionary words when spell check is on
+set complete+=kspell
+
+" syntax highlighting
+if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+  syntax on
 endif
 
-set autoread
+set termguicolors
 
-if &history < 1000
-  set history=1000
-endif
-if &tabpagemax < 50
-  set tabpagemax=50
-endif
-if !empty(&viminfo)
-  set viminfo^=!
-endif
-set sessionoptions-=options
-
-" Allow color schemes to do bright colors without forcing bold.
-if &t_Co == 8 && $TERM !~# '^linux\|^Eterm'
-  set t_Co=16
-endif
-
-" Load matchit.vim, but only if the user hasn't installed a newer version.
-if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
-  runtime! macros/matchit.vim
-endif
-
-inoremap <C-U> <C-G>u<C-U>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VimPlug
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-call plug#begin('~/.vim/plugged')
-
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tpope/vim-fugitive'
-Plug 'joshdick/onedark.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'sheerun/vim-polyglot'
-Plug 'mattn/emmet-vim'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'vim-scripts/mru.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'amix/vim-zenroom2'
-Plug 'junegunn/limelight.vim'
-Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'tpope/vim-surround'
-Plug 'easymotion/vim-easymotion'
-Plug 'scrooloose/nerdcommenter'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'itchyny/lightline.vim'
-Plug 'w0rp/ale'
-Plug 'mileszs/ack.vim'
-Plug 'skywind3000/asyncrun.vim'
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-endif
-
-call plug#end()
-
-let g:deoplete#enable_at_startup = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Fast editing and reloading of vimrc configs
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-map <leader>e :e! ~/.vim_runtime/my_configs.vim<cr>
-autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Turn persistent undo on
-" means that you can undo even when you close a buffer/VIM
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-try
-    set undodir=~/.vim_runtime/temp_dirs/undodir
-    set undofile
-catch
-endtry
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:NERDTreeWinSize=35
-let NERDTreeShowHidden=0
-let NERDTreeIgnore = ['\.pyc$', '__pycache__', '\.DS_Store', '\~$', '\.swp']
-map <leader>n :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark<Space>
-map <leader>j :NERDTreeFind<cr>
-
-" Auto start NERD tree when opening a directory
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | wincmd p | endif
-
-" Auto start NERD tree if no files are specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | exe 'NERDTree' | endif
-
-" Let quit work as expected if after entering :q the only window left open is NERD Tree itself
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-multiple-cursors
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:multi_cursor_next_key="\<C-s>"
-
-" Change colour scheme to onedark
-syntax on
 colorscheme onedark
-let g:onedark_termcolors=16
-let g:onedark_terminal_italics=1
-if has('nvim-0.1.5')
-    set termguicolors
+
+" Leader
+let g:mapleader = ','
+
+" Treat <li> and <p> tags like the block tags they are
+let g:html_indent_tags = 'li\|p'
+
+" User Silver Searcher for FZF
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+
+nnoremap <silent> <leader>f :FZF<cr>
+nnoremap <silent> <leader>F :FZF ~<cr>
+nnoremap <leader>s :set invspell<CR>
+inoremap jj <Esc>
+inoremap <silent><expr> <c-space> coc#refresh()
+nmap <buffer> <leader>gd <Plug>(coc-definition)
+nmap <buffer> <leader>gr <Plug>(coc-references)
+nnoremap <C-T> :Files<cr>
+nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>s :BLines<cr>
+nnoremap <leader>s :w<cr>
+inoremap <leader>s <C-c>:w<cr>
+nnoremap <leader>z :wq<cr>
+noremap <leader>q :q<cr>
+nnoremap U <C-R> # redo
+nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
+nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+
+" Insert newline without entering insert mode
+nmap <S-Enter> O<Esc>
+nmap <CR> o<Esc>
+
+" Get off my lawn
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+" Run commands that require an interactive shell
+nnoremap <Leader>r :RunInInteractiveShell<Space>
+
+" Move between linting errors
+nnoremap ]r :ALENextWrap<CR>
+nnoremap [r :ALEPreviousWrap<CR>
+
+" Exit terminal
+tnoremap <Esc> <C-\><C-n>
+"""""""""
+" coc.vim
+"""""""""
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+" Always use vertical diffs
+set diffopt+=vertical
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
 endif
-" Fast saving
-nmap <leader>w :w!<cr>
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vimroom
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:goyo_width=64
-let g:goyo_margin_top = 2
-let g:goyo_margin_bottom = 2
-nnoremap <silent> <leader>z :Goyo<cr>
-autocmd! User GoyoEnter Limelight0.7
-autocmd! User GoyoLeave Limelight!
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" This keeps the spell suggestion window from taking over the whole screen and shows the top fifteen options
-set spellsuggest=15
-
-" Makes sure lines break on whole words, not in the middle of a word when it meets the screen edge
-set linebreak
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Git gutter (Git diff)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:gitgutter_enabled=0
-nnoremap <silent> <leader>d :GitGutterToggle<cr>
-set signcolumn=yes
-
-""""""""""""""""""""""""""""""
-" => Python section
-""""""""""""""""""""""""""""""
-
-let python_highlight_all = 1
-au FileType python syn keyword pythonDecorator True None False self
-
-au BufNewFile,BufRead *.jinja set syntax=htmljinja
-au BufNewFile,BufRead *.mako set ft=mako
-
-au FileType python map <buffer> F :set foldmethod=indent<cr>
-
-au FileType python inoremap <buffer> $r return
-au FileType python inoremap <buffer> $i import
-au FileType python inoremap <buffer> $p print
-au FileType python inoremap <buffer> $f # --- <esc>a
-au FileType python map <buffer> <leader>1 /class
-au FileType python map <buffer> <leader>2 /def
-au FileType python map <buffer> <leader>C ?class
-au FileType python map <buffer> <leader>D ?def
-au FileType python set cindent
-au FileType python set cinkeys-=0#
-au FileType python set indentkeys-=0#
-
-""""""""""""""""""""""""""""""
-" => JavaScript section
-"""""""""""""""""""""""""""""""
-
-au FileType javascript call JavaScriptFold()
-au FileType javascript setl fen
-au FileType javascript setl nocindent
-
-au FileType javascript imap <c-t> $log();<esc>hi
-au FileType javascript imap <c-a> alert();<esc>hi
-
-au FileType javascript inoremap <buffer> $r return
-au FileType javascript inoremap <buffer> $f // --- PH<esc>FP2xi
-
-function! JavaScriptFold()
-    setl foldmethod=syntax
-    setl foldlevelstart=1
-    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
-
-    function! FoldText()
-        return substitute(getline(v:foldstart), '{.*', '{...}', '')
-    endfunction
-    setl foldtext=FoldText()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-""""""""""""""""""""""""""""""
-" => Twig section
-""""""""""""""""""""""""""""""
-
-autocmd BufRead *.twig set syntax=html filetype=html
-
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
-
-let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
-
-""""""""""""""""""""""""""""""
-" => YankStack
-""""""""""""""""""""""""""""""
-
-let g:yankstack_yank_keys = ['y', 'd']
-
-nmap <c-p> <Plug>yankstack_substitute_older_paste
-nmap <c-n> <Plug>yankstack_substitute_newer_paste
-
-""""""""""""""""""""""""""""""
-" => Emmet
-""""""""""""""""""""""""""""""
-
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-
-""""""""""""""""""""""""""""""
-" => Fzf
-""""""""""""""""""""""""""""""
-
-nmap ; :Buffers<CR>
-nmap <Leader>t :Files<CR>
-nmap <Leader>r :Tags<CR>
-
-""""""""""""""""""""""""""""""
-" => Lightline
-""""""""""""""""""""""""""""""
-
-let g:lightline = {
-  \ 'colorscheme': 'onedark',
-  \ }
-
-""""""""""""""""""""""""""""""
-" => Ack/Silver Searcher
-""""""""""""""""""""""""""""""
-
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag --literal --files-with-matches --nocolor --hidden -g "" %s'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-
-  if !exists(":Ag")
-    command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-    nnoremap \ :Ag<SPACE>
-  endif
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-""""""""""""""""""""""""""""""
-" => AsyncRun
-""""""""""""""""""""""""""""""
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 
-autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-""""""""""""""""""""""""""""""
-" => Ale
-""""""""""""""""""""""""""""""
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-let g:ale_sign_error = '●' " Less aggressive than the default '>>'
-let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of LS, ex: coc-tsserver
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
