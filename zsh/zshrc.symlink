@@ -144,3 +144,6 @@ gpp() {
 }
 
 alias gprod="npp && gpp"
+export PATH="/usr/local/opt/sqlite/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -3,10 +3,9 @@
   "eslint.packageManager": "npm",
   "eslint.autoFixOnSave": true,
   "eslint.run": "onSave",
+  "coc.source.word.filetypes": ["text", "markdown"],
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
-    "markdown",
-    "Markdown",
     "javascript",
     "javascriptreact",
     "typescript",

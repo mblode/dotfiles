@@ -4,13 +4,19 @@ set encoding=utf-8
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mileszs/ack.vim'
+" Plug 'terryma/vim-multiple-cursors'
+Plug 'airblade/vim-gitgutter'
+Plug 'itchyny/lightline.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 call plug#end()
 
 " disable compatibility to old-time vi
@@ -53,12 +59,11 @@ set wildmode=longest,list
 " Use one space, not two, after punctuation.
 set nojoinspaces
 
-" set an 80 column border for good coding style
+" set an 120 column border for good coding style
 set cc=80
 
 " Whitespace
 set wrap
-set textwidth=80
 set colorcolumn=+1
 set formatoptions=tcqrn1
 set expandtab
@@ -110,11 +115,14 @@ let g:mapleader = ','
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
-" User Silver Searcher for FZF
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+" Markdown
+let g:vim_markdown_folding_disabled = 1
 
-nnoremap <silent> <leader>f :FZF<cr>
-nnoremap <silent> <leader>F :FZF ~<cr>
+set rtp+=~/.fzf
+set rtp+=/usr/local/opt/fzf
+
+nnoremap <silent> <leader>f :Rg<cr>
+nnoremap <silent> <leader>F :Rg ~<cr>
 nnoremap <leader>s :set invspell<CR>
 inoremap jj <Esc>
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -130,6 +138,13 @@ noremap <leader>q :q<cr>
 nnoremap U <C-R> # redo
 nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+vmap <leader>y "+y
+vmap <leader>d "+d
+nmap <leader>p "+p
+nmap <leader>P "+P
+vmap <leader>p "+p
+vmap <leader>P "+P
+map <C-b> :NERDTreeToggle<CR>
 
 " Insert newline without entering insert mode
 nmap <S-Enter> O<Esc>
@@ -150,6 +165,43 @@ nnoremap [r :ALEPreviousWrap<CR>
 
 " Exit terminal
 tnoremap <Esc> <C-\><C-n>
+
+"""""""""""""""
+" lightline.vim
+"""""""""""""""
+
+let g:lightline = {'colorscheme': 'onedark'}
+
+"""""""""
+" ack.vim
+"""""""""
+
+" ack.vim --- {{{
+
+" Use ripgrep for searching ⚡️
+" Options include:
+" --vimgrep -> Needed to parse the rg response properly for ack.vim
+" --type-not sql -> Avoid huge sql file dumps as it slows down the search
+" --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
+let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
+
+" Auto close the Quickfix list after pressing '<enter>' on a list item
+let g:ack_autoclose = 1
+
+" Any empty ack search will search for the work the cursor is on
+let g:ack_use_cword_for_empty_search = 1
+
+" Don't jump to first match
+cnoreabbrev Ack Ack!
+
+" Maps <leader>/ so we're ready to type the search keyword
+nnoremap <Leader>/ :Ack!<Space>
+" }}}
+
+" Navigate quickfix list with ease
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]q :cnext<CR>
+
 """""""""
 " coc.vim
 """""""""
