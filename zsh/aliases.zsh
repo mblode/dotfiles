@@ -51,7 +51,4 @@ alias path='echo -e ${PATH//:/\\n}'
 alias l='exa'
 
 alias v='nvim'
-alias gvim='nvim --remote-silent'
 alias air='~/.air'
-alias mutt='neomutt'
-alias fzfi='rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git}" | fz`

@@ -1,15 +1,20 @@
 {
-  "eslint.options": {"configFile": "/Users/mblode/.eslintrc"},
-  "eslint.packageManager": "npm",
-  "eslint.autoFixOnSave": true,
-  "eslint.run": "onSave",
-  "coc.source.word.filetypes": ["text", "markdown"],
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ]
+    "eslint.options": { "configFile": "/Users/mblode/.eslintrc" },
+    "eslint.packageManager": "npm",
+    "eslint.autoFixOnSave": true,
+    "eslint.run": "onSave",
+    "prettier.tabWidth": 2,
+    "prettier.jsxBracketSameLine": true,
+    "prettier.jsxSingleQuote": true,
+    "prettier.printWidth": 120,
+    "prettier.singleQuote": true,
+    "prettier.vueIndentScriptAndStyle": true,
+    "coc.source.word.filetypes": ["text", "markdown"],
+    "coc.preferences.formatOnSaveFiletypes": [
+        "css",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ]
 }
-
