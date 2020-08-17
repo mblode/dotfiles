@@ -1,16 +1,10 @@
 # Antibody Plugins
 
-# This block is in alphabetic order
 djui/alias-tips
-mafredri/zsh-async
 rupa/z
-sindresorhus/pretty-time-zsh
-Tarrasch/zsh-bd
+mafredri/zsh-async
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
-zsh-users/zsh-apple-touchbar
-Tarrasch/zsh-bd
-wting/autojump
 
 # These should be last
 sindresorhus/pure

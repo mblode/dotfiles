@@ -3,7 +3,7 @@
     "eslint.packageManager": "npm",
     "eslint.autoFixOnSave": true,
     "eslint.run": "onSave",
-    "prettier.tabWidth": 2,
+    "prettier.tabWidth": 4,
     "prettier.jsxBracketSameLine": true,
     "prettier.jsxSingleQuote": true,
     "prettier.printWidth": 120,
