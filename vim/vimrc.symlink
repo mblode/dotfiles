@@ -18,6 +18,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+Plug 'takac/vim-hardtime'
 call plug#end()
 
 " disable compatibility to old-time vi
@@ -410,3 +411,15 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+""""""""""""""
+" vim-hardtime
+""""""""""""""
+
+let g:hardtime_default_on = 1
+
+"""""""""""""
+" emmet
+"""""""""""""
+
+let g:user_emmet_mode='a'
