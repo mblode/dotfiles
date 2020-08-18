@@ -1,14 +1,12 @@
-" Encoding
-set encoding=utf-8
-
 call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
@@ -16,13 +14,13 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'joshdick/onedark.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
 Plug 'takac/vim-hardtime'
 call plug#end()
 
-" disable compatibility to old-time vi
-set nocompatible
+" auto reload vimrc on save
+if has("autocmd")
+    autocmd bufwritepost vimrc.symlink source $MYVIMRC
+endif
 
 " show matching brackets.
 set showmatch
@@ -32,10 +30,9 @@ set ignorecase
 
 " highlight search results
 set hlsearch
-set incsearch
-set ignorecase
+
+" use case if any caps used
 set smartcase
-set showmatch
 
 " number of columns occupied by a tab character
 set tabstop=4
@@ -48,9 +45,6 @@ set expandtab
 
 " width for autoindents
 set shiftwidth=4
-
-" indent a new line the same amount as the line just typed
-set autoindent
 
 " add line numbers
 set number
@@ -75,11 +69,6 @@ set noshiftround
 set number
 set numberwidth=5
 
-set history=50
-
-" show the cursor position all the time
-set ruler
-
 " Automatically :write before running commands
 set autowrite
 
@@ -96,16 +85,8 @@ set visualbell
 set modelines=0
 set nomodeline
 
-" Backspace deletes like most programs in insert mode
-set backspace=2
-
 " Autocomplete with dictionary words when spell check is on
 set complete+=kspell
-
-" syntax highlighting
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-endif
 
 set termguicolors
 
@@ -119,53 +100,7 @@ let g:html_indent_tags = 'li\|p'
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1
-
-set rtp+=~/.fzf
-set rtp+=/usr/local/opt/fzf
-
-if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  set grepprg=rg\ --vimgrep
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-endif
-
-" Files 
-" Files + devicons
-function! Fzf_dev()
-  let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always {2..-1} | head -'.&lines.'"'
-
-  function! s:files()
-    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
-    return s:prepend_icon(l:files)
-  endfunction
-
-  function! s:prepend_icon(candidates)
-    let l:result = []
-    for l:candidate in a:candidates
-      let l:filename = fnamemodify(l:candidate, ':p:t')
-      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-      call add(l:result, printf('%s %s', l:icon, l:candidate))
-    endfor
-
-    return l:result
-  endfunction
-
-  function! s:edit_file(item)
-    let l:pos = stridx(a:item, ' ')
-    let l:file_path = a:item[pos+1:-1]
-    execute 'silent e' l:file_path
-  endfunction
-
-  call fzf#run({
-        \ 'source': <sid>files(),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '40%' })
-endfunction
-
 nnoremap \ :Rg<Cr>
-nnoremap <silent> <leader>f :call Fzf_dev()<CR> 
-nnoremap <silent> <leader>F :call Fzf_dev()<CR>
 nnoremap <leader>s :set invspell<CR>
 inoremap jj <Esc>
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -173,6 +108,7 @@ nmap <buffer> <leader>gd <Plug>(coc-definition)
 nmap <buffer> <leader>gr <Plug>(coc-references)
 nnoremap <C-T> :Files<cr>
 nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>h :History<cr>
 nnoremap <Leader>s :BLines<cr>
 nnoremap <leader>s :w<cr>
 inoremap <leader>s <C-c>:w<cr>
@@ -187,7 +123,9 @@ nmap <leader>p "+p
 nmap <leader>P "+P
 vmap <leader>p "+p
 vmap <leader>P "+P
-map <C-b> :NERDTreeToggle<CR>
+
+" edit vimrc
+nmap <leader>v :tabedit ~/.vimrc<Cr>
 
 " Insert newline without entering insert mode
 nmap <S-Enter> O<Esc>
@@ -214,36 +152,6 @@ tnoremap <Esc> <C-\><C-n>
 """""""""""""""
 
 let g:lightline = {'colorscheme': 'onedark'}
-
-"""""""""
-" ack.vim
-"""""""""
-
-" ack.vim --- {{{
-
-" Use ripgrep for searching ⚡️
-" Options include:
-" --vimgrep -> Needed to parse the rg response properly for ack.vim
-" --type-not sql -> Avoid huge sql file dumps as it slows down the search
-" --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
-let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
-
-" Auto close the Quickfix list after pressing '<enter>' on a list item
-let g:ack_autoclose = 1
-
-" Any empty ack search will search for the work the cursor is on
-let g:ack_use_cword_for_empty_search = 1
-
-" Don't jump to first match
-cnoreabbrev Ack Ack!
-
-" Maps <leader>/ so we're ready to type the search keyword
-nnoremap <Leader>/ :Ack!<Space>
-" }}}
-
-" Navigate quickfix list with ease
-nnoremap <silent> [q :cprevious<CR>
-nnoremap <silent> ]q :cnext<CR>
 
 """""""""
 " coc.vim
@@ -423,3 +331,55 @@ let g:hardtime_default_on = 1
 """""""""""""
 
 let g:user_emmet_mode='a'
+
+"""""""""""""""""
+" FZF and ripgrep
+"""""""""""""""""
+
+set rtp+=~/.fzf
+set rtp+=/usr/local/opt/fzf
+
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+endif
+
+" Files
+" Files + devicons
+function! Fzf_dev()
+  let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always {2..-1} | head -'.&lines.'"'
+
+  function! s:files()
+    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+    return s:prepend_icon(l:files)
+  endfunction
+
+  function! s:prepend_icon(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      let l:filename = fnamemodify(l:candidate, ':p:t')
+      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+      call add(l:result, printf('%s %s', l:icon, l:candidate))
+    endfor
+
+    return l:result
+  endfunction
+
+  function! s:edit_file(item)
+    let l:pos = stridx(a:item, ' ')
+    let l:file_path = a:item[pos+1:-1]
+    execute 'silent e' l:file_path
+  endfunction
+
+  call fzf#run({
+        \ 'source': <sid>files(),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m ' . l:fzf_files_options,
+        \ 'down':    '40%' })
+endfunction
+
+nnoremap <silent> <leader>f :call Fzf_dev()<CR>
+nnoremap <silent> <leader>F :call Fzf_dev()<CR>
+
+

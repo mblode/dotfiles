@@ -7,3 +7,11 @@ set -g history-limit 10000
 # Customize the status line
 set -g status-fg  green
 set -g status-bg  black
+
+# remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+# Start window numbering at 1
+set -g base-index 1
