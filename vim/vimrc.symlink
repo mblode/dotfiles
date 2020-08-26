@@ -1,5 +1,8 @@
 call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -8,13 +11,16 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
+Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'takac/vim-hardtime'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tmhedberg/matchit'
+Plug 'junegunn/goyo.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'psliwka/vim-smoothie'
 call plug#end()
 
 " auto reload vimrc on save
@@ -67,7 +73,7 @@ set noshiftround
 
 " Show current line number
 set number
-set numberwidth=5
+set numberwidth=4
 
 " Automatically :write before running commands
 set autowrite
@@ -81,6 +87,9 @@ filetype plugin indent on
 " Blink cursor on error instead of beeping (grr)
 set visualbell
 
+" set nvim provider for python3
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 " Disable modelines as a security precaution
 set modelines=0
 set nomodeline
@@ -90,33 +99,44 @@ set complete+=kspell
 
 set termguicolors
 
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+    if (has("nvim"))
+        "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+        let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    endif
+    "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+    "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+    " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+    if (has("termguicolors"))
+        set termguicolors
+    endif
+endif
+
+syntax on
 colorscheme onedark
+let g:onedark_terminal_italics = 1
 
 " Leader
 let g:mapleader = ','
 
+" remove netrw banner
+let g:netrw_banner = 0
+
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
-" Markdown
-let g:vim_markdown_folding_disabled = 1
-nnoremap \ :Rg<Cr>
-nnoremap <leader>s :set invspell<CR>
 inoremap jj <Esc>
-inoremap <silent><expr> <c-space> coc#refresh()
 nmap <buffer> <leader>gd <Plug>(coc-definition)
 nmap <buffer> <leader>gr <Plug>(coc-references)
-nnoremap <C-T> :Files<cr>
 nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>h :History<cr>
 nnoremap <Leader>s :BLines<cr>
-nnoremap <leader>s :w<cr>
-inoremap <leader>s <C-c>:w<cr>
 nnoremap <leader>z :wq<cr>
 noremap <leader>q :q<cr>
-nnoremap U <C-R> # redo
-nnoremap <Leader>x /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
-nnoremap <Leader>X ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+inoremap <leader>s <C-c>:w<cr>
 vmap <leader>y "+y
 vmap <leader>d "+d
 nmap <leader>p "+p
@@ -127,31 +147,11 @@ vmap <leader>P "+P
 " edit vimrc
 nmap <leader>v :tabedit ~/.vimrc<Cr>
 
-" Insert newline without entering insert mode
-nmap <S-Enter> O<Esc>
-nmap <CR> o<Esc>
-
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
-
-" Run commands that require an interactive shell
-nnoremap <Leader>r :RunInInteractiveShell<Space>
-
-" Move between linting errors
-nnoremap ]r :ALENextWrap<CR>
-nnoremap [r :ALEPreviousWrap<CR>
-
-" Exit terminal
-tnoremap <Esc> <C-\><C-n>
-
-"""""""""""""""
-" lightline.vim
-"""""""""""""""
-
-let g:lightline = {'colorscheme': 'onedark'}
 
 """""""""
 " coc.vim
@@ -186,40 +186,40 @@ set shortmess+=c
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
+    " Recently vim can merge signcolumn and number column into one
+    set signcolumn=number
 else
-  set signcolumn=yes
+    set signcolumn=yes
 endif
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1] =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+    inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+    inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
 " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
 if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
 " Use `[g` and `]g` to navigate diagnostics
@@ -237,11 +237,11 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
@@ -250,27 +250,24 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
-" Formatting selected code.
-" xmap <leader>f  <Plug>(coc-format-selected)
-" nmap <leader>f  <Plug>(coc-format-selected)
-
 augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+xmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>ac <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>qf <Plug>(coc-fix-current)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -292,10 +289,10 @@ xmap <silent> <C-s> <Plug>(coc-range-select)
 command! -nargs=0 Format :call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -304,21 +301,21 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <space>a :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <space>e :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <space>c :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <space>o :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <space>s :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR>
 
 """"""""""""""
 " vim-hardtime
@@ -340,46 +337,83 @@ set rtp+=~/.fzf
 set rtp+=/usr/local/opt/fzf
 
 if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  set grepprg=rg\ --vimgrep
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+    let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+
+    " use ripgrep for grep command
+    set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+    command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 
-" Files
 " Files + devicons
 function! Fzf_dev()
-  let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always {2..-1} | head -'.&lines.'"'
+    let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always {2..-1} | head -'.&lines.'"'
 
-  function! s:files()
-    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
-    return s:prepend_icon(l:files)
-  endfunction
+    function! s:files()
+        let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+        return s:prepend_icon(l:files)
+    endfunction
 
-  function! s:prepend_icon(candidates)
-    let l:result = []
-    for l:candidate in a:candidates
-      let l:filename = fnamemodify(l:candidate, ':p:t')
-      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-      call add(l:result, printf('%s %s', l:icon, l:candidate))
-    endfor
+    function! s:prepend_icon(candidates)
+        let l:result = []
+        for l:candidate in a:candidates
+            let l:filename = fnamemodify(l:candidate, ':p:t')
+            let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+            call add(l:result, printf('%s %s', l:icon, l:candidate))
+        endfor
 
-    return l:result
-  endfunction
+        return l:result
+    endfunction
 
-  function! s:edit_file(item)
-    let l:pos = stridx(a:item, ' ')
-    let l:file_path = a:item[pos+1:-1]
-    execute 'silent e' l:file_path
-  endfunction
+    function! s:edit_file(item)
+        let l:pos = stridx(a:item, ' ')
+        let l:file_path = a:item[pos+1:-1]
+        execute 'silent e' l:file_path
+    endfunction
 
-  call fzf#run({
+    call fzf#run({
         \ 'source': <sid>files(),
-        \ 'sink':   function('s:edit_file'),
+        \ 'sink': function('s:edit_file'),
         \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '40%' })
+        \ 'down': '40%' })
 endfunction
 
 nnoremap <silent> <leader>f :call Fzf_dev()<CR>
 nnoremap <silent> <leader>F :call Fzf_dev()<CR>
 
+""""""""""
+" GOYO.vim
+""""""""""
 
+let g:goyo_linenr = 1
+
+"""""""
+" NETRW
+"""""""
+
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+
+""""""""""""""""
+" Lightline.vim
+""""""""""""""""
+
+let g:lightline = {
+  \ 'colorscheme': 'onedark',
+  \ }
+
+""""""""""""
+" ragtag.vim
+""""""""""""
+
+inoremap <M-o> <Esc>o
+inoremap <C-j> <Down>
+let g:ragtag_global_maps = 1
+
+"""""""""""
+" NERDTree
+"""""""""""
+
+" enable line numbers
+let NERDTreeShowLineNumbers=1
+
+" make sure relative line numbers are used
+autocmd FileType nerdtree setlocal relativenumber
