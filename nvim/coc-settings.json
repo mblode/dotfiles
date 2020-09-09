@@ -8,13 +8,30 @@
     "prettier.jsxSingleQuote": true,
     "prettier.printWidth": 120,
     "prettier.singleQuote": true,
-    "prettier.vueIndentScriptAndStyle": true,
-    "coc.source.word.filetypes": ["text", "markdown"],
     "coc.preferences.formatOnSaveFiletypes": [
         "css",
         "javascript",
         "javascriptreact",
         "typescript",
         "typescriptreact"
-    ]
+    ],
+    "stylelintplus.config": {
+        "extends": "stylelint-config-standard",
+        "rules": {
+            "at-rule-no-unknown": [ true, {
+                "ignoreAtRules": [
+                    "extends",
+                    "apply",
+                    "tailwind",
+                    "components",
+                    "utilities",
+                    "screen"
+                ]
+            }]
+        }
+    },
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false,
+    "wxss.validate": false
 }

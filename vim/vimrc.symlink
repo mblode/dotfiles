@@ -1,3 +1,6 @@
+" Leader
+let g:mapleader = ','
+
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-repeat'
@@ -11,22 +14,23 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-fugitive'
-Plug 'ryanoasis/vim-devicons'
 Plug 'majutsushi/tagbar'
+Plug 'ryanoasis/vim-devicons'
 Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'takac/vim-hardtime'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tmhedberg/matchit'
 Plug 'junegunn/goyo.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'psliwka/vim-smoothie'
+Plug 'justinmk/vim-sneak'
 call plug#end()
 
 " auto reload vimrc on save
 if has("autocmd")
+    autocmd bufwritepost vimrc source $MYVIMRC
     autocmd bufwritepost vimrc.symlink source $MYVIMRC
 endif
+
+autocmd BufNewFile,BufRead *.html set syntax=htmldjango
+autocmd BufNewFile,BufRead *.html set ft=htmldjango
 
 " show matching brackets.
 set showmatch
@@ -119,22 +123,13 @@ syntax on
 colorscheme onedark
 let g:onedark_terminal_italics = 1
 
-" Leader
-let g:mapleader = ','
-
-" remove netrw banner
-let g:netrw_banner = 0
-
-" Treat <li> and <p> tags like the block tags they are
-let g:html_indent_tags = 'li\|p'
 
 inoremap jj <Esc>
 nmap <buffer> <leader>gd <Plug>(coc-definition)
 nmap <buffer> <leader>gr <Plug>(coc-references)
 nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>h :History<cr>
-nnoremap <Leader>s :BLines<cr>
-nnoremap <leader>z :wq<cr>
+nmap <leader>ne :NERDTreeToggle<cr>
 noremap <leader>q :q<cr>
 inoremap <leader>s <C-c>:w<cr>
 vmap <leader>y "+y
@@ -152,6 +147,9 @@ nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 """""""""
 " coc.vim
@@ -317,16 +315,14 @@ nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR>
 
-""""""""""""""
-" vim-hardtime
-""""""""""""""
-
-let g:hardtime_default_on = 1
+let g:coc_node_path = '/usr/local/bin/node'
 
 """""""""""""
 " emmet
 """""""""""""
 
+let g:user_emmet_install_global = 1
+let g:user_emmet_leader_key=','
 let g:user_emmet_mode='a'
 
 """""""""""""""""
@@ -346,51 +342,44 @@ endif
 
 " Files + devicons
 function! Fzf_dev()
-    let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always {2..-1} | head -'.&lines.'"'
+  let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always {2..-1} | head -'.&lines.'"'
 
-    function! s:files()
-        let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
-        return s:prepend_icon(l:files)
-    endfunction
+  function! s:files()
+    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+    return s:prepend_icon(l:files)
+  endfunction
 
-    function! s:prepend_icon(candidates)
-        let l:result = []
-        for l:candidate in a:candidates
-            let l:filename = fnamemodify(l:candidate, ':p:t')
-            let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-            call add(l:result, printf('%s %s', l:icon, l:candidate))
-        endfor
+  function! s:prepend_icon(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      let l:filename = fnamemodify(l:candidate, ':p:t')
+      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+      call add(l:result, printf('%s %s', l:icon, l:candidate))
+    endfor
 
-        return l:result
-    endfunction
+    return l:result
+  endfunction
 
-    function! s:edit_file(item)
-        let l:pos = stridx(a:item, ' ')
-        let l:file_path = a:item[pos+1:-1]
-        execute 'silent e' l:file_path
-    endfunction
+  function! s:edit_file(item)
+    let l:pos = stridx(a:item, ' ')
+    let l:file_path = a:item[pos+1:-1]
+    execute 'silent e' l:file_path
+  endfunction
 
-    call fzf#run({
+  call fzf#run({
         \ 'source': <sid>files(),
-        \ 'sink': function('s:edit_file'),
+        \ 'sink':   function('s:edit_file'),
         \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down': '40%' })
+        \ 'down':    '40%' })
 endfunction
 
 nnoremap <silent> <leader>f :call Fzf_dev()<CR>
-nnoremap <silent> <leader>F :call Fzf_dev()<CR>
 
 """"""""""
 " GOYO.vim
 """"""""""
 
 let g:goyo_linenr = 1
-
-"""""""
-" NETRW
-"""""""
-
-let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 """"""""""""""""
 " Lightline.vim
@@ -399,14 +388,6 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 let g:lightline = {
   \ 'colorscheme': 'onedark',
   \ }
-
-""""""""""""
-" ragtag.vim
-""""""""""""
-
-inoremap <M-o> <Esc>o
-inoremap <C-j> <Down>
-let g:ragtag_global_maps = 1
 
 """""""""""
 " NERDTree

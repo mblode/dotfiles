@@ -67,3 +67,8 @@ alias npc='npm-check --skip-unused -u'
 
 alias python=python3
 alias pip=pip3
+
+# TMUX
+
+alias tma='tmux a -t'
+alias tmn='tmux new -s'
