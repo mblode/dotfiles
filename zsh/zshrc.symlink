@@ -68,6 +68,9 @@ bindkey '^S' history-incremental-search-forward  # Perform forward search in com
 bindkey '^P' history-search-backward             # Go back/search in history (autocomplete)
 bindkey '^N' history-search-forward              # Go forward/search in history (autocomplete)
 
+# vi mode bind jj to enter normal mode
+bindkey "jj" vi-cmd-mode
+
 # Create a new directory and enter it
 function mk() {
   mkdir -p "$@" && cd "$@"
