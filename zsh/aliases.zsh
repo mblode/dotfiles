@@ -63,12 +63,11 @@ alias npp='npm run prod'
 alias npt='npm init -y'
 alias npc='npm-check --skip-unused -u'
 
-# Python
-
-alias python=python3
-alias pip=pip3
-
 # TMUX
 
 alias tma='tmux a -t'
 alias tmn='tmux new -s'
+
+alias vn="cd '$NOTES' && $EDITOR ."
+alias vs="cd '$DOTFILES' && $EDITOR 'vim/vimrc.symlink'"
+alias vj="cd '$NOTES' && $EDITOR vim.md"

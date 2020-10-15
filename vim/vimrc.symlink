@@ -2,28 +2,23 @@
 let g:mapleader = ','
 
 call plug#begin('~/.vim/plugged')
-Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
-Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-abolish'
+Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
-Plug 'tpope/vim-fugitive'
-Plug 'ryanoasis/vim-devicons'
 Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/goyo.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'justinmk/vim-sneak'
-Plug 'vim-scripts/matchit.zip'
-Plug 'airblade/vim-gitgutter'
-Plug 'psliwka/vim-smoothie'
-" Plug 'majutsushi/tagbar'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'scrooloose/nerdtree'
 call plug#end()
 
 " auto reload vimrc on save
@@ -34,6 +29,7 @@ endif
 
 autocmd BufNewFile,BufRead *.html set syntax=htmldjango
 autocmd BufNewFile,BufRead *.html set ft=htmldjango
+autocmd FileType htmldjango setlocal commentstring={#\ %s\ #}
 
 " show matching brackets.
 set showmatch
@@ -59,6 +55,14 @@ set expandtab
 " width for autoindents
 set shiftwidth=4
 
+" auto indent
+set autoindent
+
+" see a live preview of :substitute as you type.
+if (has("nvim"))
+    set inccommand=split
+endif
+
 " add line numbers
 set number
 
@@ -75,7 +79,6 @@ set cc=80
 set wrap
 set colorcolumn=+1
 set formatoptions=tcqrn1
-set expandtab
 set noshiftround
 
 " Show current line number
@@ -101,46 +104,69 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 set modelines=0
 set nomodeline
 
+" Organizing swap files
+set directory^=$HOME/.vim/tmp//
+set backupdir^=$HOME/.vim/backup//
+
 " Autocomplete with dictionary words when spell check is on
 set complete+=kspell
 
-set termguicolors
+syntax on
+let g:one_allow_italics = 1
+colorscheme onedark
 
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-if (empty($TMUX))
-    if (has("nvim"))
-        "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-        let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-    endif
-    "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-    "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-    " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-    if (has("termguicolors"))
+" VIM True colours
+let term_program=$TERM_PROGRAM
+if term_program != 'Apple_Terminal'
+    if exists('+termguicolors')
         set termguicolors
     endif
 endif
 
-syntax on
-colorscheme onedark
-let g:onedark_terminal_italics = 1
-
-
 inoremap jj <Esc>
 nmap <buffer> <leader>gd <Plug>(coc-definition)
 nmap <buffer> <leader>gr <Plug>(coc-references)
+
+nnoremap <Leader>f :Files<cr>
 nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>h :History<cr>
-nnoremap <Leader>vv :Goyo<cr>:set linebreak<cr>:set wrap<cr>:CocDisable<cr>
-nmap <leader>ne :NERDTreeToggle<cr>
 noremap <leader>q :q<cr>
+noremap <leader>w :w<cr>
+
+" Distraction free editing
+nnoremap <Leader>vv :Goyo<cr>:set linebreak<cr>:set wrap<cr>:CocDisable<cr>
+
+" Toggle NERDTree sidebar
+nmap <leader>ne :NERDTreeToggle<cr>
+
+" Skipping lines when wrap is set
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+
 vmap <leader>y "+y
 vmap <leader>d "+d
 nmap <leader>p "+p
 nmap <leader>P "+P
 vmap <leader>p "+p
 vmap <leader>P "+P
+
+" Yanking lines is inconsistent
+nnoremap Y y$
+
+" Accidentally hitting unwanted keys in normal mode
+nnoremap <F1> <nop>
+nnoremap Q <nop>
+nnoremap K <nop>
+
+" use kakoune keybindings for start/end
+nnoremap gl $
+nnoremap gh 0
+
+" Stop accidentally joining lines
+vmap J j
+vmap <leader>j :join
 
 " edit vimrc
 nmap <leader>v :tabedit ~/.vimrc<Cr>
@@ -337,46 +363,10 @@ set rtp+=/usr/local/opt/fzf
 
 if executable('rg')
     let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-
-    " use ripgrep for grep command
-    set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-    command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+    set grepformat^=%f:%l:%c:%m
 endif
 
-" Files + devicons
-function! Fzf_dev()
-  let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always {2..-1} | head -'.&lines.'"'
-
-  function! s:files()
-    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
-    return s:prepend_icon(l:files)
-  endfunction
-
-  function! s:prepend_icon(candidates)
-    let l:result = []
-    for l:candidate in a:candidates
-      let l:filename = fnamemodify(l:candidate, ':p:t')
-      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-      call add(l:result, printf('%s %s', l:icon, l:candidate))
-    endfor
-
-    return l:result
-  endfunction
-
-  function! s:edit_file(item)
-    let l:pos = stridx(a:item, ' ')
-    let l:file_path = a:item[pos+1:-1]
-    execute 'silent e' l:file_path
-  endfunction
-
-  call fzf#run({
-        \ 'source': <sid>files(),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '40%' })
-endfunction
-
-nnoremap <silent> <leader>f :call Fzf_dev()<CR>
 
 """"""""""
 " GOYO.vim
@@ -407,3 +397,10 @@ autocmd FileType nerdtree setlocal relativenumber
 """""""
 
 let g:sneak#label = 1
+
+""""""""""
+" Hardtime
+""""""""""
+
+let g:hardtime_default_on = 1
+

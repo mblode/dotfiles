@@ -1,4 +1,3 @@
-
 # Coc
 
 echo "Installing coc..."
