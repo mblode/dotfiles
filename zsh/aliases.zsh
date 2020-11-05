@@ -38,7 +38,6 @@ alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit -a'
 alias gcam='git commit -a -m'
-alias gs='git status -sb'
 alias gcb='git copy-branch-name'
 
 # Node
@@ -71,3 +70,11 @@ alias tmn='tmux new -s'
 alias vn="cd '$NOTES' && $EDITOR ."
 alias vs="cd '$DOTFILES' && $EDITOR 'vim/vimrc.symlink'"
 alias vj="cd '$NOTES' && $EDITOR vim.md"
+
+mkcdir ()
+{
+    mkdir -p -- "$1" &&
+      cd -P -- "$1"
+}
+
+alias mc='mkcdir'
