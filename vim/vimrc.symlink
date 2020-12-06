@@ -139,6 +139,9 @@ nnoremap <Leader>vv :Goyo<cr>:set linebreak<cr>:set wrap<cr>:CocDisable<cr>
 
 " Toggle NERDTree sidebar
 nmap <leader>ne :NERDTreeToggle<cr>
+"
+" this is the key to jump to the nerdtree window from any other window
+map <leader>nr :NERDTreeFind<cr> 
 
 " Skipping lines when wrap is set
 nnoremap j gj
@@ -405,3 +408,10 @@ let g:sneak#label = 1
 
 let g:hardtime_default_on = 1
 
+""""""
+" Ruby
+""""""
+
+:autocmd Filetype ruby set softtabstop=2
+:autocmd Filetype ruby set sw=2
+:autocmd Filetype ruby set ts=2
