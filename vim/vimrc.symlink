@@ -114,15 +114,15 @@ set complete+=kspell
 
 syntax on
 colorscheme onedark
-let g:onedark_termcolors = 256
+let g:onedark_termcolors=16
 
 " VIM True colours
-let term_program=$TERM_PROGRAM
-if term_program != 'Apple_Terminal'
-    if exists('+termguicolors')
-        set termguicolors
-    endif
-endif
+" let term_program=$TERM_PROGRAM
+" if term_program != 'Apple_Terminal'
+"     if exists('+termguicolors')
+"         set termguicolors
+"     endif
+" endif
 
 inoremap jj <Esc>
 nmap <buffer> <leader>gd <Plug>(coc-definition)
