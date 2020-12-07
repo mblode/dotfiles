@@ -8,8 +8,9 @@ alias ...='cd ../..'
 alias ....='cd ../../../'
 alias c='cd ~/'
 alias d='cd ~/Downloads'
-alias s='cd ~/Sites'
+alias s='cd ~/Code'
 
+alias c='clear'
 alias h='history'
 
 alias rr="rm -rf"
@@ -17,9 +18,7 @@ alias rr="rm -rf"
 # Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update; sudo gem cleanup'
 
-alias l='exa'
-alias v='nvim'
-alias air='~/.air'
+alias v='vim'
 
 # Git
 
@@ -61,6 +60,14 @@ alias npw='npm run watch'
 alias npp='npm run prod'
 alias npt='npm init -y'
 alias npc='npm-check --skip-unused -u'
+
+# LS
+alias ls='exa'
+alias l='exa --group-directories-first'
+alias ll='exa -lg --group-directories-first'
+alias la='exa -lag --group-directories-first'
+alias lm='exa -lgs modified --group-directories-first'
+alias lmr='exa -lgs modified --group-directories-first --reverse'
 
 # TMUX
 

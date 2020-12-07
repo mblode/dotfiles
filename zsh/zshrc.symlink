@@ -10,106 +10,6 @@ _append_to_path() {
   fi
 }
 
-# shortcut to this dotfiles path is $DOTFILES
-export DOTFILES="$HOME/dotfiles"
-export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
-export EDITOR="nvim"
-
-# Stash your environment variables in ~/.localrc. This means they'll stay out
-# of your main dotfiles repository (which may be public, like this one), but
-# you'll have access to them in your scripts.
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
-fi
-
-# all of our zsh files
-typeset -U config_files
-config_files=($DOTFILES/*/*.zsh)
-
-# load the path files
-for file in ${(M)config_files:#*/path.zsh}; do
-  source "$file"
-done
-
-# load antibody plugins
-source <(antibody init)
-source ~/.zsh_plugins.sh
-
-# load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
-  source "$file"
-done
-
-autoload -Uz compinit
-typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
-if [ $(date +'%j') != $updated_at ]; then
-  compinit -i
-else
-  compinit -C -i
-fi
-
-# load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}; do
-  source "$file"
-done
-
-export PATH="/usr/local/bin:$PATH"
-
-unset config_files updated_at
-export PATH="/usr/local/sbin:$PATH"
-
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-
-# Enable Vim mode in ZSH
-bindkey -v
-
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^E' edit-command-line                   # Opens Vim to edit current command line
-bindkey '^R' history-incremental-search-backward # Perform backward search in command line history
-bindkey '^S' history-incremental-search-forward  # Perform forward search in command line history
-bindkey '^P' history-search-backward             # Go back/search in history (autocomplete)
-bindkey '^N' history-search-forward              # Go forward/search in history (autocomplete)
-
-# vi mode bind jj to enter normal mode
-bindkey "jj" vi-cmd-mode
-
-# Create a new directory and enter it
-function mk() {
-  mkdir -p "$@" && cd "$@"
-}
-
-# Better history
-# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search # Up
-bindkey "^[[B" down-line-or-beginning-search # Down
-
-# bind UP and DOWN arrow keys (compatibility fallback
-# for Ubuntu 12.04, Fedora 21, and MacOSX 10.9 users)
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-# bind P and N for EMACS mode
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
-
-# bind k and j for VI mode
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-
-export PATH=$PATH:$HOME/.composer/vendor/bin
-
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-
 gpm() {
     if [ -z "$*" ]
         then
@@ -149,29 +49,99 @@ gpp() {
     git push origin master:production
 }
 
+# Shortcut to this dotfiles path is $DOTFILES
+export DOTFILES="$HOME/dotfiles"
+export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
+export EDITOR="vim"
+
+## djui/alias-tips
+source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
+
+## rupa/z
+source $HOME/.zsh/z/z.sh
+
+## zsh-users/zsh-autosuggestions
+source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+## zsh-users/zsh-completions
+fpath+=($HOME/.zsh/zsh-completions/src $fpath)
+
+## sindresorhus/pure 
+fpath+=$HOME/.zsh/pure
+
+autoload -U promptinit; promptinit
+prompt pure
+
+## zsh-users/zsh-syntax-highlighting 
+source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+## zsh-users/zsh-history-substring-search
+source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+# Stash your environment variables in ~/.localrc. This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi
+
+# All of our zsh files
+typeset -U config_files
+config_files=($DOTFILES/*/*.zsh)
+
+# Load the path files
+for file in ${(M)config_files:#*/path.zsh}; do
+  source "$file"
+done
+
+# Load everything but the path and completion files
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
+  source "$file"
+done
+
+autoload -Uz compinit
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
+
+# Load every completion after autocomplete loads
+for file in ${(M)config_files:#*/completion.zsh}; do
+  source "$file"
+done
+
+# Enable Vim mode in ZSH
+bindkey -v
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^E' edit-command-line                   # Opens Vim to edit current command line
+bindkey '^R' history-incremental-search-backward # Perform backward search in command line history
+bindkey '^S' history-incremental-search-forward  # Perform forward search in command line history
+bindkey '^P' history-search-backward             # Go back/search in history (autocomplete)
+bindkey '^N' history-search-forward              # Go forward/search in history (autocomplete)
+
+# vi mode bind jj to enter normal mode
+bindkey "jj" vi-cmd-mode
+
+
+## Composer
+export PATH=$PATH:$HOME/.composer/vendor/bin
+
+## SQLite
 export PATH="/usr/local/opt/sqlite/bin:$PATH"
 
+## iTerm
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-eval "$(rbenv init -)"
-
+## FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND="rg --files --hidden --fixed-strings"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
-f() {
-	RG_PREFIX="rga --files-with-matches"
-	local file
-	file="$(
-		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
-			fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
-				--phony -q "$1" \
-				--bind "change:reload:$RG_PREFIX {q}" \
-				--preview-window="70%:wrap"
-	)" &&
-	echo "opening $PWD/$file" &&
-    open "$PWD/$file"
-	# nvim "$PWD/$file"
-}
-if [ -e /Users/mblode/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mblode/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+## Ruby
+export PATH="/usr/local/opt/ruby/bin:$PATH"
