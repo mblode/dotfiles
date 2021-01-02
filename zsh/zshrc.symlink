@@ -53,24 +53,16 @@ gpp() {
 export DOTFILES="$HOME/dotfiles"
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
 export EDITOR="vim"
+export TERM=xterm-256color
 
 ## djui/alias-tips
 source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
-
-## rupa/z
-source $HOME/.zsh/z/z.sh
 
 ## zsh-users/zsh-autosuggestions
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 ## zsh-users/zsh-completions
 fpath+=($HOME/.zsh/zsh-completions/src $fpath)
-
-## sindresorhus/pure 
-fpath+=$HOME/.zsh/pure
-
-autoload -U promptinit; promptinit
-prompt pure
 
 ## zsh-users/zsh-syntax-highlighting 
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -101,6 +93,7 @@ for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
 done
 
 autoload -Uz compinit
+
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 if [ $(date +'%j') != $updated_at ]; then
   compinit -i
@@ -127,12 +120,30 @@ bindkey '^N' history-search-forward              # Go forward/search in history 
 # vi mode bind jj to enter normal mode
 bindkey "jj" vi-cmd-mode
 
+# Better history
+# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+# bind UP and DOWN arrow keys (compatibility fallback
+# for Ubuntu 12.04, Fedora 21, and MacOSX 10.9 users)
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# bind P and N for EMACS mode
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+# bind k and j for VI mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 ## Composer
 export PATH=$PATH:$HOME/.composer/vendor/bin
-
-## SQLite
-export PATH="/usr/local/opt/sqlite/bin:$PATH"
 
 ## iTerm
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -143,5 +154,16 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden --fixed-strings"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
+## Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export PATH="/usr/local/sbin:$PATH"
+
+## Starship
+eval "$(starship init zsh)"
+
 ## Ruby
 export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+## FASD
+eval "$(fasd --init posix-alias zsh-hook)"

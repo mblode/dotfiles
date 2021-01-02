@@ -33,5 +33,13 @@
     "css.validate": false,
     "less.validate": false,
     "scss.validate": false,
-    "wxss.validate": false
+    "wxss.validate": false,
+    "languageserver": {
+      "haskell": {
+        "command": "haskell-language-server-wrapper",
+        "args": ["--lsp"],
+        "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+        "filetypes": ["haskell", "lhaskell"]
+      }
+    }
 }

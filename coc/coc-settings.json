@@ -1,15 +1,5 @@
 {
     "suggest.enablePreview": true,
-    "python.jediEnabled": false,
-    "coc.preferences.formatOnType": true,
-    "python.linting.enabled": true,
-    "python.linting.pylintUseMinimalCheckers": false,
-    "python.linting.pylintPath": "pylint",
-    "python.formatting.provider": "black",
-    "eslint.options": { "configFile": "/Users/mblode/.eslintrc" },
-    "eslint.packageManager": "npm",
-    "eslint.autoFixOnSave": true,
-    "eslint.run": "onSave",
     "prettier.tabWidth": 4,
     "prettier.jsxBracketSameLine": true,
     "prettier.jsxSingleQuote": true,
@@ -23,28 +13,5 @@
         "typescript",
         "typescriptreact",
         "python"
-    ],
-    "stylelintplus.config": {
-        "extends": "stylelint-config-standard",
-        "rules": {
-            "at-rule-no-unknown": [ true, {
-                "ignoreAtRules": [
-                    "extends",
-                    "apply",
-                    "tailwind",
-                    "components",
-                    "utilities",
-                    "screen"
-                ]
-            }]
-        }
-    },
-    "css.validate": false,
-    "less.validate": false,
-    "scss.validate": false,
-    "wxss.validate": false,
-    "tailwindCSS.emmetCompletions": true,
-    "python.linting.pylintArgs": [
-        "--load-plugins=pylint_django"
     ]
 }

@@ -113,16 +113,19 @@ set backupdir^=$HOME/.vim/backup//
 set complete+=kspell
 
 syntax on
+let g:onedark_color_overrides = {
+\ "red": {"gui": "#cc685f", "cterm": "204", "cterm16": "1" },
+\}
 colorscheme onedark
-let g:onedark_termcolors=16
+let g:onedark_termcolors=256
 
 " VIM True colours
-" let term_program=$TERM_PROGRAM
-" if term_program != 'Apple_Terminal'
-"     if exists('+termguicolors')
-"         set termguicolors
-"     endif
-" endif
+let term_program=$TERM_PROGRAM
+if term_program != 'Apple_Terminal'
+    if exists('+termguicolors')
+        set termguicolors
+    endif
+endif
 
 inoremap jj <Esc>
 nmap <buffer> <leader>gd <Plug>(coc-definition)
