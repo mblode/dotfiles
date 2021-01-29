@@ -9,7 +9,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mattn/emmet-vim'
@@ -20,6 +20,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
 Plug 'justinmk/vim-sneak'
+Plug 'https://github.com/alok/notational-fzf-vim'
+Plug 'preservim/tagbar'
 call plug#end()
 
 " auto reload vimrc on save
@@ -99,7 +101,7 @@ filetype plugin indent on
 set visualbell
 
 " set nvim provider for python3
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/Users/mblode/.pyenv/shims/python'
 
 " Disable modelines as a security precaution
 set modelines=0
@@ -145,6 +147,8 @@ nmap <leader>ne :NERDTreeToggle<cr>
 "
 " this is the key to jump to the nerdtree window from any other window
 map <leader>nr :NERDTreeFind<cr> 
+
+nmap <leader>nt :TagbarToggle<CR>
 
 " Skipping lines when wrap is set
 nnoremap j gj
@@ -215,6 +219,7 @@ endif
 set updatetime=300
 
 " Don't pass messages to |ins-completion-menu|.
+set shortmess=I
 set shortmess+=c
 
 " Always show the signcolumn, otherwise it would shift the text each time
@@ -418,3 +423,14 @@ let g:hardtime_default_on = 1
 :autocmd Filetype ruby set softtabstop=2
 :autocmd Filetype ruby set sw=2
 :autocmd Filetype ruby set ts=2
+
+"""""""""""""""""""""
+" Notational Velocity
+"""""""""""""""""""""
+
+let g:nv_search_paths = ['~/Google\ Drive/Notes/Simple']
+let g:nv_create_note_window = 'tabedit'
+
+noremap <Leader>n :NV<CR>
+vnoremap <Leader>n <C-C>:NV<CR>
+inoremap <Leader>n <C-O>:NV<CR>

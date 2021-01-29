@@ -69,11 +69,6 @@ alias la='exa -lag --group-directories-first'
 alias lm='exa -lgs modified --group-directories-first'
 alias lmr='exa -lgs modified --group-directories-first --reverse'
 
-# TMUX
-
-alias tma='tmux a -t'
-alias tmn='tmux new -s'
-
 alias vn="cd '$NOTES' && $EDITOR ."
 alias vs="cd '$DOTFILES' && $EDITOR 'vim/vimrc.symlink'"
 alias vj="cd '$NOTES' && $EDITOR vim.md"

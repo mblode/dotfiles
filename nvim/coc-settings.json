@@ -1,8 +1,9 @@
 {
-    "eslint.options": { "configFile": "/Users/mblode/.eslintrc" },
+    /* "eslint.options": { "configFile": "/Users/mblode/.eslintrc" }, */
     "eslint.packageManager": "npm",
     "eslint.autoFixOnSave": true,
     "eslint.run": "onSave",
+    "suggest.enablePreview": true,
     "prettier.tabWidth": 4,
     "prettier.jsxBracketSameLine": true,
     "prettier.jsxSingleQuote": true,
@@ -10,36 +11,29 @@
     "prettier.singleQuote": true,
     "coc.preferences.formatOnSaveFiletypes": [
         "css",
+        "scss",
         "javascript",
+        "json",
         "javascriptreact",
         "typescript",
-        "typescriptreact"
+        "typescriptreact",
+        "python"
     ],
-    "stylelintplus.config": {
-        "extends": "stylelint-config-standard",
+    "stylelint.config": {
+        "extends": ["stylelint-config-standard"],
         "rules": {
-            "at-rule-no-unknown": [ true, {
-                "ignoreAtRules": [
-                    "extends",
-                    "apply",
-                    "tailwind",
-                    "components",
-                    "utilities",
-                    "screen"
-                ]
-            }]
+            "at-rule-no-unknown": [
+                true,
+                {
+                    "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen"]
+                }
+            ],
+            "declaration-block-trailing-semicolon": null,
+            "no-descending-specificity": null
         }
     },
     "css.validate": false,
-    "less.validate": false,
     "scss.validate": false,
-    "wxss.validate": false,
-    "languageserver": {
-      "haskell": {
-        "command": "haskell-language-server-wrapper",
-        "args": ["--lsp"],
-        "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
-        "filetypes": ["haskell", "lhaskell"]
-      }
-    }
+    "less.validate": false,
+    "wxss.validate": false
 }

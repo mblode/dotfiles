@@ -35,3 +35,6 @@ bind-key -T copy-mode-vi 'C-j' select-pane -D
 bind-key -T copy-mode-vi 'C-k' select-pane -U
 bind-key -T copy-mode-vi 'C-l' select-pane -R
 bind-key -T copy-mode-vi 'C-\' select-pane -l
+
+set-option -sg escape-time 10
+set-option -sa terminal-overrides ',xterm-256color:RGB'
