@@ -49,7 +49,7 @@ gpp() {
     git push origin master:production
 }
 
-# Shortcut to this dotfiles path is $DOTFILES
+## Shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/dotfiles"
 export NOTES="$HOME/Google\ Drive/Notes/Simple"
 export EDITOR="nvim"
@@ -63,12 +63,6 @@ source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
 
 ## zsh-users/zsh-autosuggestions
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-## marlonrichert/zsh-autocomplete
-# source $HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-
-## b4b4r07/enhancd
-source $HOME/.zsh/enhancd/init.sh
 
 ## zsh-users/zsh-completions
 fpath+=($HOME/.zsh/zsh-completions/src $fpath)
@@ -91,16 +85,15 @@ fi
 typeset -U config_files
 config_files=($DOTFILES/*/*.zsh)
 
-# Load the path files
+## Load the path files
 for file in ${(M)config_files:#*/path.zsh}; do
-  source "$file"
+    source "$file"
 done
 
-# Load everything but the path and completion files
+## Load everything but the path and completion files
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
-  source "$file"
+    source "$file"
 done
-
 
 # typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 # if [ $(date +'%j') != $updated_at ]; then
@@ -109,12 +102,12 @@ done
 #   compinit -C -i
 # fi
 
-# Load every completion after autocomplete loads
+## Load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}; do
-  source "$file"
+    source "$file"
 done
 
-# Enable Vim mode in ZSH
+## Enable Vim mode in ZSH
 bindkey -v
 
 autoload -U edit-command-line
@@ -125,11 +118,10 @@ bindkey '^S' history-incremental-search-forward  # Perform forward search in com
 bindkey '^P' history-search-backward             # Go back/search in history (autocomplete)
 bindkey '^N' history-search-forward              # Go forward/search in history (autocomplete)
 
-# vi mode bind jj to enter normal mode
+## vi mode bind jj to enter normal mode
 bindkey "jj" vi-cmd-mode
 
-# Better history
-# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
+## Better history
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -137,16 +129,15 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 
-# bind UP and DOWN arrow keys (compatibility fallback
-# for Ubuntu 12.04, Fedora 21, and MacOSX 10.9 users)
+## bind UP and DOWN arrow keys (compatibility fallback
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-# bind P and N for EMACS mode
+## bind P and N for EMACS mode
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 
-# bind k and j for VI mode
+## bind k and j for VI mode
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
@@ -162,13 +153,10 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden --fixed-strings"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
-## Rust
+### Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH="/usr/local/sbin:$PATH"
-
-## Ruby
-export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 ## Starship
 eval "$(starship init zsh)"
@@ -181,10 +169,16 @@ export PATH=$PATH:~/.bin
 
 export cg_clif_dir="$HOME/Code/rust/rustc_codegen_cranelift"
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+    eval "$(pyenv init -)"
 fi
 
-# tab multiplexer configuration: https://github.com/austinjones/tab-rs/
-source "/Users/mblode/Library/Application Support/tab/completion/zsh-history.zsh"
-# end tab configuration
+## Python
+export PATH="$HOME/.poetry/bin:$PATH"
 
+## ASDF
+. /usr/local/opt/asdf/asdf.sh
+
+
+## PHP
+export PATH="/usr/local/opt/php@7.4/bin:$PATH"
+export PATH="/usr/local/opt/php@7.4/sbin:$PATH"

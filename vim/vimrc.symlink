@@ -2,26 +2,28 @@
 let g:mapleader = ','
 
 call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
+Plug 'machakann/vim-sandwich'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mattn/emmet-vim'
 Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/goyo.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
 Plug 'justinmk/vim-sneak'
-Plug 'https://github.com/alok/notational-fzf-vim'
 Plug 'preservim/tagbar'
+Plug 'mileszs/ack.vim'
+Plug 'https://github.com/alok/notational-fzf-vim'
+Plug 'stefandtw/quickfix-reflector.vim'
 call plug#end()
 
 " auto reload vimrc on save
@@ -101,7 +103,7 @@ filetype plugin indent on
 set visualbell
 
 " set nvim provider for python3
-let g:python3_host_prog = '/Users/mblode/.pyenv/shims/python'
+let g:python3_host_prog = '/Users/mblode/.asdf/shims/python'
 
 " Disable modelines as a security precaution
 set modelines=0
@@ -110,9 +112,6 @@ set nomodeline
 " Organizing swap files
 set directory^=$HOME/.vim/tmp//
 set backupdir^=$HOME/.vim/backup//
-
-" Autocomplete with dictionary words when spell check is on
-set complete+=kspell
 
 syntax on
 let g:onedark_color_overrides = {
@@ -130,8 +129,8 @@ if term_program != 'Apple_Terminal'
 endif
 
 inoremap jj <Esc>
-nmap <buffer> <leader>gd <Plug>(coc-definition)
-nmap <buffer> <leader>gr <Plug>(coc-references)
+nmap <buffer> <leader>cd <Plug>(coc-definition)
+nmap <buffer> <leader>ct <Plug>(coc-references)
 
 nnoremap <Leader>f :Files<cr>
 nnoremap <Leader>b :Buffers<cr>
@@ -163,6 +162,8 @@ nmap <leader>P "+P
 vmap <leader>p "+p
 vmap <leader>P "+P
 
+nnoremap <leader>no :noh<CR> 
+
 " Yanking lines is inconsistent
 nnoremap Y y$
 
@@ -188,8 +189,7 @@ nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
-" bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" nnoremap <silent> <Leader>/ :Rg<CR>
 
 """""""""
 " coc.vim
@@ -287,7 +287,11 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>cr <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>cf  <Plug>(coc-format-selected)
+nmap <leader>cf  <Plug>(coc-format-selected)
 
 augroup mygroup
     autocmd!
@@ -300,13 +304,13 @@ augroup end
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
-xmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-selected)
+xmap <leader>ca <Plug>(coc-codeaction-selected)
+nmap <leader>ca <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>cac <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>qf <Plug>(coc-fix-current)
+nmap <leader>cqf <Plug>(coc-fix-current)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -356,7 +360,7 @@ nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR>
 
-let g:coc_node_path = '/usr/local/bin/node'
+let g:coc_node_path = '/Users/mblode/.asdf/shims/node'
 
 """""""""""""
 " emmet
@@ -375,10 +379,11 @@ set rtp+=/usr/local/opt/fzf
 
 if executable('rg')
     let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-    set grepformat^=%f:%l:%c:%m
+    set grepprg=rg\ --vimgrep\ --heading\ --no-heading\ --smart-case\ --follow
 endif
 
+map f <Plug>Sneak_s
+map F <Plug>Sneak_S
 
 """"""""""
 " GOYO.vim
@@ -409,6 +414,8 @@ autocmd FileType nerdtree setlocal relativenumber
 """""""
 
 let g:sneak#label = 1
+map f <Plug>Sneak_s
+map F <Plug>Sneak_S
 
 """"""""""
 " Hardtime
@@ -434,3 +441,26 @@ let g:nv_create_note_window = 'tabedit'
 noremap <Leader>n :NV<CR>
 vnoremap <Leader>n <C-C>:NV<CR>
 inoremap <Leader>n <C-O>:NV<CR>
+
+"""""
+" Ack
+"""""
+
+" Use ripgrep for searching ⚡️
+" Options include:
+" --vimgrep -> Needed to parse the rg response properly for ack.vim
+" --type-not sql -> Avoid huge sql file dumps as it slows down the search
+" --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
+let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
+
+" Auto close the Quickfix list after pressing '<enter>' on a list item
+let g:ack_autoclose = 1
+
+" Any empty ack search will search for the work the cursor is on
+let g:ack_use_cword_for_empty_search = 1
+
+" Don't jump to first match
+cnoreabbrev Ack Ack!
+
+" Maps <leader>/ so we're ready to type the search keyword
+nnoremap <Leader>/ :Ack!<Space>

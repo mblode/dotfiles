@@ -1,8 +1,0 @@
-tap 'homebrew/bundle'
-
-brew 'zsh'
-brew 'git'
-brew 'node'
-brew 'php'
-brew 'composer'
-brew 'python3'
