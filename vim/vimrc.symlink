@@ -360,7 +360,7 @@ nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR>
 
-let g:coc_node_path = '/Users/mblode/.asdf/shims/node'
+let g:coc_node_path = '/usr/local/bin/node'
 
 """""""""""""
 " emmet

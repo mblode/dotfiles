@@ -25,6 +25,7 @@ alias v='nvim'
 alias g='git'
 alias ga='git add -A'
 alias gp='git push'
+alias gup='git push'
 alias gpoh='git push origin HEAD'
 alias gpom='git push origin master'
 alias gl='git pull --prune'
@@ -32,12 +33,18 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C
 
 alias gd='git diff'
 alias gco='git checkout'
+alias gcm='git checkout master'
 alias gb='git branch'
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit -a'
 alias gcam='git commit -a -m'
 alias gcb='git copy-branch-name'
+alias grbm='git rebase master'
+
+# Git for Mr Yum
+
+alias gmy='gcm && gup && gco - && grbm'
 
 # Node
 

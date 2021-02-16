@@ -64,6 +64,12 @@ source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
 ## zsh-users/zsh-autosuggestions
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+## sindresorhus/pure 
+fpath+=$HOME/.zsh/pure
+
+autoload -U promptinit; promptinit
+prompt pure
+
 ## zsh-users/zsh-completions
 fpath+=($HOME/.zsh/zsh-completions/src $fpath)
 
@@ -158,9 +164,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH="/usr/local/sbin:$PATH"
 
-## Starship
-eval "$(starship init zsh)"
-
 ## Zoxide
 eval "$(zoxide init zsh)"
 
@@ -174,11 +177,11 @@ fi
 
 ## Python
 export PATH="$HOME/.poetry/bin:$PATH"
-
-## ASDF
-. /usr/local/opt/asdf/asdf.sh
-
+alias python=/usr/local/bin/python3.9
 
 ## PHP
 export PATH="/usr/local/opt/php@7.4/bin:$PATH"
 export PATH="/usr/local/opt/php@7.4/sbin:$PATH"
+
+## mkcert
+export NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
