@@ -1,0 +1,183 @@
+#!/bin/zsh
+zmodload zsh/zprof
+
+_has() {
+  return $( whence $1 >/dev/null )
+}
+
+_append_to_path() {
+  if [ -d $1 -a -z ${path[(r)$1]} ]; then
+    path=($path $1);
+  fi
+}
+
+gpm() {
+    if [ -z "$*" ]
+        then
+        echo "No args"
+        return 1
+    fi
+
+    git add -A
+    git commit -m "$1"
+    git push origin master
+}
+
+gps() {
+    if [ -z "$*" ]
+        then
+        echo "No args"
+        return 1
+    fi
+
+    git add -A
+    git commit -m "$1"
+    git push origin master
+    git push origin master:staging
+}
+
+gpp() {
+    if [ -z "$*" ]
+        then
+        echo "No args"
+        return 1
+    fi
+
+    git add -A
+    git commit -m "$1"
+    git push origin master
+    git push origin master:staging
+    git push origin master:production
+}
+
+## Shortcut to this dotfiles path is $DOTFILES
+export DOTFILES="$HOME/dotfiles"
+export NOTES="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Matthew Blode"
+export EDITOR="nvim"
+export TERM=xterm-256color
+export NVM_LAZY_LOAD=true
+
+autoload -Uz compinit
+compinit
+
+## djui/alias-tips
+source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
+
+## zsh-users/zsh-autosuggestions
+source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+## sindresorhus/pure
+fpath+=$HOME/.zsh/pure
+
+autoload -U promptinit; promptinit
+prompt pure
+
+## zsh-users/zsh-completions
+fpath+=($HOME/.zsh/zsh-completions/src $fpath)
+
+## zsh-users/zsh-syntax-highlighting
+source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+## zsh-users/zsh-history-substring-search
+source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+## lukechilds/zsh-nvm
+source $HOME/.zsh/zsh-nvm/zsh-nvm.plugin.zsh
+
+# Stash your environment variables in ~/.localrc. This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi
+
+# All of our zsh files
+typeset -U config_files
+config_files=($DOTFILES/*/*.zsh)
+
+## Load the path files
+for file in ${(M)config_files:#*/path.zsh}; do
+    source "$file"
+done
+
+## Load everything but the path and completion files
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
+    source "$file"
+done
+
+## Load every completion after autocomplete loads
+for file in ${(M)config_files:#*/completion.zsh}; do
+    source "$file"
+done
+
+## Enable Vim mode in ZSH
+bindkey -v
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^E' edit-command-line                   # Opens Vim to edit current command line
+bindkey '^R' history-incremental-search-backward # Perform backward search in command line history
+bindkey '^S' history-incremental-search-forward  # Perform forward search in command line history
+bindkey '^P' history-search-backward             # Go back/search in history (autocomplete)
+bindkey '^N' history-search-forward              # Go forward/search in history (autocomplete)
+
+## vi mode bind jj to enter normal mode
+bindkey "jj" vi-cmd-mode
+
+## Better history
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+## bind UP and DOWN arrow keys (compatibility fallback
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+## bind P and N for EMACS mode
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+## bind k and j for VI mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+## iTerm
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+## FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND="rg --files --hidden --fixed-strings"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
+
+### Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export PATH="/usr/local/sbin:$PATH"
+
+## Zoxide
+eval "$(zoxide init zsh)"
+
+## BIN
+export PATH=$PATH:~/.bin
+
+export cg_clif_dir="$HOME/Code/rust/rustc_codegen_cranelift"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+
+## Python
+alias python=/usr/local/bin/python3.9.1
+
+## mkcert
+export NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
+
+export PATH="/usr/local/opt/luajit-openresty/bin:$PATH"
+export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
+
+## Do not track
+export DO_NOT_TRACK=1

@@ -1,0 +1,216 @@
+" Leader
+let g:mapleader = ','
+
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-unimpaired'
+Plug 'machakann/vim-sandwich'
+Plug 'junegunn/goyo.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'justinmk/vim-sneak'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
+" auto reload vimrc on save
+if has("autocmd")
+    autocmd bufwritepost vimrc source $MYVIMRC
+    autocmd bufwritepost vimrc.symlink source $MYVIMRC
+endif
+
+" show matching brackets.
+set showmatch
+
+" case insensitive matching
+set ignorecase
+
+" highlight search results
+set hlsearch
+
+" use case if any caps used
+set smartcase
+
+" number of columns occupied by a tab character
+set tabstop=2
+
+" see multiple spaces as tabstops so <BS> does the right thing
+set softtabstop=2
+
+" converts tabs to white space
+set expandtab
+
+" width for autoindents
+set shiftwidth=2
+
+" auto indent
+set autoindent
+
+" see a live preview of :substitute as you type.
+if (has("nvim"))
+    set inccommand=split
+endif
+
+" add line numbers
+set number
+
+" get bash-like tab completions
+set wildmode=longest,list
+
+" Use one space, not two, after punctuation.
+set nojoinspaces
+
+" set an 120 column border for good coding style
+set cc=120
+
+" Whitespace
+set wrap
+set colorcolumn=+1
+set formatoptions=tcqrn1
+set noshiftround
+
+" Show current line number
+set number
+set numberwidth=4
+
+" Automatically :write before running commands
+set autowrite
+
+" Show relative line numbers
+set relativenumber
+
+" allows auto-indenting depending on file type
+filetype plugin indent on
+
+" Blink cursor on error instead of beeping (grr)
+set visualbell
+
+" Disable modelines as a security precaution
+set modelines=0
+set nomodeline
+
+" Organizing swap files
+set directory^=$HOME/.vim/tmp//
+set backupdir^=$HOME/.vim/backup//
+
+syntax on
+let g:onedark_color_overrides = {
+\ "red": {"gui": "#cc685f", "cterm": "204", "cterm16": "1" },
+\}
+colorscheme onedark
+let g:onedark_termcolors=256
+
+" VIM True colours
+let term_program=$TERM_PROGRAM
+if term_program != 'Apple_Terminal'
+    if exists('+termguicolors')
+        set termguicolors
+    endif
+endif
+
+inoremap jj <Esc>
+
+noremap <leader>q :q<cr>
+noremap <leader>w :w<cr>
+
+" Distraction free editing
+nnoremap <Leader>vv :Goyo<cr>:set linebreak<cr>:set wrap<cr>
+
+" Toggle NERDTree sidebar
+nmap <leader>ne :NERDTreeToggle<cr>
+"
+" this is the key to jump to the nerdtree window from any other window
+map <leader>nr :NERDTreeFind<cr> 
+
+" Skipping lines when wrap is set
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+
+vmap <leader>y "+y
+vmap <leader>d "+d
+nmap <leader>p "+p
+nmap <leader>P "+P
+vmap <leader>p "+p
+vmap <leader>P "+P
+
+nnoremap <leader>no :noh<CR> 
+
+" Yanking lines is inconsistent
+nnoremap Y y$
+
+" Accidentally hitting unwanted keys in normal mode
+nnoremap <F1> <nop>
+nnoremap Q <nop>
+nnoremap K <nop>
+
+" use kakoune keybindings for start/end
+nnoremap gl $
+nnoremap gh 0
+
+" Stop accidentally joining lines
+vmap J j
+vmap <leader>j :join
+
+" edit vimrc
+nmap <leader>v :tabedit ~/dotfiles/vim/vimrc.symlink<Cr>
+
+" Get off my lawn
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+nnoremap <Leader>f :Files<cr>
+nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>h :History<cr>
+
+"""""""""""""
+" emmet
+"""""""""""""
+
+let g:user_emmet_install_global = 1
+let g:user_emmet_leader_key='\'
+let g:user_emmet_mode='a'
+
+""""""""""
+" GOYO.vim
+""""""""""
+
+let g:goyo_linenr = 1
+
+"""""""""""
+" NERDTree
+"""""""""""
+
+" enable line numbers
+let NERDTreeShowLineNumbers=1
+
+" make sure relative line numbers are used
+autocmd FileType nerdtree setlocal relativenumber
+
+"""""""
+" Sneak
+"""""""
+
+let g:sneak#label = 1
+map f <Plug>Sneak_s
+map F <Plug>Sneak_S
+
+"""""""""""""""""
+" FZF and ripgrep
+"""""""""""""""""
+
+set rtp+=~/.fzf
+set rtp+=/usr/local/opt/fzf
+
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  set grepformat^=%f:%l:%c:%m
+endif
