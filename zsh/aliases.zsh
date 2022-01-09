@@ -68,14 +68,6 @@ alias npp='npm run prod'
 alias npt='npm init -y'
 alias npc='npm-check --skip-unused -u'
 
-# LS
-alias ls='exa'
-alias l='exa --group-directories-first'
-alias ll='exa -lg --group-directories-first'
-alias la='exa -lag --group-directories-first'
-alias lm='exa -lgs modified --group-directories-first'
-alias lmr='exa -lgs modified --group-directories-first --reverse'
-
 alias vn="cd '$NOTES' && $EDITOR ."
 alias vs="cd '$DOTFILES' && $EDITOR 'vim/vimrc.symlink'"
 alias vj="cd '$NOTES' && $EDITOR vim.md"
@@ -94,6 +86,7 @@ alias ys1='yarn start --scope=mryum.com'
 alias ys2='yarn start --scope=manage.mryum.com'
 alias ys3='yarn start --scope=mryum.com --scope=manage.mryum.com'
 alias yss='APP_ENV=staging yarn start --scope=mryum.com'
+alias ysp='APP_ENV=preview yarn start --scope=mryum.com'
 alias yd='yarn start:dev'
 alias ym='yarn migrate'
 alias yg='yarn generate'

@@ -1,4 +1,3 @@
-#!/bin/zsh
 zmodload zsh/zprof
 
 _has() {
@@ -52,13 +51,20 @@ gpp() {
 
 ## Shortcut to this dotfiles path is $DOTFILES
 export DOTFILES="$HOME/dotfiles"
-export NOTES="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Matthew Blode"
+export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
 export EDITOR="nvim"
 export TERM=xterm-256color
-export NVM_LAZY_LOAD=true
 
+## Initialize zsh completions
 autoload -Uz compinit
 compinit
+
+## Load bashcompinit for some old bash completions
+autoload bashcompinit && bashcompinit
+[[ -r ~/Projects/autopkg_complete/autopkg ]] && source ~/Projects/autopkg_complete/autopkg
+
+## Aloxaf/fzf-tab
+source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
 ## djui/alias-tips
 source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
@@ -67,10 +73,10 @@ source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 ## sindresorhus/pure
-fpath+=$HOME/.zsh/pure
+# fpath+=$HOME/.zsh/pure
 
-autoload -U promptinit; promptinit
-prompt pure
+# autoload -U promptinit; promptinit
+# prompt pure
 
 ## zsh-users/zsh-completions
 fpath+=($HOME/.zsh/zsh-completions/src $fpath)
@@ -80,9 +86,6 @@ source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 ## zsh-users/zsh-history-substring-search
 source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-## lukechilds/zsh-nvm
-source $HOME/.zsh/zsh-nvm/zsh-nvm.plugin.zsh
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -165,7 +168,7 @@ eval "$(zoxide init zsh)"
 ## BIN
 export PATH=$PATH:~/.bin
 
-export cg_clif_dir="$HOME/Code/rust/rustc_codegen_cranelift"
+# export cg_clif_dir="$HOME/Code/rust/rustc_codegen_cranelift"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
@@ -181,3 +184,25 @@ export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
 
 ## Do not track
 export DO_NOT_TRACK=1
+
+## Go
+export PATH=$PATH:$(go env GOPATH)/bin
+export GOPATH=$(go env GOPATH)
+
+## FZF Tabs
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+eval "$(starship init zsh)"
+eval "$(frum init)"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
