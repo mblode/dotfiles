@@ -1,5 +1,4 @@
 #!/bin/sh
-$HOME/dotfiles/git/install.sh
 #
 # bootstrap installs things.
 
@@ -68,10 +67,9 @@ install_dotfiles
 info "installing dependencies"
 
 $HOME/dotfiles/homebrew/install.sh
-$HOME/dotfiles/zsh/install.sh
 $HOME/dotfiles/vim/install.sh
 $HOME/dotfiles/nvim/install.sh
-$HOME/dotfiles/coc/install.sh
+$HOME/dotfiles/karabiner/install.sh
 
 zsh="$(find_zsh)"
 

@@ -72,12 +72,6 @@ source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
 ## zsh-users/zsh-autosuggestions
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-## sindresorhus/pure
-# fpath+=$HOME/.zsh/pure
-
-# autoload -U promptinit; promptinit
-# prompt pure
-
 ## zsh-users/zsh-completions
 fpath+=($HOME/.zsh/zsh-completions/src $fpath)
 
@@ -180,8 +174,8 @@ export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
 export DO_NOT_TRACK=1
 
 ## Go
-export PATH=$PATH:$(go env GOPATH)/bin
-export GOPATH=$(go env GOPATH)
+# export PATH=$PATH:$(go env GOPATH)/bin
+# export GOPATH=$(go env GOPATH)
 
 ## FZF Tabs
 # disable sort when completing `git checkout`
