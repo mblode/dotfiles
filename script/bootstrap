@@ -67,6 +67,7 @@ install_dotfiles
 info "installing dependencies"
 
 $HOME/dotfiles/homebrew/install.sh
+$HOME/dotfiles/zsh/install.sh
 $HOME/dotfiles/vim/install.sh
 $HOME/dotfiles/nvim/install.sh
 $HOME/dotfiles/karabiner/install.sh

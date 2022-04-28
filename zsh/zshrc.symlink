@@ -192,3 +192,6 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 eval "$(starship init zsh)"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# Puppeteer
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_EXECUTABLE_PATH=`which chromium`
