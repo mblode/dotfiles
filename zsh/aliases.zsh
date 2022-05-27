@@ -80,7 +80,6 @@ mkcdir ()
 
 alias mc='mkcdir'
 
-alias du='docker compose up -d --remove-orphans'
 alias dn='docker compose up -d nginx'
 alias ys1='yarn start:web'
 alias ys2='yarn start:admin'
@@ -88,8 +87,6 @@ alias ysg='APP_ENV=staging yarn start:web'
 alias ysgp='APP_ENV=preview yarn start:web'
 alias ysm='APP_ENV=staging yarn start:admin'
 alias ysmp='APP_ENV=preview yarn start:admin'
-alias yd='yarn start:dev'
-alias ym='yarn migrate'
 alias yg='yarn generate'
 alias yl='yarn workspaces foreach --include=@mr-yum/core --include=@mr-yum/ui -tv run build'
 alias yt='yarn typecheck'
