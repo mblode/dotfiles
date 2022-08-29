@@ -1,85 +1,34 @@
 zmodload zsh/zprof
 
-_has() {
-  return $( whence $1 >/dev/null )
-}
-
-_append_to_path() {
-  if [ -d $1 -a -z ${path[(r)$1]} ]; then
-    path=($path $1);
-  fi
-}
-
-gpm() {
-    if [ -z "$*" ]
-        then
-        echo "No args"
-        return 1
-    fi
-
-    git add -A
-    git commit -m "$1"
-    git push origin master
-}
-
-gps() {
-    if [ -z "$*" ]
-        then
-        echo "No args"
-        return 1
-    fi
-
-    git add -A
-    git commit -m "$1"
-    git push origin master
-    git push origin master:staging
-}
-
-gpp() {
-    if [ -z "$*" ]
-        then
-        echo "No args"
-        return 1
-    fi
-
-    git add -A
-    git commit -m "$1"
-    git push origin master
-    git push origin master:staging
-    git push origin master:production
-}
-
-## Shortcut to this dotfiles path is $DOTFILES
-export DOTFILES="$HOME/dotfiles"
+export DOTFILES="$HOME/dotfiles" ## Shortcut to this dotfiles path is $DOTFILES
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
-export EDITOR="nvim"
+export EDITOR="code"
+export NVM_LAZY_LOAD=true
 export TERM=xterm-256color
 
-## Initialize zsh completions
-autoload -Uz compinit
-compinit
+# Starship
+eval "$(starship init zsh)"
 
-## Load bashcompinit for some old bash completions
-autoload bashcompinit && bashcompinit
-[[ -r ~/Projects/autopkg_complete/autopkg ]] && source ~/Projects/autopkg_complete/autopkg
+# Initialize zsh completions
+# autoload -Uz compinit; compinit
 
-## Aloxaf/fzf-tab
+# Aloxaf/fzf-tab
 source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
-## djui/alias-tips
-source $HOME/.zsh/alias-tips/alias-tips.plugin.zsh
-
-## zsh-users/zsh-autosuggestions
+# zsh-users/zsh-autosuggestions
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-## zsh-users/zsh-completions
+# zsh-users/zsh-completions
 fpath+=($HOME/.zsh/zsh-completions/src $fpath)
 
-## zsh-users/zsh-syntax-highlighting
+# zsh-users/zsh-syntax-highlighting
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-## zsh-users/zsh-history-substring-search
+# zsh-users/zsh-history-substring-search
 source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+# lukechilds/zsh-nvm
+# source $HOME/.zsh/zsh-nvm/zsh-nvm.plugin.zsh
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -93,36 +42,30 @@ fi
 typeset -U config_files
 config_files=($DOTFILES/*/*.zsh)
 
-## Load the path files
+# Load the path files
 for file in ${(M)config_files:#*/path.zsh}; do
     source "$file"
 done
 
-## Load everything but the path and completion files
+# Load everything but the path and completion files
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
     source "$file"
 done
 
-## Load every completion after autocomplete loads
+# Load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}; do
     source "$file"
 done
 
-## Enable Vim mode in ZSH
-bindkey -v
+# asdf
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^E' edit-command-line                   # Opens Vim to edit current command line
 bindkey '^R' history-incremental-search-backward # Perform backward search in command line history
 bindkey '^S' history-incremental-search-forward  # Perform forward search in command line history
 bindkey '^P' history-search-backward             # Go back/search in history (autocomplete)
 bindkey '^N' history-search-forward              # Go forward/search in history (autocomplete)
 
-## vi mode bind jj to enter normal mode
-bindkey "jj" vi-cmd-mode
-
-## Better history
+# Better history
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -130,54 +73,26 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 
-## bind UP and DOWN arrow keys (compatibility fallback
+# bind UP and DOWN arrow keys (compatibility fallback)
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-## bind P and N for EMACS mode
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
-
-## bind k and j for VI mode
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-
-## NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-## iTerm
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-## FZF
+# FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND="rg --files --hidden --fixed-strings"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
-export PATH="/usr/local/sbin:$PATH"
-
-## Zoxide
+# Zoxide
 eval "$(zoxide init zsh)"
 
-## BIN
-export PATH=$PATH:~/.bin
-
-## mkcert
+# mkcert
 export NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
 
-export PATH="/usr/local/opt/luajit-openresty/bin:$PATH"
-export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
-
-## Do not track
+# Do not track
 export DO_NOT_TRACK=1
 
-## Go
-# export PATH=$PATH:$(go env GOPATH)/bin
-# export GOPATH=$(go env GOPATH)
-
-## FZF Tabs
+# FZF Tabs
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # set descriptions format to enable group support
@@ -189,20 +104,9 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
-eval "$(starship init zsh)"
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-# Puppeteer
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-export PUPPETEER_EXECUTABLE_PATH=`which chromium`
-
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
+# Deno
 export PATH="/Users/mblode/.deno/bin:$PATH"
-export WASMTIME_HOME="$HOME/.wasmtime"
 
-export PATH="$WASMTIME_HOME/bin:$PATH"
 # pnpm
 export PNPM_HOME="/Users/mblode/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
-# pnpm end
