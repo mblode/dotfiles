@@ -3,7 +3,6 @@ zmodload zsh/zprof
 export DOTFILES="$HOME/dotfiles" ## Shortcut to this dotfiles path is $DOTFILES
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
 export EDITOR="code"
-export NVM_LAZY_LOAD=true
 export TERM=xterm-256color
 
 # Starship
@@ -26,9 +25,6 @@ source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # zsh-users/zsh-history-substring-search
 source $HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-# lukechilds/zsh-nvm
-# source $HOME/.zsh/zsh-nvm/zsh-nvm.plugin.zsh
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
