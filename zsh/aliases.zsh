@@ -91,3 +91,10 @@ alias yg='yarn generate'
 alias yl='yarn workspaces foreach --include=@mr-yum/core --include=@mr-yum/ui -tv run build'
 alias yt='yarn typecheck'
 alias ydm='NEST_SCRIPTS_ALLOW_CIRCULAR_DEPENDENCIES=true MANAGE_MODES=manage-api yr nest-scripts develop'
+
+alias python='python3'
+
+alias sso="aws-vault exec dev-sso"
+alias console="aws-vault login dev-sso"
+alias dev="aws-vault exec mryum-dev"
+alias mfa="aws-vault exec mfa"

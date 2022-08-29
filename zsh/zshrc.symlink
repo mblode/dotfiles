@@ -197,3 +197,12 @@ export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_EXECUTABLE_PATH=`which chromium`
 
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+export PATH="/Users/mblode/.deno/bin:$PATH"
+export WASMTIME_HOME="$HOME/.wasmtime"
+
+export PATH="$WASMTIME_HOME/bin:$PATH"
+# pnpm
+export PNPM_HOME="/Users/mblode/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
