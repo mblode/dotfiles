@@ -1,11 +1,11 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-zmodload zsh/zprof
+# zmodload zsh/zprof
 
-export DOTFILES="$HOME/dotfiles" ## Shortcut to this dotfiles path is $DOTFILES
+# Path
+export DOTFILES="$HOME/dotfiles" 
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
 export EDITOR="code"
 export TERM=xterm-256color
+export PATH="$HOME/bin:$PATH:$(go env GOPATH)/bin:~/zig"
 
 # Starship
 eval "$(starship init zsh)"
@@ -13,14 +13,39 @@ eval "$(starship init zsh)"
 # Initialize zsh completions
 autoload -Uz compinit; compinit
 
-# # Aloxaf/fzf-tab
-# source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
+# NVM
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-# # zsh-users/zsh-autosuggestions
-# source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# place this after nvm initialization!
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local nvmrc_path="$(nvm_find_nvmrc)"
 
-# # zsh-users/zsh-completions
-# fpath+=($HOME/.zsh/zsh-completions/src $fpath)
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+
+source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
+
+# zsh-users/zsh-autosuggestions
+source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# zsh-users/zsh-completions
+fpath+=($HOME/.zsh/zsh-completions/src $fpath)
 
 # zsh-users/zsh-syntax-highlighting
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -42,17 +67,17 @@ config_files=($DOTFILES/*/*.zsh)
 
 # Load the path files
 for file in ${(M)config_files:#*/path.zsh}; do
-    source "$file"
+  source "$file"
 done
 
 # Load everything but the path and completion files
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
-    source "$file"
+  source "$file"
 done
 
 # Load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}; do
-    source "$file"
+  source "$file"
 done
 
 bindkey '^R' history-incremental-search-backward # Perform backward search in command line history
@@ -72,11 +97,11 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-# # FZF
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# export FZF_DEFAULT_COMMAND="rg --files --hidden --fixed-strings"
-# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-# export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
+# FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
 # Zoxide
 eval "$(zoxide init zsh)"
@@ -87,30 +112,19 @@ export NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
 # Do not track
 export DO_NOT_TRACK=1
 
-# # FZF Tabs
-# # disable sort when completing `git checkout`
-# zstyle ':completion:*:git-checkout:*' sort false
-# # set descriptions format to enable group support
-# zstyle ':completion:*:descriptions' format '[%d]'
-# # set list-colors to enable filename colorizing
-# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# # preview directory's content with exa when completing cd
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-# # switch group using `,` and `.`
-# zstyle ':fzf-tab:*' switch-group ',' '.'
+# FZF Tabs
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -5 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
 
-# Deno
-export PATH="/Users/mblode/.deno/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+export PATH="$PATH:$(go env GOPATH)/bin"
 
-# pnpm
-export PNPM_HOME="/Users/mblode/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
-
-# The next line updates PATH for Netlify's Git Credential Helper.
-test -f '/Users/mblode/Library/Preferences/netlify/helper/path.zsh.inc' && source '/Users/mblode/Library/Preferences/netlify/helper/path.zsh.inc'
+# zprof
