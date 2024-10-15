@@ -1,17 +1,16 @@
 # zmodload zsh/zprof
 
 # Path
-export DOTFILES="$HOME/dotfiles" 
+export DOTFILES="$HOME/dotfiles"
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
-export EDITOR="code"
+export EDITOR="zed"
 export TERM=xterm-256color
-export PATH="$HOME/bin:$PATH:$(go env GOPATH)/bin:~/zig"
 
 # Starship
 eval "$(starship init zsh)"
 
 # Initialize zsh completions
-autoload -Uz compinit; compinit
+autoload -Uz compinit; compinit -u
 
 # NVM
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
@@ -65,7 +64,7 @@ fi
 typeset -U config_files
 config_files=($DOTFILES/*/*.zsh)
 
-# Load the path files
+# Load the path
 for file in ${(M)config_files:#*/path.zsh}; do
   source "$file"
 done
@@ -80,7 +79,6 @@ for file in ${(M)config_files:#*/completion.zsh}; do
   source "$file"
 done
 
-bindkey '^R' history-incremental-search-backward # Perform backward search in command line history
 bindkey '^S' history-incremental-search-forward  # Perform forward search in command line history
 bindkey '^P' history-search-backward             # Go back/search in history (autocomplete)
 bindkey '^N' history-search-forward              # Go forward/search in history (autocomplete)
@@ -106,9 +104,6 @@ export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 # Zoxide
 eval "$(zoxide init zsh)"
 
-# mkcert
-export NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
-
 # Do not track
 export DO_NOT_TRACK=1
 
@@ -125,6 +120,23 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -5 --color=always $realpath'
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
 export PATH="$HOME/bin:$PATH"
-export PATH="$PATH:$(go env GOPATH)/bin"
 
 # zprof
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+
+eval "$(atuin init zsh)"
+. "$HOME/.cargo/env"
+
+export PATH="$HOME/Code/fingertip/protoc-gen-brun/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/mblode/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH=$PATH:$(go env GOPATH)/bin
