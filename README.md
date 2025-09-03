@@ -28,16 +28,6 @@ $ zsh # or just close and open your terminal again.
 
 ```
 
-### macOS defaults
-
-You use it by running:
-
-```console
-$DOTFILES/macos/set-defaults.sh
-```
-
-And logging out and in again.
-
 ### iTerm install
 
 In iterm Preferences > General > Load preferences from a custom folder or URL and set it to ~/dotfiles/iterm
@@ -46,27 +36,22 @@ In iterm Preferences > General > Load preferences from a custom folder or URL an
 
 Open vim, type :PlugInstall to get the latest of all the vim plugins
 
-### Karabiner Hyper-Key
-
-[Hyper Key](http://brettterpstra.com/2017/06/15/a-hyper-key-with-karabiner-elements-full-instructions/)
-
-### Zotero and Ullyses
-
-[Makrdown to word](http://raphaelkabo.com/blog/posts/markdown-to-word/)
-
 ### Create a new SSH
 
 [Generate a new SSH](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 
-### Set ZSH
-
-`chsh -s /bin/zsh`
-
-### MySQL
+### MacOS
 
 ```
-mysql -uroot
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
-ALTER USER 'yourusername'@'localhost' IDENTIFIED WITH mysql_native_password BY 'youpassword';
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock autohide-time-modifier -float 0
+killall Dock
 
+defaults write com.apple.screencapture show-thumbnail -bool false
+defaults write com.apple.screencapture location ~/Downloads
+killall SystemUIServer
+
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 ```
