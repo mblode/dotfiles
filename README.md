@@ -51,7 +51,5 @@ defaults write com.apple.screencapture show-thumbnail -bool false
 defaults write com.apple.screencapture location ~/Downloads
 killall SystemUIServer
 
-defaults write -g InitialKeyRepeat -float 10.0
-defaults write -g KeyRepeat -float 1.0
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 ```
