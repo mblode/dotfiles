@@ -107,6 +107,8 @@ eval "$(zoxide init zsh)"
 # Do not track
 export DO_NOT_TRACK=1
 
+# Autoship
+
 # FZF Tabs
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -124,20 +126,15 @@ export PATH="$HOME/bin:$PATH"
 # zprof
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+eval "$(atuin init zsh)"
+
+. "$HOME/.atuin/bin/env"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
-eval "$(atuin init zsh)"
-. "$HOME/.cargo/env"
+export NPM_TOKEN="$(grep -E '^//registry\.npmjs\.org/:_authToken=' ~/.npmrc | tail -n1 | cut -d= -f2-)"
 
-export PATH="$HOME/Code/fingertip/protoc-gen-brun/bin:$PATH"
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
+export PATH="$HOME/.local/bin:$PATH"
 
-# pnpm
-export PNPM_HOME="/Users/mblode/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-export PATH=$PATH:$(go env GOPATH)/bin
-source ~/.env_vars
