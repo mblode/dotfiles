@@ -71,6 +71,7 @@ $HOME/dotfiles/zsh/install.sh
 $HOME/dotfiles/vim/install.sh
 $HOME/dotfiles/nvim/install.sh
 $HOME/dotfiles/karabiner/install.sh
+$HOME/dotfiles/chrome/install.sh
 
 zsh="$(find_zsh)"
 
