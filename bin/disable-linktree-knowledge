@@ -1,0 +1,80 @@
+#!/bin/bash
+#
+# Disable the linktree-knowledge plugin in Claude Code and Codex.
+# Removes installed skill directories and sets the plugin to disabled
+# in Claude Code settings so ltd local up doesn't re-activate it.
+
+set -euo pipefail
+
+CLAUDE_SETTINGS="$HOME/.claude/settings.json"
+CLAUDE_PLUGIN_DATA="$HOME/.claude/plugins/data/linktree-knowledge-linktree-plugins"
+CLAUDE_KNOWLEDGE_DIR="$HOME/.claude/linktree-knowledge"
+LTD_KNOWLEDGE_DIR="$HOME/.ltd/linktree-knowledge"
+AGENTS_SKILLS_DIR="$HOME/.agents/skills"
+CODEX_SKILLS_DIR="$HOME/.codex/skills"
+
+info() { printf '  \033[00;34m[info]\033[0m %s\n' "$1"; }
+ok()   { printf '  \033[00;32m[ok]\033[0m   %s\n' "$1"; }
+skip() { printf '  \033[00;33m[skip]\033[0m %s\n' "$1"; }
+
+echo "Disabling linktree-knowledge..."
+echo ""
+
+# --- Claude Code settings.json ---
+if [ -f "$CLAUDE_SETTINGS" ]; then
+  if grep -q '"linktree-knowledge@linktree-plugins": true' "$CLAUDE_SETTINGS"; then
+    sed -i '' 's/"linktree-knowledge@linktree-plugins": true/"linktree-knowledge@linktree-plugins": false/' "$CLAUDE_SETTINGS"
+    ok "Claude Code: plugin disabled in settings.json"
+  elif grep -q '"linktree-knowledge@linktree-plugins": false' "$CLAUDE_SETTINGS"; then
+    skip "Claude Code: plugin already disabled in settings.json"
+  else
+    skip "Claude Code: no linktree-knowledge entry in settings.json"
+  fi
+else
+  skip "Claude Code: settings.json not found"
+fi
+
+# --- Claude Code plugin data ---
+if [ -d "$CLAUDE_PLUGIN_DATA" ]; then
+  rm -rf "$CLAUDE_PLUGIN_DATA"
+  ok "Claude Code: removed plugin data"
+else
+  skip "Claude Code: no plugin data to remove"
+fi
+
+# --- Claude Code log dir ---
+if [ -d "$CLAUDE_KNOWLEDGE_DIR" ]; then
+  rm -rf "$CLAUDE_KNOWLEDGE_DIR"
+  ok "Claude Code: removed knowledge log dir"
+else
+  skip "Claude Code: no knowledge log dir"
+fi
+
+# --- LTD MCP server ---
+if [ -d "$LTD_KNOWLEDGE_DIR" ]; then
+  rm -rf "$LTD_KNOWLEDGE_DIR"
+  ok "LTD: removed MCP server dir"
+else
+  skip "LTD: no MCP server dir"
+fi
+
+# --- Agent skills (Claude Code) ---
+for skill in linktree-knowledge-login linktree-knowledge-submit linktree-knowledge-pending-repo-knowledge; do
+  dir="$AGENTS_SKILLS_DIR/$skill"
+  if [ -d "$dir" ]; then
+    rm -rf "$dir"
+    ok "Claude Code skills: removed $skill"
+  fi
+done
+
+# --- Codex skills ---
+for skill in linktree-knowledge-login linktree-knowledge-submit linktree-knowledge-pending-repo-knowledge; do
+  dir="$CODEX_SKILLS_DIR/$skill"
+  if [ -d "$dir" ]; then
+    rm -rf "$dir"
+    ok "Codex skills: removed $skill"
+  fi
+done
+
+echo ""
+echo "Done. Restart Claude Code / Codex for changes to take effect."

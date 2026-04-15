@@ -1,8 +1,15 @@
 # zmodload zsh/zprof
 
+# Prevent inherited nested-session marker from breaking Claude CLI launches.
+# This can leak in from parent tools that embed terminals.
+unset CLAUDECODE
+
 # Path
 export DOTFILES="$HOME/dotfiles"
+export PATH="$DOTFILES/bin:$PATH"
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
+export OBSIDIAN="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Matthew Blode"
+alias ob='cd "$OBSIDIAN"'
 export EDITOR="zed"
 export TERM=xterm-256color
 
@@ -137,4 +144,25 @@ export NPM_TOKEN="$(grep -E '^//registry\.npmjs\.org/:_authToken=' ~/.npmrc | ta
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
 export PATH="$HOME/.local/bin:$PATH"
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Resend CLI
+export PATH="$HOME/.resend/bin:$PATH"
+
+# Add a skill: symlink from source repo → .agents/skills → Claude + Codex
+# Usage: skill-add ~/Code/mblode/style-capture/skills/style-capture
+skill-add() {
+  local src="${1:A}"
+  local name="$(basename $src)"
+  ln -sfn "$src" ~/.agents/skills/$name
+  ln -sfn ../../.agents/skills/$name ~/.claude/skills/$name
+  ln -sfn ../../.agents/skills/$name ~/.codex/skills/$name
+  echo "Linked $name → Claude + Codex"
+}
 
