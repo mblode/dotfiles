@@ -50,6 +50,9 @@ alias npw='npm run watch'
 alias npp='npm run prod'
 alias npt='npm init -y'
 
+# Yarn
+alias yr='yarn'
+
 alias vn="cd '$NOTES' && $EDITOR ."
 alias vs="cd '$DOTFILES' && $EDITOR 'vim/vimrc.symlink'"
 alias vj="cd '$NOTES' && $EDITOR vim.md"
@@ -66,3 +69,6 @@ alias code="zed"
 
 alias cc="claude --dangerously-skip-permissions"
 alias co="codex --dangerously-bypass-approvals-and-sandbox"
+
+# Suppress zsh CORRECT prompt for commands that clash with macOS app names
+alias obsidian='nocorrect obsidian'

@@ -13,6 +13,9 @@ alias ob='cd "$OBSIDIAN"'
 export EDITOR="zed"
 export TERM=xterm-256color
 
+# Portless: bind on 1355 instead of 443 so Docker (ltd-proxy) can own 443
+export PORTLESS_PORT=1355
+
 # Starship
 eval "$(starship init zsh)"
 
