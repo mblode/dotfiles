@@ -14,15 +14,46 @@
 
 set -euo pipefail
 
-if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
-  C_BLUE=$'\033[00;34m'; C_GREEN=$'\033[00;32m'; C_YELLOW=$'\033[00;33m'; C_RESET=$'\033[0m'
+if [ -t 2 ] && [ -z "${NO_COLOR:-}" ]; then
+  C_BOLD=$'\033[1m'; C_DIM=$'\033[2m'
+  C_CYAN=$'\033[36m'; C_RED=$'\033[31m'
+  C_RESET=$'\033[0m'
 else
-  C_BLUE=''; C_GREEN=''; C_YELLOW=''; C_RESET=''
+  C_BOLD=''; C_DIM=''; C_CYAN=''; C_RED=''; C_RESET=''
 fi
-info() { printf '  %s[info]%s %s\n' "$C_BLUE"   "$C_RESET" "$1"; }
-ok()   { printf '  %s[ok]%s   %s\n' "$C_GREEN"  "$C_RESET" "$1"; }
-skip() { printf '  %s[skip]%s %s\n' "$C_YELLOW" "$C_RESET" "$1"; }
-die()  { printf 'error: %s\n' "$1" >&2; exit 1; }
+
+SPIN_FRAMES='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+SPIN_PID=""
+
+spin_start() {
+  local msg="$1"
+  [ -t 2 ] || return 0
+  (
+    trap 'exit 0' TERM
+    i=0
+    while :; do
+      f="${SPIN_FRAMES:$((i % ${#SPIN_FRAMES})):1}"
+      printf '\r\033[K%s%s%s %s' "$C_CYAN" "$f" "$C_RESET" "$msg" >&2
+      sleep 0.08
+      i=$((i + 1))
+    done
+  ) & SPIN_PID=$!
+  disown "$SPIN_PID" 2>/dev/null || true
+}
+
+spin_stop() {
+  if [ -n "$SPIN_PID" ]; then
+    kill "$SPIN_PID" 2>/dev/null || true
+    wait "$SPIN_PID" 2>/dev/null || true
+    SPIN_PID=""
+    printf '\r\033[K' >&2
+  fi
+}
+
+fail() { spin_stop; printf '%s✗%s %s\n' "$C_RED" "$C_RESET" "$1" >&2; exit 1; }
+
+trap 'spin_stop' EXIT INT TERM
+trap 'rc=$?; spin_stop; printf "%s✗%s setup failed (exit %s)\n" "$C_RED" "$C_RESET" "$rc" >&2; exit $rc' ERR
 
 if [ "$#" -gt 0 ]; then
   INPUT="$*"
@@ -34,12 +65,16 @@ else
 fi
 INPUT="${INPUT#"${INPUT%%[![:space:]]*}"}"
 INPUT="${INPUT%"${INPUT##*[![:space:]]}"}"
-[ -n "${INPUT:-}" ] || die "empty input"
+[ -n "${INPUT:-}" ] || fail "empty input"
 
 slugify() {
   local s="$1"
   s="$(printf '%s' "$s" | tr '[:upper:]' '[:lower:]' | tr -d "'\`")"
   s="$(printf '%s' "$s" | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+  if [ "${#s}" -gt 60 ]; then
+    s="${s:0:60}"
+    s="${s%-*}"
+  fi
   printf '%s' "$s"
 }
 
@@ -55,11 +90,24 @@ elif [[ "$INPUT" =~ ^(${ID_RE})([[:space:]]+(.*))?$ ]]; then
   ISSUE_ID="${BASH_REMATCH[1]}"
   SLUG="$(slugify "${BASH_REMATCH[3]:-}")"
 else
-  die "could not parse issue ID from: $INPUT"
+  fail "could not parse issue ID from: $INPUT"
 fi
 
 ISSUE_ID="$(printf '%s' "$ISSUE_ID" | tr '[:upper:]' '[:lower:]')"
 DISPLAY_ID="$(printf '%s' "$ISSUE_ID" | tr '[:lower:]' '[:upper:]')"
+
+if REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+  :
+elif [ -n "${LINEAR_WORKTREE_REPO:-}" ]; then
+  REPO_ROOT="$(git -C "$LINEAR_WORKTREE_REPO" rev-parse --show-toplevel)"
+else
+  fail "not in a git repo (set LINEAR_WORKTREE_REPO to a repo path)"
+fi
+REPO_NAME="$(basename "$REPO_ROOT")"
+REPOS_BASE="$(dirname "$REPO_ROOT")"
+WORKTREE_PATH="$REPOS_BASE/$REPO_NAME-$ISSUE_ID"
+
+spin_start "Setting up $DISPLAY_ID"
 
 LINEAR_TITLE=""
 LINEAR_DESCRIPTION=""
@@ -74,84 +122,80 @@ if [ -n "${LINEAR_API_KEY:-}" ] && command -v curl >/dev/null 2>&1 && command -v
     LINEAR_TITLE="$(printf '%s' "$response"       | jq -r '.data.issue.title       // empty')"
     LINEAR_DESCRIPTION="$(printf '%s' "$response" | jq -r '.data.issue.description // empty')"
     LINEAR_URL="$(printf '%s' "$response"         | jq -r '.data.issue.url         // empty')"
-    ok "Linear: fetched \"$LINEAR_TITLE\""
     if [ -z "$SLUG" ] && [ -n "$LINEAR_TITLE" ]; then
       SLUG="$(slugify "$LINEAR_TITLE")"
     fi
-  else
-    skip "Linear: lookup failed for $DISPLAY_ID"
   fi
 fi
 
-info "Issue: $DISPLAY_ID${SLUG:+ ($SLUG)}"
-
-if REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
-  :
-elif [ -n "${LINEAR_WORKTREE_REPO:-}" ]; then
-  REPO_ROOT="$(git -C "$LINEAR_WORKTREE_REPO" rev-parse --show-toplevel)"
-else
-  die "not in a git repo (set LINEAR_WORKTREE_REPO to a repo path)"
-fi
-REPO_NAME="$(basename "$REPO_ROOT")"
-REPOS_BASE="$(dirname "$REPO_ROOT")"
-WORKTREE_PATH="$REPOS_BASE/$REPO_NAME-$ISSUE_ID"
-
 BRANCH="$ISSUE_ID${SLUG:+-$SLUG}"
-git -C "$REPO_ROOT" check-ref-format --branch "$BRANCH" >/dev/null \
-  || die "invalid branch name: $BRANCH"
+git -C "$REPO_ROOT" check-ref-format --branch "$BRANCH" >/dev/null 2>&1 \
+  || fail "invalid branch name: $BRANCH"
+
+git -C "$REPO_ROOT" fetch origin --quiet >/dev/null 2>&1 || true
 
 if git -C "$REPO_ROOT" show-ref --verify --quiet "refs/heads/$BRANCH"; then
-  info "Reusing local branch $BRANCH"
-  git -C "$REPO_ROOT" worktree add "$WORKTREE_PATH" "$BRANCH"
+  git -C "$REPO_ROOT" worktree add "$WORKTREE_PATH" "$BRANCH" >/dev/null 2>&1
 elif git -C "$REPO_ROOT" show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
-  info "Tracking origin/$BRANCH"
-  git -C "$REPO_ROOT" worktree add --track -b "$BRANCH" "$WORKTREE_PATH" "origin/$BRANCH"
+  git -C "$REPO_ROOT" worktree add --track -b "$BRANCH" "$WORKTREE_PATH" "origin/$BRANCH" >/dev/null 2>&1
 else
   DEFAULT_BRANCH="$(git -C "$REPO_ROOT" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@' || true)"
   [ -n "$DEFAULT_BRANCH" ] \
-    || die "cannot resolve origin's default branch (try: git remote set-head origin --auto)"
+    || fail "cannot resolve origin's default branch (try: git remote set-head origin --auto)"
   BASE_REF="refs/remotes/origin/$DEFAULT_BRANCH"
-  info "Fetching origin/$DEFAULT_BRANCH"
-  git -C "$REPO_ROOT" fetch origin "+refs/heads/$DEFAULT_BRANCH:$BASE_REF" >/dev/null
-  git -C "$REPO_ROOT" rev-parse --verify "$BASE_REF^{commit}" >/dev/null
-  git -C "$REPO_ROOT" worktree add -b "$BRANCH" "$WORKTREE_PATH" "$BASE_REF"
+  git -C "$REPO_ROOT" rev-parse --verify "$BASE_REF^{commit}" >/dev/null 2>&1 \
+    || fail "missing $BASE_REF"
+  git -C "$REPO_ROOT" worktree add -b "$BRANCH" "$WORKTREE_PATH" "$BASE_REF" >/dev/null 2>&1
 fi
 
-TOPLEVEL="$(git -C "$WORKTREE_PATH" rev-parse --show-toplevel)"
-HEAD_BRANCH="$(git -C "$WORKTREE_PATH" symbolic-ref --quiet --short HEAD)"
-[ "$TOPLEVEL" = "$WORKTREE_PATH" ] || die "worktree path mismatch: $TOPLEVEL != $WORKTREE_PATH"
-[ "$HEAD_BRANCH" = "$BRANCH" ]    || die "worktree HEAD mismatch: $HEAD_BRANCH != $BRANCH"
-ok "Worktree ready"
+TOPLEVEL="$(git -C "$WORKTREE_PATH" rev-parse --show-toplevel 2>/dev/null)"
+HEAD_BRANCH="$(git -C "$WORKTREE_PATH" symbolic-ref --quiet --short HEAD 2>/dev/null)"
+[ "$TOPLEVEL" = "$WORKTREE_PATH" ] || fail "worktree path mismatch"
+[ "$HEAD_BRANCH" = "$BRANCH" ]    || fail "worktree HEAD mismatch"
 
 if [ -n "${CMUX_WORKSPACE_ID:-}" ] && command -v cmux >/dev/null 2>&1 && cmux ping >/dev/null 2>&1; then
-  if cmux workspace-action --workspace "$CMUX_WORKSPACE_ID" --action rename --title "$BRANCH" >/dev/null 2>&1; then
-    ok "cmux: renamed workspace to \"$BRANCH\""
-  else
-    skip "cmux: rename failed"
+  cmux workspace-action --workspace "$CMUX_WORKSPACE_ID" --action rename --title "$BRANCH" >/dev/null 2>&1 || true
+fi
+
+strip_md_images() {
+  sed -E 's/!\[[^]]*\]\([^)]*\)//g'
+}
+
+build_prompt() {
+  local desc=""
+  if [ -n "$LINEAR_DESCRIPTION" ]; then
+    desc="$(printf '%s' "$LINEAR_DESCRIPTION" | strip_md_images | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
   fi
-else
-  skip "cmux: \$CMUX_WORKSPACE_ID not set, skipping rename"
-fi
+  printf 'Work on Linear issue %s:\n\n' "$DISPLAY_ID"
+  printf '<issue identifier="%s">\n' "$DISPLAY_ID"
+  [ -n "$LINEAR_TITLE" ] && printf '<title>%s</title>\n' "$LINEAR_TITLE"
+  [ -n "$LINEAR_URL" ]   && printf '<url>%s</url>\n' "$LINEAR_URL"
+  if [ -n "$desc" ]; then
+    printf '<description>\n%s\n</description>\n' "$desc"
+  fi
+  printf '</issue>\n'
+}
 
-if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
-  C_BOLD=$'\033[1m'
-else
-  C_BOLD=''
-fi
+copy_clip() {
+  local payload="$1"
+  if command -v pbcopy >/dev/null 2>&1; then printf '%s' "$payload" | pbcopy 2>/dev/null
+  elif command -v wl-copy >/dev/null 2>&1; then printf '%s' "$payload" | wl-copy 2>/dev/null
+  elif command -v xclip >/dev/null 2>&1; then printf '%s' "$payload" | xclip -selection clipboard 2>/dev/null
+  else return 1
+  fi
+}
 
-echo ""
+CD_CMD="cd $WORKTREE_PATH"
+PROMPT="$(build_prompt)"
+copy_clip "$PROMPT" || true
+copy_clip "$CD_CMD" || true
+
+spin_stop
+
 if [ -n "$LINEAR_TITLE" ]; then
-  printf '%s — %s\n\n' "$DISPLAY_ID" "$LINEAR_TITLE"
+  printf '%s — %s\n' "$DISPLAY_ID" "$LINEAR_TITLE"
 else
-  printf '%s%s\n\n' "$DISPLAY_ID" "${SLUG:+ - $SLUG}"
+  printf '%s%s\n' "$DISPLAY_ID" "${SLUG:+ — $SLUG}"
 fi
-if [ -n "$LINEAR_DESCRIPTION" ]; then
-  printf '%s\n' "$LINEAR_DESCRIPTION" | sed 's/^/  /'
-  echo ""
-fi
-if [ -n "$LINEAR_URL" ]; then
-  printf '  %s\n\n' "$LINEAR_URL"
-fi
-printf 'Worktree: %s\n' "$WORKTREE_PATH"
-printf 'Branch:   %s\n\n' "$BRANCH"
-printf '%s→ cd %s%s\n' "$C_BOLD" "$WORKTREE_PATH" "$C_RESET"
+[ -n "$LINEAR_URL" ] && printf '%s\n' "$LINEAR_URL"
+printf '\n%s→ %s%s\n' "$C_BOLD" "$CD_CMD" "$C_RESET"
