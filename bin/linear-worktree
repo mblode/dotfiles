@@ -1,0 +1,117 @@
+#!/bin/bash
+#
+# linear-worktree — Create a sibling git worktree for a Linear issue.
+#
+# Usage:
+#   linear-worktree <issue-id-or-url-or-text>
+#   linear-worktree TIG-234 personality stuff
+#   echo "ABC-58 Add dark mode" | linear-worktree
+#
+# Env:
+#   LINEAR_WORKTREE_REPO  Fallback repo path when cwd isn't a git repo.
+#   NO_COLOR              Disable colored output.
+
+set -euo pipefail
+
+if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
+  C_BLUE=$'\033[00;34m'; C_GREEN=$'\033[00;32m'; C_YELLOW=$'\033[00;33m'; C_RESET=$'\033[0m'
+else
+  C_BLUE=''; C_GREEN=''; C_YELLOW=''; C_RESET=''
+fi
+info() { printf '  %s[info]%s %s\n' "$C_BLUE"   "$C_RESET" "$1"; }
+ok()   { printf '  %s[ok]%s   %s\n' "$C_GREEN"  "$C_RESET" "$1"; }
+skip() { printf '  %s[skip]%s %s\n' "$C_YELLOW" "$C_RESET" "$1"; }
+die()  { printf 'error: %s\n' "$1" >&2; exit 1; }
+
+if [ "$#" -gt 0 ]; then
+  INPUT="$*"
+elif [ ! -t 0 ]; then
+  IFS= read -r INPUT || true
+else
+  echo "usage: linear-worktree <issue-id|url|copy-as-prompt-text>" >&2
+  exit 2
+fi
+INPUT="${INPUT#"${INPUT%%[![:space:]]*}"}"
+INPUT="${INPUT%"${INPUT##*[![:space:]]}"}"
+[ -n "${INPUT:-}" ] || die "empty input"
+
+slugify() {
+  local s="$1"
+  s="$(printf '%s' "$s" | tr '[:upper:]' '[:lower:]' | tr -d "'\`")"
+  s="$(printf '%s' "$s" | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+  printf '%s' "${s:0:50}"
+}
+
+ID_RE='[A-Za-z][A-Za-z0-9_]*-[0-9]+'
+ISSUE_ID=""
+SLUG=""
+
+if [[ "$INPUT" =~ ^https?://linear\.app/[^/]+/issue/(${ID_RE})/?(.*)$ ]]; then
+  ISSUE_ID="${BASH_REMATCH[1]}"
+  tail="${BASH_REMATCH[2]}"
+  SLUG="$(slugify "${tail%%[?#]*}")"
+elif [[ "$INPUT" =~ ^(${ID_RE})([[:space:]]+(.*))?$ ]]; then
+  ISSUE_ID="${BASH_REMATCH[1]}"
+  SLUG="$(slugify "${BASH_REMATCH[3]:-}")"
+else
+  die "could not parse issue ID from: $INPUT"
+fi
+
+ISSUE_ID="$(printf '%s' "$ISSUE_ID" | tr '[:upper:]' '[:lower:]')"
+DISPLAY_ID="$(printf '%s' "$ISSUE_ID" | tr '[:lower:]' '[:upper:]')"
+
+info "Issue: $DISPLAY_ID${SLUG:+ ($SLUG)}"
+
+if REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+  :
+elif [ -n "${LINEAR_WORKTREE_REPO:-}" ]; then
+  REPO_ROOT="$(git -C "$LINEAR_WORKTREE_REPO" rev-parse --show-toplevel)"
+else
+  die "not in a git repo (set LINEAR_WORKTREE_REPO to a repo path)"
+fi
+REPO_NAME="$(basename "$REPO_ROOT")"
+REPOS_BASE="$(dirname "$REPO_ROOT")"
+WORKTREE_PATH="$REPOS_BASE/$REPO_NAME-$ISSUE_ID"
+
+BRANCH="$ISSUE_ID${SLUG:+-$SLUG}"
+git -C "$REPO_ROOT" check-ref-format --branch "$BRANCH" >/dev/null \
+  || die "invalid branch name: $BRANCH"
+
+if git -C "$REPO_ROOT" show-ref --verify --quiet "refs/heads/$BRANCH"; then
+  info "Reusing local branch $BRANCH"
+  git -C "$REPO_ROOT" worktree add "$WORKTREE_PATH" "$BRANCH"
+elif git -C "$REPO_ROOT" show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
+  info "Tracking origin/$BRANCH"
+  git -C "$REPO_ROOT" worktree add --track -b "$BRANCH" "$WORKTREE_PATH" "origin/$BRANCH"
+else
+  DEFAULT_BRANCH="$(git -C "$REPO_ROOT" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@' || true)"
+  [ -n "$DEFAULT_BRANCH" ] \
+    || die "cannot resolve origin's default branch (try: git remote set-head origin --auto)"
+  BASE_REF="refs/remotes/origin/$DEFAULT_BRANCH"
+  info "Fetching origin/$DEFAULT_BRANCH"
+  git -C "$REPO_ROOT" fetch origin "+refs/heads/$DEFAULT_BRANCH:$BASE_REF" >/dev/null
+  git -C "$REPO_ROOT" rev-parse --verify "$BASE_REF^{commit}" >/dev/null
+  git -C "$REPO_ROOT" worktree add -b "$BRANCH" "$WORKTREE_PATH" "$BASE_REF"
+fi
+
+TOPLEVEL="$(git -C "$WORKTREE_PATH" rev-parse --show-toplevel)"
+HEAD_BRANCH="$(git -C "$WORKTREE_PATH" symbolic-ref --quiet --short HEAD)"
+[ "$TOPLEVEL" = "$WORKTREE_PATH" ] || die "worktree path mismatch: $TOPLEVEL != $WORKTREE_PATH"
+[ "$HEAD_BRANCH" = "$BRANCH" ]    || die "worktree HEAD mismatch: $HEAD_BRANCH != $BRANCH"
+ok "Worktree ready"
+
+if [ -n "${CMUX_WORKSPACE_ID:-}" ] && command -v cmux >/dev/null 2>&1 && cmux ping >/dev/null 2>&1; then
+  TITLE="$DISPLAY_ID${SLUG:+ $SLUG}"
+  if cmux workspace-action --workspace "$CMUX_WORKSPACE_ID" --action rename --title "$TITLE" >/dev/null 2>&1; then
+    ok "cmux: renamed workspace to \"$TITLE\""
+  else
+    skip "cmux: rename failed"
+  fi
+else
+  skip "cmux: \$CMUX_WORKSPACE_ID not set, skipping rename"
+fi
+
+echo ""
+printf '%s%s\n\n' "$DISPLAY_ID" "${SLUG:+ - $SLUG}"
+printf 'Worktree: %s\n' "$WORKTREE_PATH"
+printf 'Branch:   %s\n' "$BRANCH"
