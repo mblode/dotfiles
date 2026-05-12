@@ -166,21 +166,34 @@ copy_clip() {
   fi
 }
 
+build_prompt() {
+  local desc=""
+  if [ -n "$LINEAR_DESCRIPTION" ]; then
+    desc="$(printf '%s' "$LINEAR_DESCRIPTION" | sed -E 's/!\[[^]]*\]\([^)]*\)//g' | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
+  fi
+  printf 'Work on Linear issue %s:\n\n' "$DISPLAY_ID"
+  printf '<issue identifier="%s">\n' "$DISPLAY_ID"
+  [ -n "$LINEAR_TITLE" ] && printf '<title>%s</title>\n' "$LINEAR_TITLE"
+  [ -n "$LINEAR_URL" ]   && printf '<url>%s</url>\n' "$LINEAR_URL"
+  if [ -n "$desc" ]; then
+    printf '<description>\n%s\n</description>\n' "$desc"
+  fi
+  printf '</issue>\n'
+}
+
 CD_CMD="cd $WORKTREE_PATH"
 copy_clip "$CD_CMD" || true
 
 spin_stop
 
-if [ -n "$LINEAR_TITLE" ]; then
-  printf '%s — %s\n' "$DISPLAY_ID" "$LINEAR_TITLE"
+if [ -n "$LINEAR_TITLE" ] || [ -n "$LINEAR_URL" ] || [ -n "$LINEAR_DESCRIPTION" ]; then
+  printf '%sagent prompt:%s\n' "$C_DIM" "$C_RESET"
+  build_prompt
+elif [ -n "$SLUG" ]; then
+  printf '%s — %s\n' "$DISPLAY_ID" "$SLUG"
 else
-  printf '%s%s\n' "$DISPLAY_ID" "${SLUG:+ — $SLUG}"
-fi
-[ -n "$LINEAR_URL" ] && printf '%s\n' "$LINEAR_URL"
-
-if [ -n "$LINEAR_DESCRIPTION" ]; then
-  desc="$(printf '%s' "$LINEAR_DESCRIPTION" | sed -E 's/!\[[^]]*\]\([^)]*\)//g' | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
-  [ -n "$desc" ] && printf '\n%s\n' "$desc"
+  printf '%s\n' "$DISPLAY_ID"
 fi
 
 printf '\n%s→ %s%s\n' "$C_BOLD" "$CD_CMD" "$C_RESET"
+printf '%s  copied to clipboard%s\n' "$C_DIM" "$C_RESET"
