@@ -188,6 +188,7 @@ copy_clip() {
 CD_CMD="cd $WORKTREE_PATH"
 PROMPT="$(build_prompt)"
 copy_clip "$PROMPT" || true
+sleep 0.6   # let Raycast/clipboard manager register the prompt before we overwrite
 copy_clip "$CD_CMD" || true
 
 spin_stop
