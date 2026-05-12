@@ -9,6 +9,7 @@
 #
 # Env:
 #   LINEAR_WORKTREE_REPO  Fallback repo path when cwd isn't a git repo.
+#   LINEAR_API_KEY        Linear personal API key; enables title/description/url lookup.
 #   NO_COLOR              Disable colored output.
 
 set -euo pipefail
@@ -39,7 +40,7 @@ slugify() {
   local s="$1"
   s="$(printf '%s' "$s" | tr '[:upper:]' '[:lower:]' | tr -d "'\`")"
   s="$(printf '%s' "$s" | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
-  printf '%s' "${s:0:50}"
+  printf '%s' "$s"
 }
 
 ID_RE='[A-Za-z][A-Za-z0-9_]*-[0-9]+'
@@ -59,6 +60,28 @@ fi
 
 ISSUE_ID="$(printf '%s' "$ISSUE_ID" | tr '[:upper:]' '[:lower:]')"
 DISPLAY_ID="$(printf '%s' "$ISSUE_ID" | tr '[:lower:]' '[:upper:]')"
+
+LINEAR_TITLE=""
+LINEAR_DESCRIPTION=""
+LINEAR_URL=""
+if [ -n "${LINEAR_API_KEY:-}" ] && command -v curl >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
+  payload="$(jq -cn --arg id "$DISPLAY_ID" '{query:"query($id:String!){issue(id:$id){title description url}}",variables:{id:$id}}')"
+  response="$(curl -fsS -X POST https://api.linear.app/graphql \
+    -H "Authorization: $LINEAR_API_KEY" \
+    -H "Content-Type: application/json" \
+    --data-binary "$payload" 2>/dev/null || true)"
+  if [ -n "$response" ] && [ "$(printf '%s' "$response" | jq -r '.data.issue // empty' 2>/dev/null)" != "" ]; then
+    LINEAR_TITLE="$(printf '%s' "$response"       | jq -r '.data.issue.title       // empty')"
+    LINEAR_DESCRIPTION="$(printf '%s' "$response" | jq -r '.data.issue.description // empty')"
+    LINEAR_URL="$(printf '%s' "$response"         | jq -r '.data.issue.url         // empty')"
+    ok "Linear: fetched \"$LINEAR_TITLE\""
+    if [ -z "$SLUG" ] && [ -n "$LINEAR_TITLE" ]; then
+      SLUG="$(slugify "$LINEAR_TITLE")"
+    fi
+  else
+    skip "Linear: lookup failed for $DISPLAY_ID"
+  fi
+fi
 
 info "Issue: $DISPLAY_ID${SLUG:+ ($SLUG)}"
 
@@ -101,9 +124,8 @@ HEAD_BRANCH="$(git -C "$WORKTREE_PATH" symbolic-ref --quiet --short HEAD)"
 ok "Worktree ready"
 
 if [ -n "${CMUX_WORKSPACE_ID:-}" ] && command -v cmux >/dev/null 2>&1 && cmux ping >/dev/null 2>&1; then
-  TITLE="$DISPLAY_ID${SLUG:+ $SLUG}"
-  if cmux workspace-action --workspace "$CMUX_WORKSPACE_ID" --action rename --title "$TITLE" >/dev/null 2>&1; then
-    ok "cmux: renamed workspace to \"$TITLE\""
+  if cmux workspace-action --workspace "$CMUX_WORKSPACE_ID" --action rename --title "$BRANCH" >/dev/null 2>&1; then
+    ok "cmux: renamed workspace to \"$BRANCH\""
   else
     skip "cmux: rename failed"
   fi
@@ -111,7 +133,25 @@ else
   skip "cmux: \$CMUX_WORKSPACE_ID not set, skipping rename"
 fi
 
+if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
+  C_BOLD=$'\033[1m'
+else
+  C_BOLD=''
+fi
+
 echo ""
-printf '%s%s\n\n' "$DISPLAY_ID" "${SLUG:+ - $SLUG}"
+if [ -n "$LINEAR_TITLE" ]; then
+  printf '%s — %s\n\n' "$DISPLAY_ID" "$LINEAR_TITLE"
+else
+  printf '%s%s\n\n' "$DISPLAY_ID" "${SLUG:+ - $SLUG}"
+fi
+if [ -n "$LINEAR_DESCRIPTION" ]; then
+  printf '%s\n' "$LINEAR_DESCRIPTION" | sed 's/^/  /'
+  echo ""
+fi
+if [ -n "$LINEAR_URL" ]; then
+  printf '  %s\n\n' "$LINEAR_URL"
+fi
 printf 'Worktree: %s\n' "$WORKTREE_PATH"
-printf 'Branch:   %s\n' "$BRANCH"
+printf 'Branch:   %s\n\n' "$BRANCH"
+printf '%s→ cd %s%s\n' "$C_BOLD" "$WORKTREE_PATH" "$C_RESET"
