@@ -187,8 +187,6 @@ copy_clip() {
 
 CD_CMD="cd $WORKTREE_PATH"
 PROMPT="$(build_prompt)"
-copy_clip "$PROMPT" || true
-sleep 0.6   # let Raycast/clipboard manager register the prompt before we overwrite
 copy_clip "$CD_CMD" || true
 
 spin_stop
@@ -199,4 +197,10 @@ else
   printf '%s%s\n' "$DISPLAY_ID" "${SLUG:+ — $SLUG}"
 fi
 [ -n "$LINEAR_URL" ] && printf '%s\n' "$LINEAR_URL"
+
+if [ -n "$LINEAR_TITLE" ] || [ -n "$LINEAR_URL" ] || [ -n "$LINEAR_DESCRIPTION" ]; then
+  printf '\n%sagent prompt:%s\n' "$C_DIM" "$C_RESET"
+  printf '%s\n' "$PROMPT"
+fi
+
 printf '\n%s→ %s%s\n' "$C_BOLD" "$CD_CMD" "$C_RESET"
