@@ -195,4 +195,4 @@ else
   printf '%s\n' "$DISPLAY_ID"
 fi
 
-printf '\n%scopied%s  %s%s%s\n' "$C_DIM" "$C_RESET" "$C_BOLD" "$CD_CMD" "$C_RESET"
+printf '\n%scopied:%s\n%s%s%s\n' "$C_DIM" "$C_RESET" "$C_BOLD" "$CD_CMD" "$C_RESET"
