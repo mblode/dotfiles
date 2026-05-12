@@ -157,25 +157,6 @@ if [ -n "${CMUX_WORKSPACE_ID:-}" ] && command -v cmux >/dev/null 2>&1 && cmux pi
   cmux workspace-action --workspace "$CMUX_WORKSPACE_ID" --action rename --title "$BRANCH" >/dev/null 2>&1 || true
 fi
 
-strip_md_images() {
-  sed -E 's/!\[[^]]*\]\([^)]*\)//g'
-}
-
-build_prompt() {
-  local desc=""
-  if [ -n "$LINEAR_DESCRIPTION" ]; then
-    desc="$(printf '%s' "$LINEAR_DESCRIPTION" | strip_md_images | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
-  fi
-  printf 'Work on Linear issue %s:\n\n' "$DISPLAY_ID"
-  printf '<issue identifier="%s">\n' "$DISPLAY_ID"
-  [ -n "$LINEAR_TITLE" ] && printf '<title>%s</title>\n' "$LINEAR_TITLE"
-  [ -n "$LINEAR_URL" ]   && printf '<url>%s</url>\n' "$LINEAR_URL"
-  if [ -n "$desc" ]; then
-    printf '<description>\n%s\n</description>\n' "$desc"
-  fi
-  printf '</issue>\n'
-}
-
 copy_clip() {
   local payload="$1"
   if command -v pbcopy >/dev/null 2>&1; then printf '%s' "$payload" | pbcopy 2>/dev/null
@@ -186,7 +167,6 @@ copy_clip() {
 }
 
 CD_CMD="cd $WORKTREE_PATH"
-PROMPT="$(build_prompt)"
 copy_clip "$CD_CMD" || true
 
 spin_stop
@@ -198,9 +178,9 @@ else
 fi
 [ -n "$LINEAR_URL" ] && printf '%s\n' "$LINEAR_URL"
 
-if [ -n "$LINEAR_TITLE" ] || [ -n "$LINEAR_URL" ] || [ -n "$LINEAR_DESCRIPTION" ]; then
-  printf '\n%sagent prompt:%s\n' "$C_DIM" "$C_RESET"
-  printf '%s\n' "$PROMPT"
+if [ -n "$LINEAR_DESCRIPTION" ]; then
+  desc="$(printf '%s' "$LINEAR_DESCRIPTION" | sed -E 's/!\[[^]]*\]\([^)]*\)//g' | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
+  [ -n "$desc" ] && printf '\n%s\n' "$desc"
 fi
 
 printf '\n%s→ %s%s\n' "$C_BOLD" "$CD_CMD" "$C_RESET"
