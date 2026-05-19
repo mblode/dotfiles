@@ -8,8 +8,10 @@ unset CLAUDECODE
 export DOTFILES="$HOME/dotfiles"
 export PATH="$DOTFILES/bin:$PATH"
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
-export OBSIDIAN="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Matthew Blode"
+export OBSIDIAN="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain"
+export DATA_LAKE="$HOME/Library/Mobile Documents/com~apple~CloudDocs/data-lake"
 alias ob='cd "$OBSIDIAN"'
+alias dl='cd "$DATA_LAKE"'
 export EDITOR="zed"
 export TERM=xterm-256color
 
@@ -169,3 +171,9 @@ skill-add() {
   echo "Linked $name → Claude + Codex"
 }
 
+# >>> railway initialize >>>
+source "$HOME/.railway/env"
+# <<< railway initialize <<<
+
+# second-brain MCP
+export SECOND_BRAIN_MCP_SECRET=""
