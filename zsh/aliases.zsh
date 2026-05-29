@@ -46,7 +46,17 @@ alias npi='npm install'
 alias npl='npm ls --depth=0'
 alias npo='npm outdated'
 alias npr='npm run'
-alias npd='rm -f .next/dev/lock && npm run dev'
+# Start the dev server, first clearing anything left over from an unclean exit.
+# The real culprit behind "<name>.localhost is already registered" is an orphaned
+# `portless run` wrapper that outlives its `next` child. Kill it (scoped to this
+# repo so other projects' servers are untouched), then clear the Next.js lock.
+npd() {
+  local root
+  root=$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")
+  pkill -f "${root}/node_modules/.bin/portless" 2>/dev/null && sleep 0.3
+  rm -f .next/dev/lock
+  npm run dev
+}
 alias npw='npm run watch'
 alias npp='npm run prod'
 alias npt='npm init -y'
