@@ -9,9 +9,7 @@ export DOTFILES="$HOME/dotfiles"
 export PATH="$DOTFILES/bin:$PATH"
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
 export OBSIDIAN="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain"
-export DATA_LAKE="$HOME/Library/Mobile Documents/com~apple~CloudDocs/data-lake"
-alias ob='cd "$OBSIDIAN"'
-alias dl='cd "$DATA_LAKE"'
+export DATA_LAKE="$HOME/data-lake"
 export EDITOR="zed"
 export TERM=xterm-256color
 
@@ -144,6 +142,7 @@ eval "$(atuin init zsh)"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
 export NPM_TOKEN="$(grep -E '^//registry\.npmjs\.org/:_authToken=' ~/.npmrc | tail -n1 | cut -d= -f2-)"
+export PATH="$HOME/.hermes/node/bin:$PATH"
 
 # tabtab source for packages
 # uninstall by removing these lines

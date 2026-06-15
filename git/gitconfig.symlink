@@ -11,8 +11,26 @@
 	process = git-lfs filter-process
 	required = true
 [credential "https://github.com"]
-	helper =
+	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper =
+	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
+[ai "cadence"]
+	org-id = 37c12ba9-450d-4a56-91a1-a6b5a05da00f
+	org = mblode
+[protocol]
+	version = 2
+[core]
+	untrackedCache = true
+	fsmonitor = false
+	preloadIndex = true
+[fetch]
+	writeCommitGraph = true
+[pack]
+	threads = 0
+[maintenance]
+	repo = /Users/mblode/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain
+	repo = /Users/mblode/data-lake
+[safe]
+	directory = /tmp/hermes-code-test/mblode/second-brain-agent
