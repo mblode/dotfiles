@@ -162,18 +162,11 @@ cask "peripheryapp/periphery/periphery"
 # macOS menu bar dictation app using OpenAI transcription
 cask "mblode/tap/rubber-duck"
 
-# Language package managers
-cargo "wasm-pack"
+# uv-managed tools (uv itself is installed via brew above)
 uv "ruff"
 uv "voice-mode"
-npm "@openai/codex"
-npm "allmd"
-npm "captain"
-npm "cmux-captain"
-npm "corepack"
-npm "diffhub"
-npm "google-analytics-cli"
-npm "google-photos-migrate"
-npm "linear-god"
-npm "linear-worktree"
-npm "vercel"
+
+# Note: cargo + npm globals are intentionally omitted. node is managed by
+# lazy-nvm (not brew) and rust/cargo isn't a brew formula here, so `brew bundle`
+# would fail those entries on a fresh Mac. Install them manually once the
+# toolchains exist, or track them where their toolchain is provisioned.
