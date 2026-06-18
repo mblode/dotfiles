@@ -5,8 +5,7 @@
 unset CLAUDECODE
 
 # Path
-export DOTFILES="$HOME/dotfiles"
-export PATH="$DOTFILES/bin:$PATH"
+export DOTFILES="$HOME/.local/share/chezmoi"   # chezmoi source dir
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
 export OBSIDIAN="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain"
 export DATA_LAKE="$HOME/data-lake"
@@ -107,22 +106,8 @@ then
   source ~/.localrc
 fi
 
-# All of our zsh files
-typeset -U config_files
-config_files=($DOTFILES/*/*.zsh)
-
-# Load the path
-for file in ${(M)config_files:#*/path.zsh}; do
-  source "$file"
-done
-
-# Load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
-  source "$file"
-done
-
-# Load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}; do
+# Split config (options, aliases) lives in ~/.config/zsh, deployed by chezmoi.
+for file in ~/.config/zsh/*.zsh(N); do
   source "$file"
 done
 

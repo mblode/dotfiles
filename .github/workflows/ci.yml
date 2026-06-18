@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  chezmoi:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi and shellcheck
+        run: brew install chezmoi shellcheck
+
+      - name: Shellcheck rendered scripts
+        run: |
+          rc=0
+          for f in home/.chezmoiscripts/*.sh.tmpl; do
+            rendered="$(chezmoi execute-template --source="$PWD/home" < "$f")"
+            [ -n "$(printf '%s' "$rendered" | tr -d '[:space:]')" ] || { echo "skip empty $f"; continue; }
+            if printf '%s\n' "$rendered" | shellcheck -s bash -; then
+              echo "OK   $f"
+            else
+              echo "FAIL $f"; rc=1
+            fi
+          done
+          exit $rc
+
+      - name: Verify dotfiles apply (dry run, isolated dest)
+        run: |
+          dest="$(mktemp -d)"
+          cfg="$(mktemp -d)/chezmoi.toml"
+          chezmoi init --source="$PWD/home" --destination="$dest" --config="$cfg" \
+            --promptString "Full name for git=CI" \
+            --promptString "Email for git=ci@example.com"
+          chezmoi apply --dry-run --verbose --source="$PWD/home" \
+            --destination="$dest" --config="$cfg" --exclude=externals
+
+      - name: Validate Brewfile parses
+        run: brew bundle list --file=home/dot_Brewfile >/dev/null

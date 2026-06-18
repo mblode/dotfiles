@@ -1,6 +1,6 @@
 [user]
-	name = Matthew Blode
-	email = matthew@linktr.ee
+	name = {{ .name | quote }}
+	email = {{ .email | quote }}
 [pull]
 	rebase = true
 [push]
@@ -11,11 +11,11 @@
 	process = git-lfs filter-process
 	required = true
 [credential "https://github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper =
+	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper =
+	helper = !gh auth git-credential
 [ai "cadence"]
 	org-id = 37c12ba9-450d-4a56-91a1-a6b5a05da00f
 	org = mblode
@@ -27,10 +27,13 @@
 	preloadIndex = true
 [fetch]
 	writeCommitGraph = true
+	prune = true
+[init]
+	defaultBranch = main
 [pack]
 	threads = 0
 [maintenance]
-	repo = /Users/mblode/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain
-	repo = /Users/mblode/data-lake
+	repo = {{ .chezmoi.homeDir }}/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain
+	repo = {{ .chezmoi.homeDir }}/data-lake
 [safe]
 	directory = /tmp/hermes-code-test/mblode/second-brain-agent

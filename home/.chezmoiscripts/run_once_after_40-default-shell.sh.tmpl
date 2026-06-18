@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Make zsh the default shell (one-time, only if it isn't already).
+
+set -euo pipefail
+
+target="$(command -v zsh || echo /bin/zsh)"
+
+if [ "${SHELL:-}" != "$target" ]; then
+	# Ensure the shell is allowed in /etc/shells before switching.
+	if ! grep -qx "$target" /etc/shells 2>/dev/null; then
+		echo "$target" | sudo tee -a /etc/shells >/dev/null || true
+	fi
+	echo "Setting default shell to $target..."
+	chsh -s "$target" || true
+fi

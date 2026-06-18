@@ -1,55 +1,55 @@
 # mblode's dotfiles
 
-## What's inside
+Managed with [chezmoi](https://chezmoi.io). One command sets up a fresh Mac.
 
-- Git
-- Homebrew
-- iTerm 2
-- Hyper Key for Karabiner Elements
-- Mac OS defaults
-- SSH
-- Terminal
-- Valet
-- Vim
-- VS Code
-- Yarn
-- zsh
-
-### Install dotfiles
-
-Then, run these steps:
+## New machine
 
 ```sh
-
-$ git clone https://github.com/mblode/dotfiles.git ~/dotfiles
-$ cd ~/dotfiles
-$ ./script/bootstrap
-$ zsh # or just close and open your terminal again.
-
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply mblode
 ```
 
-### iTerm install
+This installs chezmoi, clones this repo, and on macOS automatically:
 
-In iterm Preferences > General > Load preferences from a custom folder or URL and set it to ~/dotfiles/iterm
+- installs Homebrew and everything in the [Brewfile](home/dot_Brewfile)
+- clones the zsh plugins and the tmux plugin manager (`tpm`)
+- deploys every dotfile to its place
+- applies the macOS defaults (Dock, screenshots, key repeat)
+- installs `vim-plug` and the Vim plugins
+- sets zsh as the default shell
 
-### Vim Plug
+You'll be prompted once for your git name and email.
 
-Open vim, type :PlugInstall to get the latest of all the vim plugins
+## What's inside
 
-### Create a new SSH
+- **Shell** — zsh with [starship](https://starship.rs) prompt,
+  [atuin](https://atuin.sh) history, [zoxide](https://github.com/ajeetdsouza/zoxide),
+  fzf-tab, autosuggestions, syntax highlighting. Lazy-loaded nvm.
+- **Terminal** — [Ghostty](https://ghostty.org)
+- **Editors** — Neovim / Vim (vim-plug)
+- **Multiplexer** — tmux (tpm)
+- **Git** — config + global ignore
+- **macOS** — scripted `defaults`
 
-[Generate a new SSH](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+## Daily workflow
 
-### MacOS
-
+```sh
+chezmoi edit ~/.zshrc      # edit a dotfile in the source state
+chezmoi apply              # apply pending changes to your home dir
+chezmoi update             # pull this repo and apply
+chezmoi cd                 # drop into the source repo
+chezmoi re-add             # pull live edits back into the source
 ```
-defaults write com.apple.dock autohide-delay -float 0
-defaults write com.apple.dock autohide-time-modifier -float 0
-killall Dock
 
-defaults write com.apple.screencapture show-thumbnail -bool false
-defaults write com.apple.screencapture location ~/Downloads
-killall SystemUIServer
+## Secrets
 
-defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
-```
+Machine-local secrets and environment variables live in `~/.localrc` (sourced by
+`.zshrc`) and `~/.npmrc`. These are **not** tracked here — keep them out of the repo.
+
+## Layout
+
+chezmoi reads everything under [`home/`](home) (set by [`.chezmoiroot`](.chezmoiroot)).
+Source names follow chezmoi's
+[conventions](https://chezmoi.io/reference/source-state-attributes/)
+(`dot_` → `.`, `executable_` → `+x`, `.tmpl` → templated). Install steps live in
+[`home/.chezmoiscripts`](home/.chezmoiscripts); external repos in
+[`home/.chezmoiexternal.toml`](home/.chezmoiexternal.toml).
