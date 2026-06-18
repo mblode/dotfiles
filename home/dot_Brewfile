@@ -1,0 +1,179 @@
+# mblode's Brewfile — reproduces the toolchain on a fresh Mac.
+# Applied automatically by chezmoi (run_onchange_before_10-packages).
+# Refresh from the current machine with: brew bundle dump --file=~/.Brewfile --force
+
+# Taps
+tap "alexanderwillner/tap", "https://github.com/AlexanderWillner/homebrew-tap"
+tap "buildkite/buildkite"
+tap "domt4/autoupdate"
+tap "fastly/tap"
+tap "gphotosuploader/tap"
+tap "j178/tap"
+tap "mblode/tap"
+tap "openclaw/tap"
+tap "peripheryapp/periphery"
+tap "steipete/tap"
+tap "stripe/stripe-cli"
+tap "supabase/tap"
+tap "yakitrak/yakitrak"
+
+# Formulae
+# Static checker for GitHub Actions workflow files
+brew "actionlint"
+# Browser automation CLI for AI agents
+brew "agent-browser"
+# Improved shell history for zsh, bash, fish and nushell
+brew "atuin"
+# Securely store and access AWS credentials in development environments
+brew "aws-vault"
+# Official Amazon AWS command-line interface
+brew "awscli"
+# Library for manipulating PNG images
+brew "libpng"
+# Vector graphics library with cross-device output support
+brew "cairo"
+# Library and utilities for processing GIFs
+brew "giflib"
+# Framework for layout and rendering of i18n text
+brew "pango"
+# Library to render SVG files using Cairo
+brew "librsvg"
+# Versatile and fast Unicode/ASCII/ANSI graphics renderer
+brew "chafa"
+# CLI for managing secrets through AWS SSM Parameter Store
+brew "chamber"
+# Cross-platform make
+brew "cmake"
+# Shell script to build fancy DMGs
+brew "create-dmg"
+# Validate EPUB files, version 2.0 and later
+brew "epubcheck"
+# Play, record, convert, and stream select audio and video codecs
+brew "ffmpeg"
+# Command-line tools for fly.io services
+brew "flyctl"
+# Utilities to create and convert Web Open Font File (WOFF) files
+brew "woff2"
+# Command-line outline and bitmap font editor/converter
+brew "fontforge"
+# Command-line fuzzy finder written in Go (drives fzf-tab in zsh)
+brew "fzf"
+# GitHub command-line tool
+brew "gh"
+# Interpreter for PostScript and PDF
+brew "ghostscript"
+# Git extension for versioning large files
+brew "git-lfs"
+# Audit git repos for secrets
+brew "gitleaks"
+# Open source programming language to build simple/reliable/efficient software
+brew "go"
+# CLI email client written in Rust
+brew "himalaya"
+# Tools and libraries to manipulate images in select formats
+brew "imagemagick"
+# Image manipulation library
+brew "jpeg"
+# Modern load testing tool, using Go and JavaScript
+brew "k6"
+# Fast and powerful Git hooks manager for any type of projects
+brew "lefthook"
+# Postgres C API library
+brew "libpq"
+# CLI for Node.js style checker and lint tool for Markdown files
+brew "markdownlint-cli"
+# Simple tool to make locally trusted development certificates
+brew "mkcert"
+# Remote terminal application
+brew "mosh"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Libraries for security-enabled client and server applications
+brew "nss"
+# Vulnerability scanner which uses the OSV database
+brew "osv-scanner"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
+# General-purpose scripting language
+brew "php"
+# Package compiler and linker metadata toolkit
+brew "pkgconf"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
+# Cross-platform library for audio I/O
+brew "portaudio"
+# Tools for and transforming and inspecting PDF files
+brew "qpdf"
+# Rsync for cloud storage
+brew "rclone"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Utility that provides fast incremental file transfer
+brew "rsync"
+# CLI proxy to minimize LLM token consumption
+brew "rtk"
+# Easily detect and prevent bugs and anti-patterns in your codebase
+brew "semgrep"
+# Cross-shell prompt for astronauts
+brew "starship"
+# Multi-modal AI tool to extract and summarize content
+brew "summarize"
+# Send macOS User Notifications from the command-line
+brew "terminal-notifier"
+# Terraform version manager inspired by rbenv
+brew "tfenv"
+# Terminal multiplexer (configured in dot_tmux.conf)
+brew "tmux"
+# Display directories as trees (with optional color/HTML output)
+brew "tree"
+# Find and verify credentials
+brew "trufflehog"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Pager/text based browser
+brew "w3m"
+# Command-line client for WebSockets
+brew "websocat"
+# Generate your Xcode project from a spec file and your folder structure
+brew "xcodegen"
+# Shell extension to navigate your filesystem faster
+brew "zoxide"
+
+# Casks
+# Command-line interface for 1Password
+cask "1password-cli"
+# Multiplexer for AI coding agents
+cask "cmux"
+# Terminal emulator mimicking the old cathode display
+cask "cool-retro-term"
+# Set of tools to manage resources and applications hosted on Google Cloud
+cask "gcloud-cli"
+# Fast, native, GPU-accelerated terminal emulator (configured in dot_config/ghostty)
+cask "ghostty"
+# Client for the Google Drive storage service
+cask "google-drive"
+# Reverse proxy, secure introspectable tunnels to localhost
+cask "ngrok"
+# Replacement for Docker Desktop
+cask "orbstack"
+# Utility to uninstall apps and remove leftover files from old/uninstalled apps
+cask "pearcleaner"
+cask "peripheryapp/periphery/periphery"
+# macOS menu bar dictation app using OpenAI transcription
+cask "mblode/tap/rubber-duck"
+
+# Language package managers
+cargo "wasm-pack"
+uv "ruff"
+uv "voice-mode"
+npm "@openai/codex"
+npm "allmd"
+npm "captain"
+npm "cmux-captain"
+npm "corepack"
+npm "diffhub"
+npm "google-analytics-cli"
+npm "google-photos-migrate"
+npm "linear-god"
+npm "linear-worktree"
+npm "vercel"

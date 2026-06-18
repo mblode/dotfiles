@@ -18,8 +18,7 @@ call plug#end()
 
 " auto reload vimrc on save
 if has("autocmd")
-    autocmd bufwritepost vimrc source $MYVIMRC
-    autocmd bufwritepost vimrc.symlink source $MYVIMRC
+    autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 
 " show matching brackets.
@@ -157,7 +156,7 @@ vmap J j
 vmap <leader>j :join
 
 " edit vimrc
-nmap <leader>v :tabedit ~/dotfiles/vim/vimrc.symlink<Cr>
+nmap <leader>v :tabedit ~/.vimrc<Cr>
 
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>

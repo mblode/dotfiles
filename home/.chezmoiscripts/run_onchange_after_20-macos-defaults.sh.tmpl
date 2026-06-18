@@ -1,0 +1,25 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+#
+# macOS defaults — idempotent, re-runs when this script changes.
+
+set -euo pipefail
+
+echo "Applying macOS defaults..."
+
+# Dock: instant auto-hide (no show/hide animation delay).
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock autohide-time-modifier -float 0
+
+# Screenshots: no floating thumbnail, save to ~/Downloads.
+defaults write com.apple.screencapture show-thumbnail -bool false
+defaults write com.apple.screencapture location -string "$HOME/Downloads"
+
+# Keyboard: enable key repeat instead of the press-and-hold accent menu.
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+killall Dock || true
+killall SystemUIServer || true
+
+echo "macOS defaults applied."
+{{ end -}}

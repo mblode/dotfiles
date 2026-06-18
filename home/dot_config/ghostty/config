@@ -1,0 +1,4 @@
+theme = Atom One Dark
+
+# Main panel (terminal) background — overrides the theme's default
+background = 191A23

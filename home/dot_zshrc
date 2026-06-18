@@ -5,8 +5,7 @@
 unset CLAUDECODE
 
 # Path
-export DOTFILES="$HOME/dotfiles"
-export PATH="$DOTFILES/bin:$PATH"
+export DOTFILES="$HOME/.local/share/chezmoi"   # chezmoi source dir
 export NOTES="$HOME/Library/Mobile Documents/27N4MQEA55~pro~writer/Documents"
 export OBSIDIAN="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain"
 export DATA_LAKE="$HOME/data-lake"
@@ -19,15 +18,23 @@ export PORTLESS_PORT=1355
 # Starship
 eval "$(starship init zsh)"
 
-# Initialize zsh completions
-autoload -Uz compinit; compinit -u
-
-# NVM
+# NVM — lazy loaded to keep shell startup fast. nvm/node/npm/npx load on first
+# use; node version auto-switches when entering a dir tree with .nvmrc/.node-version.
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-# place this after nvm initialization!
-autoload -U add-zsh-hook
+_nvm_load() {
+  unset -f nvm node npm npx _nvm_load 2>/dev/null
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  # token only needed once node tooling is in use (was eager at startup)
+  export NPM_TOKEN="$(grep -E '^//registry\.npmjs\.org/:_authToken=' ~/.npmrc 2>/dev/null | tail -n1 | cut -d= -f2-)"
+}
+for _cmd in nvm node npm npx; do
+  eval "${_cmd}() { _nvm_load; ${_cmd} \"\$@\"; }"
+done
+unset _cmd
+
+# Original auto-switch logic, unchanged — only invoked after nvm is loaded.
 load-nvmrc() {
   local nvmrc_path="$(nvm_find_nvmrc)"
 
@@ -44,17 +51,46 @@ load-nvmrc() {
     nvm use default
   fi
 }
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+
+# Lightweight upward search so we only wake nvm inside node projects.
+_nvm_find_rc() {
+  local dir="$PWD"
+  while [[ -n "$dir" ]]; do
+    [[ -e "$dir/.nvmrc" || -e "$dir/.node-version" ]] && return 0
+    dir="${dir%/*}"
+  done
+  return 1
+}
+autoload -U add-zsh-hook
+_nvm_auto_use() {
+  if _nvm_find_rc; then
+    command -v nvm_find_nvmrc >/dev/null 2>&1 || _nvm_load
+    load-nvmrc
+  fi
+}
+add-zsh-hook chpwd _nvm_auto_use
+_nvm_auto_use   # honor the directory the shell starts in
 
 
+# zsh-users/zsh-completions — must be on fpath BEFORE compinit runs (below)
+fpath+=($HOME/.zsh/zsh-completions/src $fpath)
+
+# Completions: dedupe fpath (stops compinit rebuilding the dump every launch),
+# then init once with a once-a-day security check. compinit must run before
+# fzf-tab is sourced.
+typeset -U fpath
+autoload -Uz compinit
+if [[ -n ${HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit -u           # dump older than 24h: full rebuild + security check
+else
+  compinit -C           # fresh (or absent) dump: skip the slow scan
+fi
+
+# Aloxaf/fzf-tab — load after compinit, before widget-wrapping plugins
 source $HOME/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # zsh-users/zsh-autosuggestions
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# zsh-users/zsh-completions
-fpath+=($HOME/.zsh/zsh-completions/src $fpath)
 
 # zsh-users/zsh-syntax-highlighting
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -70,22 +106,8 @@ then
   source ~/.localrc
 fi
 
-# All of our zsh files
-typeset -U config_files
-config_files=($DOTFILES/*/*.zsh)
-
-# Load the path
-for file in ${(M)config_files:#*/path.zsh}; do
-  source "$file"
-done
-
-# Load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}; do
-  source "$file"
-done
-
-# Load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}; do
+# Split config (options, aliases) lives in ~/.config/zsh, deployed by chezmoi.
+for file in ~/.config/zsh/*.zsh(N); do
   source "$file"
 done
 
@@ -133,15 +155,12 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 
 export PATH="$HOME/bin:$PATH"
 
-# zprof
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 eval "$(atuin init zsh)"
 
 . "$HOME/.atuin/bin/env"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
-export NPM_TOKEN="$(grep -E '^//registry\.npmjs\.org/:_authToken=' ~/.npmrc | tail -n1 | cut -d= -f2-)"
+# NPM_TOKEN is set lazily in _nvm_load (only when node tooling is first used)
 export PATH="$HOME/.hermes/node/bin:$PATH"
 
 # tabtab source for packages
@@ -176,3 +195,7 @@ source "$HOME/.railway/env"
 
 # second-brain MCP
 export SECOND_BRAIN_MCP_SECRET=""
+
+# Profiling: uncomment the `zmodload zsh/zprof` at the top of this file and the
+# line below, then open a new shell to see a per-function startup report.
+# zprof

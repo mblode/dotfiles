@@ -65,7 +65,7 @@ alias npt='npm init -y'
 alias yr='yarn'
 
 alias vn="cd '$NOTES' && $EDITOR ."
-alias vs="cd '$DOTFILES' && $EDITOR 'vim/vimrc.symlink'"
+alias vs='chezmoi edit ~/.vimrc'
 alias vj="cd '$NOTES' && $EDITOR vim.md"
 
 mkcdir ()
