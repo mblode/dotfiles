@@ -17,58 +17,19 @@ export PORTLESS_PORT=1355
 # Starship
 eval "$(starship init zsh)"
 
-# NVM — lazy loaded to keep shell startup fast. nvm/node/npm/npx load on first
-# use; node version auto-switches when entering a dir tree with .nvmrc/.node-version.
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# Node — fnm (fast Rust version manager). --use-on-cd auto-switches the node
+# version when entering a dir with .nvmrc/.node-version; recursive strategy walks
+# up the tree (matches the old behavior). fnm is fast enough to init eagerly.
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+  # --use-on-cd only fires on chpwd; run the hook once so a shell that's *born*
+  # inside a project dir also picks up its .nvmrc/.node-version.
+  _fnm_autoload_hook 2>/dev/null
+fi
 
-_nvm_load() {
-  unset -f nvm node npm npx _nvm_load 2>/dev/null
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  # token only needed once node tooling is in use (was eager at startup)
-  export NPM_TOKEN="$(grep -E '^//registry\.npmjs\.org/:_authToken=' ~/.npmrc 2>/dev/null | tail -n1 | cut -d= -f2-)"
-}
-for _cmd in nvm node npm npx; do
-  eval "${_cmd}() { _nvm_load; ${_cmd} \"\$@\"; }"
-done
-unset _cmd
-
-# Original auto-switch logic, unchanged — only invoked after nvm is loaded.
-load-nvmrc() {
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use
-    fi
-  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-
-# Lightweight upward search so we only wake nvm inside node projects.
-_nvm_find_rc() {
-  local dir="$PWD"
-  while [[ -n "$dir" ]]; do
-    [[ -e "$dir/.nvmrc" || -e "$dir/.node-version" ]] && return 0
-    dir="${dir%/*}"
-  done
-  return 1
-}
-autoload -U add-zsh-hook
-_nvm_auto_use() {
-  if _nvm_find_rc; then
-    command -v nvm_find_nvmrc >/dev/null 2>&1 || _nvm_load
-    load-nvmrc
-  fi
-}
-add-zsh-hook chpwd _nvm_auto_use
-_nvm_auto_use   # honor the directory the shell starts in
+# NPM_TOKEN (consumed by project .npmrc files via ${NPM_TOKEN}). Single small
+# file read at startup — negligible now that the nvm lazy-load shim is gone.
+export NPM_TOKEN="$(grep -E '^//registry\.npmjs\.org/:_authToken=' ~/.npmrc 2>/dev/null | tail -n1 | cut -d= -f2-)"
 
 
 # zsh-users/zsh-completions — must be on fpath BEFORE compinit runs (below)
@@ -159,7 +120,6 @@ eval "$(atuin init zsh)"
 . "$HOME/.atuin/bin/env"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
-# NPM_TOKEN is set lazily in _nvm_load (only when node tooling is first used)
 export PATH="$HOME/.hermes/node/bin:$PATH"
 
 # tabtab source for packages

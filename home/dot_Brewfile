@@ -52,6 +52,8 @@ brew "epubcheck"
 brew "ffmpeg"
 # Command-line tools for fly.io services
 brew "flyctl"
+# Fast Node.js version manager (auto-switches via --use-on-cd in zsh)
+brew "fnm"
 # Utilities to create and convert Web Open Font File (WOFF) files
 brew "woff2"
 # Command-line outline and bitmap font editor/converter
@@ -166,7 +168,8 @@ cask "mblode/tap/rubber-duck"
 uv "ruff"
 uv "voice-mode"
 
-# Note: cargo + npm globals are intentionally omitted. node is managed by
-# lazy-nvm (not brew) and rust/cargo isn't a brew formula here, so `brew bundle`
-# would fail those entries on a fresh Mac. Install them manually once the
-# toolchains exist, or track them where their toolchain is provisioned.
+# Note: cargo + npm globals are intentionally omitted. node is managed by fnm
+# (installed via brew above; versions live in fnm's own store), and rust/cargo
+# isn't a brew formula here, so `brew bundle` would fail those entries on a fresh
+# Mac. Install them manually once the toolchains exist, or track them where their
+# toolchain is provisioned.
