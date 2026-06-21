@@ -83,6 +83,5 @@ alias co="codex --dangerously-bypass-approvals-and-sandbox"
 
 # Suppress zsh CORRECT prompt for commands that clash with macOS app names
 alias obsidian='nocorrect obsidian'
-alias ob='cd "$OBSIDIAN"'
 alias sb='cd "$OBSIDIAN"'
 alias dl='cd "$DATA_LAKE"'

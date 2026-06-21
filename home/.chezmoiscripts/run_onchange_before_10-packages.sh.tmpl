@@ -18,8 +18,22 @@ elif [ -x /usr/local/bin/brew ]; then
 	eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-echo "Installing packages from Brewfile..."
-brew bundle --file=- <<'BREWFILE'
+brewfile="$(mktemp)"
+trap 'rm -f "$brewfile"' EXIT
+cat >"$brewfile" <<'BREWFILE'
 {{ include "dot_Brewfile" }}
 BREWFILE
+
+# Homebrew >= 6 enforces HOMEBREW_REQUIRE_TAP_TRUST, so casks/formulae from
+# third-party taps must be trusted before `brew bundle` will load them. Trust
+# every non-official tap the Brewfile declares so a fresh Mac bootstraps clean.
+for tap in $(grep -E '^tap "' "$brewfile" | sed -E 's/^tap "([^"]+)".*/\1/'); do
+	case "$tap" in
+	homebrew/*) ;;
+	*) brew trust --tap "$tap" >/dev/null 2>&1 || true ;;
+	esac
+done
+
+echo "Installing packages from Brewfile..."
+brew bundle --file="$brewfile"
 {{ end -}}
