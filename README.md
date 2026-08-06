@@ -1,55 +1,61 @@
-# mblode's dotfiles
+<div align="center">
 
-Managed with [chezmoi](https://chezmoi.io). One command sets up a fresh Mac.
+# Dotfiles
 
-## New machine
+**One command turns a fresh Mac into a working machine: Homebrew, zsh, Neovim, tmux, Ghostty**
 
-```sh
+Managed with [chezmoi](https://chezmoi.io), so the same tool that sets a machine up keeps it in sync afterwards.
+
+</div>
+
+## Install
+
+```bash
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply mblode
 ```
 
-This installs chezmoi, clones this repo, and on macOS automatically:
+These are Matthew Blode's own dotfiles, so the command is not gentle with a machine that already has a setup. It installs Homebrew, overwrites the dotfiles in your home directory, rewrites Dock, screenshot, and key-repeat defaults, and changes your login shell to zsh. Fork the repo and read [`home`](home) before running it anywhere you care about.
 
-- installs Homebrew and everything in the [Brewfile](home/dot_Brewfile)
-- clones the zsh plugins and the tmux plugin manager (`tpm`)
+## Quickstart
+
+On macOS the bootstrap installs chezmoi, clones the repo, and then:
+
+- installs Homebrew and the 72 formulae and casks in the [Brewfile](home/dot_Brewfile)
+- clones the five zsh plugins and the tmux plugin manager, `tpm`
 - deploys every dotfile to its place
-- applies the macOS defaults (Dock, screenshots, key repeat)
+- applies the macOS defaults for the Dock, screenshots, and key repeat
 - installs `vim-plug` and the Vim plugins
-- sets zsh as the default shell
+- sets zsh as the login shell
 
-You'll be prompted once for your git name and email.
+You are prompted once for your git name and email.
 
 ## What's inside
 
-- **Shell** — zsh with [starship](https://starship.rs) prompt,
-  [atuin](https://atuin.sh) history, [zoxide](https://github.com/ajeetdsouza/zoxide),
-  fzf-tab, autosuggestions, syntax highlighting. Lazy-loaded nvm.
-- **Terminal** — [Ghostty](https://ghostty.org)
-- **Editors** — Neovim / Vim (vim-plug)
-- **Multiplexer** — tmux (tpm)
-- **Git** — config + global ignore
-- **macOS** — scripted `defaults`
+- **Shell:** zsh with the [starship](https://starship.rs) prompt, [atuin](https://atuin.sh) history, [zoxide](https://github.com/ajeetdsouza/zoxide), fzf-tab, autosuggestions, and syntax highlighting. nvm is lazy-loaded.
+- **Terminal:** [Ghostty](https://ghostty.org).
+- **Editors:** Neovim and Vim, both on vim-plug.
+- **Multiplexer:** tmux, with tpm for plugins.
+- **Git:** config plus a global ignore file.
+- **macOS:** Dock, screenshot, and keyboard defaults as a script that re-runs when it changes.
 
-## Daily workflow
+## Commands
 
-```sh
-chezmoi edit ~/.zshrc      # edit a dotfile in the source state
-chezmoi apply              # apply pending changes to your home dir
-chezmoi update             # pull this repo and apply
-chezmoi cd                 # drop into the source repo
-chezmoi re-add             # pull live edits back into the source
-```
+| Command | What it does |
+|---------|--------------|
+| `chezmoi edit ~/.zshrc` | Edit a dotfile in the source state. |
+| `chezmoi apply` | Apply pending changes to your home directory. |
+| `chezmoi update` | Pull this repo and apply. |
+| `chezmoi re-add` | Pull live edits back into the source. |
+| `chezmoi cd` | Open a shell in the source repo. |
 
 ## Secrets
 
-Machine-local secrets and environment variables live in `~/.localrc` (sourced by
-`.zshrc`) and `~/.npmrc`. These are **not** tracked here — keep them out of the repo.
+Machine-local secrets and environment variables live in `~/.localrc`, sourced by `.zshrc`, and in `~/.npmrc`. Neither is tracked here. Keep them out of the repo.
 
-## Layout
+## License
 
-chezmoi reads everything under [`home/`](home) (set by [`.chezmoiroot`](.chezmoiroot)).
-Source names follow chezmoi's
-[conventions](https://chezmoi.io/reference/source-state-attributes/)
-(`dot_` → `.`, `executable_` → `+x`, `.tmpl` → templated). Install steps live in
-[`home/.chezmoiscripts`](home/.chezmoiscripts); external repos in
-[`home/.chezmoiexternal.toml`](home/.chezmoiexternal.toml).
+MIT
+
+---
+
+Crafted by [<img src="https://blode.co/avatar-circle.png" width="20" align="top" />](https://blode.co) [Matthew Blode](https://blode.co)
