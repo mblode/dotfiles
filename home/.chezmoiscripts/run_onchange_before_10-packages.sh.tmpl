@@ -27,13 +27,20 @@ BREWFILE
 # Homebrew >= 6 enforces HOMEBREW_REQUIRE_TAP_TRUST, so casks/formulae from
 # third-party taps must be trusted before `brew bundle` will load them. Trust
 # every non-official tap the Brewfile declares so a fresh Mac bootstraps clean.
-for tap in $(grep -E '^tap "' "$brewfile" | sed -E 's/^tap "([^"]+)".*/\1/'); do
+while read -r tap; do
 	case "$tap" in
 	homebrew/*) ;;
 	*) brew trust --tap "$tap" >/dev/null 2>&1 || true ;;
 	esac
-done
+done < <(grep -E '^tap "' "$brewfile" | sed -E 's/^tap "([^"]+)".*/\1/' || true)
 
 echo "Installing packages from Brewfile..."
-brew bundle --file="$brewfile"
+# Some casks need an interactive sudo prompt (e.g. google-drive's .pkg installer,
+# or adopting an app already in /Applications). chezmoi runs this script without a
+# TTY, so sudo can't prompt and those casks fail. Don't let that abort the whole
+# apply — install everything we can and warn about the rest.
+if ! brew bundle --file="$brewfile"; then
+	echo "WARNING: some Brewfile entries didn't install (usually casks needing sudo or a GUI)." >&2
+	echo "         Finish them interactively with: brew bundle --file=~/.Brewfile" >&2
+fi
 {{ end -}}
