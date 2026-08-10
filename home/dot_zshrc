@@ -117,7 +117,6 @@ export PATH="$HOME/bin:$PATH"
 
 eval "$(atuin init zsh)"
 
-. "$HOME/.atuin/bin/env"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
 export PATH="$HOME/.hermes/node/bin:$PATH"
@@ -158,3 +157,12 @@ export SECOND_BRAIN_MCP_SECRET=""
 # Profiling: uncomment the `zmodload zsh/zprof` at the top of this file and the
 # line below, then open a new shell to see a per-function startup report.
 # zprof
+
+# Added by the BaseRT installer
+export PATH="/Users/mblode/.basert:$PATH"
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<
