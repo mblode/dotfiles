@@ -96,9 +96,6 @@ export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 # Zoxide
 eval "$(zoxide init zsh)"
 
-# Do not track
-export DO_NOT_TRACK=1
-
 # Autoship
 
 # FZF Tabs
