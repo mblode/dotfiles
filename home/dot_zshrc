@@ -15,7 +15,7 @@ export TERM=xterm-256color
 export PORTLESS_PORT=1355
 
 # Starship
-eval "$(starship init zsh)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
 
 # Node — fnm (fast Rust version manager). --use-on-cd auto-switches the node
 # version when entering a dir with .nvmrc/.node-version; recursive strategy walks
@@ -32,8 +32,9 @@ fi
 export NPM_TOKEN="$(grep -E '^//registry\.npmjs\.org/:_authToken=' ~/.npmrc 2>/dev/null | tail -n1 | cut -d= -f2-)"
 
 
-# zsh-users/zsh-completions — must be on fpath BEFORE compinit runs (below)
+# zsh-users/zsh-completions and grok — must be on fpath BEFORE compinit runs (below)
 fpath+=($HOME/.zsh/zsh-completions/src $fpath)
+fpath=(~/.grok/completions/zsh $fpath)
 
 # Completions: dedupe fpath (stops compinit rebuilding the dump every launch),
 # then init once with a once-a-day security check. compinit must run before
@@ -94,7 +95,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
 # Zoxide
-eval "$(zoxide init zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 
 # Autoship
 
@@ -112,7 +113,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 
 export PATH="$HOME/bin:$PATH"
 
-eval "$(atuin init zsh)"
+command -v atuin >/dev/null && eval "$(atuin init zsh)"
 
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
@@ -156,10 +157,8 @@ export SECOND_BRAIN_MCP_SECRET=""
 # zprof
 
 # Added by the BaseRT installer
-export PATH="/Users/mblode/.basert:$PATH"
+export PATH="$HOME/.basert:$PATH"
 
 # >>> grok installer >>>
 export PATH="$HOME/.grok/bin:$PATH"
-fpath=(~/.grok/completions/zsh $fpath)
-autoload -Uz compinit && compinit -C
 # <<< grok installer <<<

@@ -1,0 +1,44 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+#
+# Runs at the end of every apply and lists whatever setup is still unfinished.
+# Prints nothing once the machine is fully set up.
+
+set -uo pipefail
+
+if [ -x /opt/homebrew/bin/brew ]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x /usr/local/bin/brew ]; then
+	eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+steps=()
+
+if command -v brew >/dev/null 2>&1 && ! brew bundle check --file="$HOME/.Brewfile" --no-upgrade >/dev/null 2>&1; then
+	steps+=("Install the Brewfile entries that failed:  brew bundle --file=~/.Brewfile")
+fi
+
+if command -v gh >/dev/null 2>&1 && ! gh auth token >/dev/null 2>&1; then
+	steps+=("Sign in to GitHub so git can push:  gh auth login --web -p https")
+fi
+
+if [ ! -x "$HOME/.local/bin/claude" ] && ! command -v claude >/dev/null 2>&1; then
+	steps+=("Install Claude Code:  curl -fsSL https://claude.ai/install.sh | bash")
+fi
+
+# Read the login shell from the directory service: $SHELL still holds the old
+# value for the rest of the session that ran chsh.
+login_shell="$(dscl . -read "/Users/$USER" UserShell 2>/dev/null | awk '{print $2}')"
+if [ "${login_shell##*/}" != "zsh" ]; then
+	steps+=("Make zsh your login shell:  chsh -s /bin/zsh")
+fi
+
+[ ${#steps[@]} -eq 0 ] && exit 0
+
+echo
+echo "Almost done. Still to do:"
+for i in "${!steps[@]}"; do
+	printf '  %d. %s\n' "$((i + 1))" "${steps[$i]}"
+done
+echo "Then open a new terminal. If the macOS defaults changed, log out and back in."
+{{ end -}}

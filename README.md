@@ -14,20 +14,26 @@ Managed with [chezmoi](https://chezmoi.io), so the same tool that sets a machine
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply mblode
 ```
 
-These are Matthew Blode's own dotfiles, so the command is not gentle with a machine that already has a setup. It installs Homebrew, overwrites the dotfiles in your home directory, rewrites Dock, screenshot, and key-repeat defaults, and changes your login shell to zsh. Fork the repo and read [`home`](home) before running it anywhere you care about.
+These are Matthew Blode's own dotfiles, so the command is not gentle with a machine that already has a setup. It installs Homebrew, overwrites the dotfiles in your home directory, rewrites Dock, screenshot, and key-repeat defaults, changes your login shell to zsh, and installs Claude Code. Fork the repo and read [`home`](home) before running it anywhere you care about.
 
 ## Quickstart
 
 On macOS the bootstrap installs chezmoi, clones the repo, and then:
 
-- installs Homebrew and the 70 formulae and casks in the [Brewfile](home/dot_Brewfile)
+- asks for your admin password once, so casks with a `.pkg` installer don't stop the run
+- installs Homebrew and the 67 formulae and casks in the [Brewfile](home/dot_Brewfile)
 - clones the five zsh plugins and the tmux plugin manager, `tpm`
 - deploys every dotfile to its place
-- applies the macOS defaults for the Dock, screenshots, and key repeat
+- applies the macOS defaults: an auto-hiding Dock that appears instantly, fast key repeat, and screenshots saved to Downloads without the thumbnail
 - installs `vim-plug` and the Vim plugins
 - sets zsh as the login shell
+- installs [Claude Code](https://claude.com/claude-code) to `~/.local/bin`
 
 You are prompted once for your git name and email.
+
+When the run finishes, it prints a numbered list of anything still unfinished, such as a cask that failed or signing in to GitHub. Run `chezmoi apply` again at any time to see that list. It prints nothing once the machine is fully set up.
+
+Then log out and back in so the key repeat change takes effect.
 
 ## What's inside
 

@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Install Claude Code with the native installer (one-time). It installs to
+# ~/.local/bin, which dot_zshrc puts on PATH, and keeps itself up to date.
+
+set -euo pipefail
+
+if [ ! -x "$HOME/.local/bin/claude" ] && ! command -v claude >/dev/null 2>&1; then
+	echo "Installing Claude Code..."
+	curl -fsSL https://claude.ai/install.sh | bash
+fi

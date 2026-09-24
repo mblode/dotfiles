@@ -19,7 +19,24 @@ elif [ -x /usr/local/bin/brew ]; then
 fi
 
 brewfile="$(mktemp)"
-trap 'rm -f "$brewfile"' EXIT
+keepalive=""
+cleanup() {
+	rm -f "$brewfile"
+	if [ -n "$keepalive" ]; then kill "$keepalive" 2>/dev/null || true; fi
+}
+trap cleanup EXIT
+
+# Ask for the admin password once, up front, so casks that run a .pkg installer
+# or replace an app in /Applications don't stop halfway through the bundle.
+# Keep the sudo timestamp fresh until this script exits.
+if [ -t 0 ] && sudo -v; then
+	while kill -0 "$$" 2>/dev/null; do
+		sudo -n true
+		sleep 50
+	done 2>/dev/null &
+	keepalive=$!
+fi
+
 cat >"$brewfile" <<'BREWFILE'
 {{ include "dot_Brewfile" }}
 BREWFILE
@@ -35,12 +52,10 @@ while read -r tap; do
 done < <(grep -E '^tap "' "$brewfile" | sed -E 's/^tap "([^"]+)".*/\1/' || true)
 
 echo "Installing packages from Brewfile..."
-# Some casks need an interactive sudo prompt (e.g. google-drive's .pkg installer,
-# or adopting an app already in /Applications). chezmoi runs this script without a
-# TTY, so sudo can't prompt and those casks fail. Don't let that abort the whole
-# apply — install everything we can and warn about the rest.
+# A cask can still fail (no password given, a GUI installer, a disabled cask).
+# Don't let that abort the whole apply — install everything we can, and the
+# next-steps script at the end of the apply lists whatever is missing.
 if ! brew bundle --file="$brewfile"; then
-	echo "WARNING: some Brewfile entries didn't install (usually casks needing sudo or a GUI)." >&2
-	echo "         Finish them interactively with: brew bundle --file=~/.Brewfile" >&2
+	echo "WARNING: some Brewfile entries didn't install; see the next steps at the end." >&2
 fi
 {{ end -}}
