@@ -20,7 +20,7 @@ These are Matthew Blode's own dotfiles, so the command is not gentle with a mach
 
 On macOS the bootstrap installs chezmoi, clones the repo, and then:
 
-- installs Homebrew and the 72 formulae and casks in the [Brewfile](home/dot_Brewfile)
+- installs Homebrew and the 70 formulae and casks in the [Brewfile](home/dot_Brewfile)
 - clones the five zsh plugins and the tmux plugin manager, `tpm`
 - deploys every dotfile to its place
 - applies the macOS defaults for the Dock, screenshots, and key repeat

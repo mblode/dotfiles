@@ -7,7 +7,8 @@ set -euo pipefail
 
 echo "Applying macOS defaults..."
 
-# Dock: instant auto-hide (no show/hide animation delay).
+# Dock: auto-hide, and show/hide instantly (no delay, no animation).
+defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock autohide-time-modifier -float 0
 
@@ -17,6 +18,10 @@ defaults write com.apple.screencapture location -string "$HOME/Downloads"
 
 # Keyboard: enable key repeat instead of the press-and-hold accent menu.
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+# Keyboard: fast key repeat and a short delay before it starts (below the
+# System Settings sliders' limits of 2 and 15). Takes effect after logging out.
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 killall Dock || true
 killall SystemUIServer || true

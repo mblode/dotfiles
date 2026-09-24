@@ -145,7 +145,7 @@ skill-add() {
 }
 
 # >>> railway initialize >>>
-source "$HOME/.railway/env"
+[[ -f "$HOME/.railway/env" ]] && source "$HOME/.railway/env"
 # <<< railway initialize <<<
 
 # second-brain MCP

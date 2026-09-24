@@ -7,11 +7,9 @@ tap "alexanderwillner/tap", "https://github.com/AlexanderWillner/homebrew-tap"
 tap "buildkite/buildkite"
 tap "domt4/autoupdate"
 tap "fastly/tap"
-tap "gphotosuploader/tap"
 tap "j178/tap"
 tap "mblode/tap"
 tap "openclaw/tap"
-tap "peripheryapp/periphery"
 tap "steipete/tap"
 tap "stripe/stripe-cli"
 tap "supabase/tap"
@@ -96,6 +94,8 @@ brew "nss"
 brew "osv-scanner"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
+# Identify unused code in Swift projects
+brew "periphery"
 # General-purpose scripting language
 brew "php"
 # Package compiler and linker metadata toolkit
@@ -144,8 +144,6 @@ brew "zoxide"
 cask "1password-cli"
 # Multiplexer for AI coding agents
 cask "cmux"
-# Terminal emulator mimicking the old cathode display
-cask "cool-retro-term"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "gcloud-cli"
 # Fast, native, GPU-accelerated terminal emulator (configured in dot_config/ghostty)
@@ -158,7 +156,6 @@ cask "ngrok"
 cask "orbstack"
 # Utility to uninstall apps and remove leftover files from old/uninstalled apps
 cask "pearcleaner"
-cask "peripheryapp/periphery/periphery"
 # macOS menu bar dictation app using OpenAI transcription
 cask "mblode/tap/rubber-duck"
 
