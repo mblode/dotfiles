@@ -8,7 +8,6 @@ tap "buildkite/buildkite"
 tap "domt4/autoupdate"
 tap "fastly/tap"
 tap "j178/tap"
-tap "mblode/tap"
 tap "openclaw/tap"
 tap "steipete/tap"
 tap "stripe/stripe-cli"
@@ -142,22 +141,16 @@ brew "zoxide"
 # Casks
 # Command-line interface for 1Password
 cask "1password-cli"
-# Multiplexer for AI coding agents
-cask "cmux"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "gcloud-cli"
 # Fast, native, GPU-accelerated terminal emulator (configured in dot_config/ghostty)
 cask "ghostty"
-# Client for the Google Drive storage service
-cask "google-drive"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
 # Replacement for Docker Desktop
 cask "orbstack"
 # Utility to uninstall apps and remove leftover files from old/uninstalled apps
 cask "pearcleaner"
-# macOS menu bar dictation app using OpenAI transcription
-cask "mblode/tap/rubber-duck"
 
 # uv-managed tools (uv itself is installed via brew above)
 uv "ruff"
